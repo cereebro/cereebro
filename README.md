@@ -2,7 +2,7 @@
 
 ## Mission statement
 
-The goal of project cereebro is to document automatically application dependencies.
+The goal of project cereebro is to automate the documentation of applications' dependencies in a distributed system.
 
 ## Why
 
