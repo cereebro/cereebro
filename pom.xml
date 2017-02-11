@@ -14,6 +14,11 @@
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <!-- Dependencies versions -->
+        <spring-boot.version>1.4.4.RELEASE</spring-boot.version>
+        <spring-cloud.version>Camden.SR4</spring-cloud.version>
+        <!-- PLugin versions -->
+        <maven-compiler-plugin.version>3.6.1</maven-compiler-plugin.version>
         <maven-install-plugin.version>2.5.2</maven-install-plugin.version>
         <maven-deploy-plugin.version>2.8.2</maven-deploy-plugin.version>
         <maven-source-plugin.version>3.0.1</maven-source-plugin.version>
@@ -29,6 +34,66 @@
         <installAtEnd>true</installAtEnd>
         <deployAtEnd>true</deployAtEnd>
     </properties>
+
+    <modules>
+        <module>cereebro-core</module>
+        <module>cereebro-snitch-spring-boot-actuator</module>
+        <module>cereebro-snitch-spring-boot-autoconfigure</module>
+        <module>cereebro-snitch-spring-boot-starter</module>
+        <module>cereebro-snitch-spring-cloud-eureka-client</module>
+        <module>cereebro-snitch-eureka-spring-cloud-starter</module>
+    </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- cereebro modules -->
+            <dependency>
+                <groupId>io.cereebro</groupId>
+                <artifactId>cereebro-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.cereebro</groupId>
+                <artifactId>cereebro-snitch-spring-boot-actuator</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.cereebro</groupId>
+                <artifactId>cereebro-snitch-spring-boot-autoconfigure</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.cereebro</groupId>
+                <artifactId>cereebro-snitch-spring-boot-starter</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.cereebro</groupId>
+                <artifactId>cereebro-snitch-spring-cloud-eureka-client</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.cereebro</groupId>
+                <artifactId>cereebro-snitch-eureka-spring-cloud-starter</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <!-- Spring dependencies -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring-boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <build>
         <pluginManagement>
