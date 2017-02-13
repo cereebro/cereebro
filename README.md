@@ -14,6 +14,11 @@ We named it cere**e**bro because :
  * cerebro.io wasn't available
  * no legal issues
  * [that's the way americans pronounce cerebro anyway](https://www.youtube.com/watch?v=EFyYvdvUEqo)
+ 
+## Continuous Integration
+
+ * [Travis CI](https://travis-ci.org/cereebro/cereebro)
+ * [SONAR](https://sonarqube.com/dashboard?id=io.cereebro%3Acereebro)
 
 ## Code Conventions
 
