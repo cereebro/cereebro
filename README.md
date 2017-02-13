@@ -1,3 +1,4 @@
+![Build status](https://travis-ci.org/cereebro/cereebro.svg?branch=master)
 # cereebro
 
 ## Mission statement
