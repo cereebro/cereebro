@@ -1,11 +1,11 @@
 package io.cereebro.core.annotation;
 
 /**
- * Designate a given object as a component Dependency.
+ * Designate a given object as Consumer of a component.
  * 
  * @author michaeltecourt
  */
-public @interface DependencyHint {
+public @interface ConsumerHint {
 
     String name();
 
