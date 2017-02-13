@@ -17,6 +17,7 @@
         <!-- Dependencies versions -->
         <spring-boot.version>1.4.4.RELEASE</spring-boot.version>
         <spring-cloud.version>Camden.SR4</spring-cloud.version>
+        <equalsverifier.version>2.2.1</equalsverifier.version>
         <!-- PLugin versions -->
         <maven-compiler-plugin.version>3.6.1</maven-compiler-plugin.version>
         <maven-install-plugin.version>2.5.2</maven-install-plugin.version>
@@ -42,6 +43,7 @@
         <module>cereebro-snitch-spring-boot-starter</module>
         <module>cereebro-snitch-spring-cloud-eureka-client</module>
         <module>cereebro-snitch-eureka-spring-cloud-starter</module>
+        <module>cereebro-server</module>
     </modules>
 
     <dependencyManagement>
@@ -77,6 +79,11 @@
                 <artifactId>cereebro-snitch-eureka-spring-cloud-starter</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <dependency>
+                <groupId>io.cereebro</groupId>
+                <artifactId>cereebro-server</artifactId>
+                <version>${project.version}</version>
+            </dependency>
             <!-- Spring dependencies -->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
@@ -91,6 +98,12 @@
                 <version>${spring-cloud.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+            <!-- MISC -->
+            <dependency>
+                <groupId>nl.jqno.equalsverifier</groupId>
+                <artifactId>equalsverifier</artifactId>
+                <version>${equalsverifier.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
