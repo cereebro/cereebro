@@ -16,11 +16,11 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = false)
 public class Dependency extends Relationship {
 
-    public Dependency(Component c) {
-        super(c);
+    public Dependency(Component component) {
+        super(component);
     }
 
-    public static Dependency on(Component c) {
-        return new Dependency(c);
+    public static Dependency on(Component component) {
+        return new Dependency(component);
     }
 }

@@ -2,6 +2,7 @@ package io.cereebro.core;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NonNull;
 
 /**
  * Base relationship class.
@@ -17,6 +18,7 @@ import lombok.Getter;
 @Getter
 public abstract class Relationship {
 
+    @NonNull
     private final Component component;
 
 }

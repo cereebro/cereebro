@@ -10,7 +10,7 @@ public class CompositeRelationshipDetector implements RelationshipDetector {
 
     private final Set<RelationshipDetector> detectors;
 
-    public CompositeRelationshipDetector(Set<RelationshipDetector> detectors) {
+    public CompositeRelationshipDetector(Collection<RelationshipDetector> detectors) {
         this.detectors = new HashSet<>();
         Objects.requireNonNull(detectors, "detectors required");
         this.detectors.addAll(detectors);

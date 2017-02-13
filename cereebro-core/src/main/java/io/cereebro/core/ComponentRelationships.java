@@ -29,6 +29,10 @@ public class ComponentRelationships {
     @NonNull
     private final Set<Consumer> consumers;
 
+    public static ComponentRelationships of(Component c, Set<Dependency> dependencies, Set<Consumer> consumers) {
+        return new ComponentRelationships(c, dependencies, consumers);
+    }
+
     /**
      * Pictures a Component and how it relates to other
      * 
@@ -37,12 +41,8 @@ public class ComponentRelationships {
      *            Relationship Collection that will be split between Dependency
      *            and Consumer.
      */
-    public ComponentRelationships(Component component, Collection<Relationship> relationships) {
-        this(component, filterDependencies(relationships), filterConsumers(relationships));
-    }
-
-    public static ComponentRelationships of(Component c, Set<Dependency> dependencies, Set<Consumer> consumers) {
-        return new ComponentRelationships(c, dependencies, consumers);
+    public static ComponentRelationships of(Component c, Collection<Relationship> relationships) {
+        return new ComponentRelationships(c, filterDependencies(relationships), filterConsumers(relationships));
     }
 
     /**

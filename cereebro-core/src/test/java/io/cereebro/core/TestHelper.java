@@ -1,5 +1,8 @@
 package io.cereebro.core;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class TestHelper {
 
     public static Component componentA() {
@@ -14,4 +17,18 @@ public class TestHelper {
         return Component.of("c", "c");
     }
 
+    public static Dependency dependencyOnB() {
+        return Dependency.on(componentB());
+    }
+
+    public static Consumer consumedByC() {
+        return Consumer.by(componentC());
+    }
+
+    public static Set<Relationship> relationshipSetOfDependencyBAndConsumerC() {
+        Set<Relationship> deps = new HashSet<>();
+        deps.add(dependencyOnB());
+        deps.add(consumedByC());
+        return deps;
+    }
 }
