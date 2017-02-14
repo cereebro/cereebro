@@ -1,6 +1,7 @@
 package io.cereebro.core;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NonNull;
 
@@ -16,6 +17,7 @@ import lombok.NonNull;
  */
 @AllArgsConstructor
 @Getter
+@EqualsAndHashCode
 public abstract class Relationship {
 
     @NonNull

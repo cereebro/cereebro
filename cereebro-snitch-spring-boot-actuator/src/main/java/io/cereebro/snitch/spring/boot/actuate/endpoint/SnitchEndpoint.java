@@ -1,9 +1,17 @@
 package io.cereebro.snitch.spring.boot.actuate.endpoint;
 
 import java.net.URI;
+import java.util.Collections;
+import java.util.Set;
 
 import org.springframework.boot.actuate.endpoint.Endpoint;
+import org.springframework.context.EnvironmentAware;
+import org.springframework.core.env.Environment;
 
+import io.cereebro.core.Component;
+import io.cereebro.core.ComponentRelationships;
+import io.cereebro.core.Relationship;
+import io.cereebro.core.RelationshipDetector;
 import io.cereebro.core.Snitch;
 import io.cereebro.core.SystemFragment;
 
@@ -12,30 +20,36 @@ import io.cereebro.core.SystemFragment;
  * 
  * @author michaeltecourt
  */
-public class SnitchEndpoint implements Endpoint<Object>, Snitch {
+public class SnitchEndpoint implements Endpoint<SystemFragment>, Snitch, EnvironmentAware {
+
+    private final RelationshipDetector relationshipDetector;
+
+    private Environment environment;
+
+    public SnitchEndpoint(RelationshipDetector relationshipDetector) {
+        this.relationshipDetector = relationshipDetector;
+    }
 
     @Override
     public String getId() {
-        // TODO Auto-generated method stub
-        return null;
+        return "cereebro";
     }
 
     @Override
     public boolean isEnabled() {
         // TODO Auto-generated method stub
-        return false;
+        return true;
     }
 
     @Override
     public boolean isSensitive() {
         // TODO Auto-generated method stub
-        return true;
+        return false;
     }
 
     @Override
-    public Object invoke() {
-        // TODO Auto-generated method stub
-        return null;
+    public SystemFragment invoke() {
+        return snitch();
     }
 
     @Override
@@ -46,8 +60,17 @@ public class SnitchEndpoint implements Endpoint<Object>, Snitch {
 
     @Override
     public SystemFragment snitch() {
-        // TODO Auto-generated method stub
-        return null;
+        Set<Relationship> relations = relationshipDetector.detect();
+        ComponentRelationships cr = ComponentRelationships.of(
+                Component.of(environment.getProperty("spring.application.name", "app"), "WEBAPP"),
+                ComponentRelationships.filterDependencies(relations),
+                ComponentRelationships.filterConsumers(relations));
+        return SystemFragment.of(Collections.singleton(cr));
+    }
+
+    @Override
+    public void setEnvironment(Environment env) {
+        this.environment = env;
     }
 
 }
