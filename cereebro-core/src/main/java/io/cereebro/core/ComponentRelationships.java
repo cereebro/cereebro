@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
+import lombok.ToString;
 
 /**
  * Pictures a Component and how it relates to other. Within a System, there may
@@ -94,6 +95,7 @@ public class ComponentRelationships {
      * @author michaeltecourt
      */
     @EqualsAndHashCode
+    @ToString
     public static class ComponentRelationshipsBuilder {
 
         private Component component;

@@ -8,6 +8,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import io.cereebro.core.ComponentRelationships.ComponentRelationshipsBuilder;
+
 /**
  * {@link ComponentRelationships} unit tests.
  * 
@@ -149,6 +151,18 @@ public class ComponentRelationshipsTest {
                 .build();
         // @formatter:on
         Assert.assertEquals(expected, actual);
+    }
+
+    @Test
+    public void builderEquivalence() {
+        ComponentRelationshipsBuilder a = ComponentRelationships.builder();
+        ComponentRelationshipsBuilder b = ComponentRelationships.builder();
+        Assert.assertEquals(a, b);
+        Assert.assertEquals(a.component(component), b.component(component));
+        Assert.assertEquals(a.dependencies(dependencies), b.dependencies(dependencies));
+        Assert.assertEquals(a.consumers(consumers), b.consumers(consumers));
+        Assert.assertEquals(a.toString(), b.toString());
+        Assert.assertEquals(a.hashCode(), b.hashCode());
     }
 
 }

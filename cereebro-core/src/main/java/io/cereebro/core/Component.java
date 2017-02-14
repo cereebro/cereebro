@@ -5,7 +5,7 @@ import lombok.Data;
 import lombok.NonNull;
 
 @Data
-@AllArgsConstructor
+@AllArgsConstructor(staticName = "of")
 public class Component {
 
     @NonNull
@@ -13,9 +13,5 @@ public class Component {
 
     @NonNull
     private final String type;
-
-    public static Component of(String name, String type) {
-        return new Component(name, type);
-    }
 
 }

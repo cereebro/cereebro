@@ -20,7 +20,6 @@ public class System {
     private final Set<ComponentRelationships> componentRelationships;
 
     public static System of(String name, Collection<ComponentRelationships> rels) {
-        Objects.requireNonNull(rels, "Component relationships required");
         return new System(name, new HashSet<>(rels));
     }
 
