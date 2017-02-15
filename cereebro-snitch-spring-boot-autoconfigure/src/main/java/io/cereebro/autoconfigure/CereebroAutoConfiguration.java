@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 
 import com.datastax.driver.core.Session;
 
+import io.cereebro.autoconfigure.annotation.DependencyHintAnnotationRelationshipDetector;
 import io.cereebro.autoconfigure.cassandra.CassandraRelationshipDetector;
 import io.cereebro.autoconfigure.datasource.DataSourceRelationshipDetector;
 import io.cereebro.core.CompositeRelationshipDetector;
@@ -42,6 +43,11 @@ public class CereebroAutoConfiguration {
     @Bean
     public DataSourceRelationshipDetector dataSourceRelationshipDetector() {
         return new DataSourceRelationshipDetector();
+    }
+
+    @Bean
+    public DependencyHintAnnotationRelationshipDetector dependencyHintAnnotationRelationshipDetector() {
+        return new DependencyHintAnnotationRelationshipDetector();
     }
 
 }

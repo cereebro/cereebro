@@ -12,6 +12,8 @@ import org.springframework.context.annotation.Profile;
 
 import com.datastax.driver.core.Session;
 
+import io.cereebro.core.annotation.DependencyHint;
+
 @SpringBootApplication
 public class DummyApplication {
 
@@ -35,6 +37,28 @@ public class DummyApplication {
         Session s = Mockito.mock(Session.class);
         Mockito.when(s.getLoggedKeyspace()).thenReturn("keyspace");
         return s;
+    }
+
+    public static class MyDummyDependencyClass {
+
+    }
+
+    @Bean
+    @Profile("annotation-bean")
+    @DependencyHint(name = "dummy", type = "ws")
+    public MyDummyDependencyClass myDummyDependency() {
+        return new MyDummyDependencyClass();
+    }
+
+    @DependencyHint(name = "dummyClass", type = "dummyWs")
+    public static class MyDummyAnnotatedDependencyClass {
+
+    }
+
+    @Bean
+    @Profile("annotation-class")
+    public MyDummyAnnotatedDependencyClass myDummyAnnotatedDependencyClass() {
+        return new MyDummyAnnotatedDependencyClass();
     }
 
 }
