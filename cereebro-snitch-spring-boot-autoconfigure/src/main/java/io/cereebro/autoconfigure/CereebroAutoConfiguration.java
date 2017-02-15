@@ -2,7 +2,9 @@ package io.cereebro.autoconfigure;
 
 import java.util.Set;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -23,7 +25,16 @@ import io.cereebro.snitch.spring.boot.actuate.endpoint.SnitchEndpoint;
  *
  */
 @Configuration
+@EnableConfigurationProperties(CereebroProperties.class)
 public class CereebroAutoConfiguration {
+
+    @Autowired
+    private CereebroProperties cereebroProperties;
+
+    @Bean
+    public ConfigurationPropertiesRelationshipDetector configurationPropertiesRelationshipDetector() {
+        return new ConfigurationPropertiesRelationshipDetector(cereebroProperties);
+    }
 
     public RelationshipDetector compositeRelationshipDetector(Set<RelationshipDetector> detectors) {
         return new CompositeRelationshipDetector(detectors);

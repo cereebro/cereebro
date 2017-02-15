@@ -16,6 +16,10 @@
             <artifactId>cereebro-snitch-spring-boot-autoconfigure</artifactId>
         </dependency>
         <dependency>
+            <groupId>io.cereebro</groupId>
+            <artifactId>cereebro-snitch-spring-boot-actuator</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
         </dependency>
