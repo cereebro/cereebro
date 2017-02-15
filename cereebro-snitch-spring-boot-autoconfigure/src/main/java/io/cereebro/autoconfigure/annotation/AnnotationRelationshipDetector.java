@@ -17,8 +17,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.core.type.MethodMetadata;
 import org.springframework.core.type.StandardMethodMetadata;
 
-import io.cereebro.core.Component;
-import io.cereebro.core.Dependency;
 import io.cereebro.core.Relationship;
 import io.cereebro.core.RelationshipDetector;
 import io.cereebro.core.annotation.DependencyHint;
@@ -69,25 +67,41 @@ public abstract class AnnotationRelationshipDetector<T extends Annotation>
                      * the annotation DependencyHint. In this case, we retrieve
                      * the annotation on the annotated method @Bean
                      */
-                    Map<String, Object> dependencyHintData = metadata.getAnnotationAttributes(annotation.getName());
+                    Map<String, Object> hintData = metadata.getAnnotationAttributes(annotation.getName());
                     /*
-                     * ... get the DependencyHint directly from the class
-                     * (Target = ElementType.TYPE)
+                     * ... get the Hint directly from the class (Target =
+                     * ElementType.TYPE)
                      */
-                    T annotationDependency = getAnnotation(metadata);
-                    if (dependencyHintData != null && !dependencyHintData.isEmpty()) {
-                        String name = String.class.cast(dependencyHintData.get(getNameKey()));
-                        String type = String.class.cast(dependencyHintData.get(getTypeKey()));
-                        result.add(Dependency.on(Component.of(name, type)));
-                    } else if (annotationDependency != null) {
-                        result.add(Dependency
-                                .on(Component.of(getName(annotationDependency), getType(annotationDependency))));
+                    T annotation = getAnnotation(metadata);
+                    if (hintData != null && !hintData.isEmpty()) {
+                        result.add(extractFromAnnotationAttributes(hintData));
+                    } else if (annotation != null) {
+                        result.add(extractFromAnnotation(annotation));
                     }
                 }
             }
         }
         return result;
     }
+
+    /**
+     * Extract a Relationship from a typed annotation. Used when the annotation
+     * is set on a class.
+     * 
+     * @param annotation
+     * @return Relationship
+     */
+    protected abstract Relationship extractFromAnnotation(T annotation);
+
+    /**
+     * Extract a Relationship from the annotation represented as a Map. Used
+     * when the annotation is set on a {@link Bean} factory method instead of a
+     * class.
+     * 
+     * @param annotationAttributes
+     * @return Relationship
+     */
+    protected abstract Relationship extractFromAnnotationAttributes(Map<String, Object> annotationAttributes);
 
     /**
      * Get the {@link DependencyHint} annotation from the class instead of the
@@ -109,37 +123,5 @@ public abstract class AnnotationRelationshipDetector<T extends Annotation>
         }
         return null;
     }
-
-    /**
-     * Return the name value for the {@link Component} from the generic
-     * {@link Annotation}
-     * 
-     * @param annotation
-     * @return
-     */
-    protected abstract String getName(T annotation);
-
-    /**
-     * Return the type value of the {@link Component} from the generic
-     * {@link Annotation}
-     * 
-     * @param annotation
-     * @return
-     */
-    protected abstract String getType(T annotation);
-
-    /**
-     * Return the key for the name of the {@link Component}
-     * 
-     * @return
-     */
-    protected abstract String getNameKey();
-
-    /**
-     * Return the key for the type of the {@link Component}
-     * 
-     * @return
-     */
-    protected abstract String getTypeKey();
 
 }
