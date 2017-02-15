@@ -3,6 +3,7 @@ package io.cereebro.autoconfigure.annotation;
 import java.lang.annotation.Annotation;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 import org.slf4j.Logger;
@@ -40,7 +41,7 @@ public abstract class AnnotationRelationshipDetector<T extends Annotation>
     private final Class<T> annotation;
 
     public AnnotationRelationshipDetector(Class<T> annotation) {
-        this.annotation = annotation;
+        this.annotation = Objects.requireNonNull(annotation, "Annotation class required");
     }
 
     @Override
@@ -62,26 +63,29 @@ public abstract class AnnotationRelationshipDetector<T extends Annotation>
                 BeanDefinition beanDefinition = factory.getMergedBeanDefinition(beanName);
                 if (beanDefinition.getSource() instanceof StandardMethodMetadata) {
                     StandardMethodMetadata metadata = StandardMethodMetadata.class.cast(beanDefinition.getSource());
-                    /*
-                     * ... get the metadata of the current definition bean for
-                     * the annotation DependencyHint. In this case, we retrieve
-                     * the annotation on the annotated method @Bean
-                     */
-                    Map<String, Object> hintData = metadata.getAnnotationAttributes(annotation.getName());
-                    /*
-                     * ... get the Hint directly from the class (Target =
-                     * ElementType.TYPE)
-                     */
-                    T annotation = getAnnotation(metadata);
-                    if (hintData != null && !hintData.isEmpty()) {
-                        result.add(extractFromAnnotationAttributes(hintData));
-                    } else if (annotation != null) {
-                        result.add(extractFromAnnotation(annotation));
-                    }
+                    processMetadata(metadata, result);
                 }
             }
         }
         return result;
+    }
+
+    private void processMetadata(final StandardMethodMetadata metadata, final Set<Relationship> result) {
+        /*
+         * ... get the metadata of the current definition bean for the
+         * annotation DependencyHint. In this case, we retrieve the annotation
+         * on the annotated method @Bean
+         */
+        Map<String, Object> hintData = metadata.getAnnotationAttributes(annotation.getName());
+        /*
+         * ... get the Hint directly from the class (Target = ElementType.TYPE)
+         */
+        T annotation = getAnnotation(metadata);
+        if (hintData != null && !hintData.isEmpty()) {
+            result.add(extractFromAnnotationAttributes(hintData));
+        } else if (annotation != null) {
+            result.add(extractFromAnnotation(annotation));
+        }
     }
 
     /**
