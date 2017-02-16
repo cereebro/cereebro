@@ -114,12 +114,12 @@ public abstract class AnnotationRelationshipDetector<T extends Annotation>
         /*
          * ... get the Hint directly from the class (Target = ElementType.TYPE)
          */
-        T annotation = getAnnotation(metadata);
+        T methodAnnotation = getAnnotation(metadata);
         Relationship rel = null;
         if (hintData != null && !hintData.isEmpty()) {
             rel = extractFromAnnotationAttributes(hintData);
-        } else if (annotation != null) {
-            rel = extractFromAnnotation(annotation);
+        } else if (methodAnnotation != null) {
+            rel = extractFromAnnotation(methodAnnotation);
         }
         return Optional.ofNullable(rel);
     }
