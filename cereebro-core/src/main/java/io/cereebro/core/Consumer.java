@@ -13,7 +13,7 @@ import lombok.EqualsAndHashCode;
  * @author michaeltecourt
  */
 @Data
-@EqualsAndHashCode(callSuper = false)
+@EqualsAndHashCode(callSuper = true)
 public class Consumer extends Relationship {
 
     public Consumer(Component component) {

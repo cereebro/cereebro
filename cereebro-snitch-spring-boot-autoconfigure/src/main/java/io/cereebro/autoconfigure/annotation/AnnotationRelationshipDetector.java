@@ -6,8 +6,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
@@ -20,7 +18,7 @@ import org.springframework.core.type.StandardMethodMetadata;
 
 import io.cereebro.core.Relationship;
 import io.cereebro.core.RelationshipDetector;
-import io.cereebro.core.annotation.DependencyHint;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Abstract class implementing {@link RelationshipDetector} for
@@ -28,14 +26,12 @@ import io.cereebro.core.annotation.DependencyHint;
  * detect.
  * 
  * @author lwarrot
- * @see DependencyHint
  *
  * @param <T>
  */
+@Slf4j
 public abstract class AnnotationRelationshipDetector<T extends Annotation>
         implements RelationshipDetector, ApplicationContextAware {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(AnnotationRelationshipDetector.class);
 
     private ConfigurableApplicationContext applicationContext;
     private final Class<T> annotation;
@@ -108,8 +104,7 @@ public abstract class AnnotationRelationshipDetector<T extends Annotation>
     protected abstract Relationship extractFromAnnotationAttributes(Map<String, Object> annotationAttributes);
 
     /**
-     * Get the {@link DependencyHint} annotation from the class instead of the
-     * {@link Bean} method.
+     * Get the annotation from the class instead of the {@link Bean} method.
      * 
      * @param metadata
      * @return

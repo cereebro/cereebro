@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
 
 import com.datastax.driver.core.Session;
 
+import io.cereebro.autoconfigure.annotation.ConsumerHintAnnotationRelationshipDetector;
 import io.cereebro.autoconfigure.annotation.DependencyHintAnnotationRelationshipDetector;
 import io.cereebro.autoconfigure.cassandra.CassandraRelationshipDetector;
 import io.cereebro.autoconfigure.datasource.DataSourceRelationshipDetector;
@@ -31,11 +32,6 @@ public class CereebroAutoConfiguration {
     @Autowired
     private CereebroProperties cereebroProperties;
 
-    @Bean
-    public ConfigurationPropertiesRelationshipDetector configurationPropertiesRelationshipDetector() {
-        return new ConfigurationPropertiesRelationshipDetector(cereebroProperties);
-    }
-
     public RelationshipDetector compositeRelationshipDetector(Set<RelationshipDetector> detectors) {
         return new CompositeRelationshipDetector(detectors);
     }
@@ -43,6 +39,11 @@ public class CereebroAutoConfiguration {
     @Bean
     public SnitchEndpoint endpoint(Set<RelationshipDetector> detectors) {
         return new SnitchEndpoint(compositeRelationshipDetector(detectors));
+    }
+
+    @Bean
+    public ConfigurationPropertiesRelationshipDetector configurationPropertiesRelationshipDetector() {
+        return new ConfigurationPropertiesRelationshipDetector(cereebroProperties);
     }
 
     @Bean
@@ -59,6 +60,11 @@ public class CereebroAutoConfiguration {
     @Bean
     public DependencyHintAnnotationRelationshipDetector dependencyHintAnnotationRelationshipDetector() {
         return new DependencyHintAnnotationRelationshipDetector();
+    }
+
+    @Bean
+    public ConsumerHintAnnotationRelationshipDetector consumerHintAnnotationRelationshipDetector() {
+        return new ConsumerHintAnnotationRelationshipDetector();
     }
 
 }
