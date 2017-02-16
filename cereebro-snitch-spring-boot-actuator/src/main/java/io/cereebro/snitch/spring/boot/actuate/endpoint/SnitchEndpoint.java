@@ -25,7 +25,7 @@ public class SnitchEndpoint implements Endpoint<SystemFragment>, Snitch {
 
     private final Component application;
     private final RelationshipDetector relationshipDetector;
-    private final SnitchEndPointProperties properties;
+    private final SnitchEndpointProperties properties;
 
     /**
      * Snitch actuator Endpoint. Tells everything it knows about the host Spring
@@ -37,7 +37,7 @@ public class SnitchEndpoint implements Endpoint<SystemFragment>, Snitch {
      *            relationships.
      */
     public SnitchEndpoint(Component application, RelationshipDetector relationshipDetector,
-            SnitchEndPointProperties properties) {
+            SnitchEndpointProperties properties) {
         this.application = Objects.requireNonNull(application, "Application component required");
         this.relationshipDetector = Objects.requireNonNull(relationshipDetector, "Relationship detector required");
         this.properties = Objects.requireNonNull(properties, "Endpoint properties required");

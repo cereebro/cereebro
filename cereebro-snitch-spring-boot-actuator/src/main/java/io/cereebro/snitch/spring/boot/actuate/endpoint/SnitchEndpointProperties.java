@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @ConfigurationProperties(prefix = "endpoints.cereebro")
-public class SnitchEndPointProperties {
+public class SnitchEndpointProperties {
 
     private boolean enabled = true;
 

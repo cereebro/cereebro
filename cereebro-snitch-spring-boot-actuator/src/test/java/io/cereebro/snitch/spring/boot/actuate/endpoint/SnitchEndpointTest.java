@@ -28,13 +28,13 @@ public class SnitchEndpointTest {
     private RelationshipDetector relationshipDetectorMock;
     private Component application;
     private SnitchEndpoint endpoint;
-    private SnitchEndPointProperties snitchProperties;
+    private SnitchEndpointProperties snitchProperties;
 
     @Before
     public void setUp() {
 	application = Component.of("gambit", "superhero");
 	relationshipDetectorMock = Mockito.mock(RelationshipDetector.class);
-	snitchProperties = new SnitchEndPointProperties();
+	snitchProperties = new SnitchEndpointProperties();
 	snitchProperties.setId("cereebro");
 	endpoint = new SnitchEndpoint(application, relationshipDetectorMock, snitchProperties);
     }
