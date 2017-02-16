@@ -3,16 +3,14 @@ package io.cereebro.autoconfigure;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import com.datastax.driver.core.Session;
+import org.springframework.context.annotation.Import;
 
 import io.cereebro.autoconfigure.annotation.ConsumerHintAnnotationRelationshipDetector;
 import io.cereebro.autoconfigure.annotation.DependencyHintAnnotationRelationshipDetector;
-import io.cereebro.autoconfigure.cassandra.CassandraRelationshipDetector;
+import io.cereebro.autoconfigure.cassandra.CereebroCassandraAutoConfiguration;
 import io.cereebro.autoconfigure.datasource.DataSourceRelationshipDetector;
 import io.cereebro.core.CompositeRelationshipDetector;
 import io.cereebro.core.RelationshipDetector;
@@ -27,6 +25,7 @@ import io.cereebro.snitch.spring.boot.actuate.endpoint.SnitchEndpoint;
  */
 @Configuration
 @EnableConfigurationProperties(CereebroProperties.class)
+@Import({ CereebroCassandraAutoConfiguration.class })
 public class CereebroAutoConfiguration {
 
     @Autowired
@@ -44,12 +43,6 @@ public class CereebroAutoConfiguration {
     @Bean
     public ConfigurationPropertiesRelationshipDetector configurationPropertiesRelationshipDetector() {
         return new ConfigurationPropertiesRelationshipDetector(cereebroProperties);
-    }
-
-    @Bean
-    @ConditionalOnClass(Session.class)
-    public CassandraRelationshipDetector cassandraRelationshipDetector() {
-        return new CassandraRelationshipDetector();
     }
 
     @Bean
