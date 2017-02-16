@@ -37,8 +37,14 @@ public class SystemTest {
     }
 
     @Test
-    public void hashcodeEquals() {
+    public void verifyHashcodeEquals() {
         EqualsVerifier.forClass(System.class).usingGetClass().verify();
+    }
+
+    @Test
+    public void testToString() {
+        String toString = System.empty("xmen").toString();
+        Assert.assertTrue(toString.contains("xmen"));
     }
 
 }

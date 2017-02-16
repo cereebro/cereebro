@@ -6,10 +6,6 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NonNull;
 import lombok.ToString;
 
 /**
@@ -19,16 +15,27 @@ import lombok.ToString;
  * 
  * @author michaeltecourt
  */
-@Data
-@AllArgsConstructor
+@ToString
 public class ComponentRelationships {
 
-    @NonNull
     private final Component component;
-    @NonNull
+
     private final Set<Dependency> dependencies;
-    @NonNull
+
     private final Set<Consumer> consumers;
+
+    /**
+     * Pictures a Component and how it relates to other
+     * 
+     * @param component
+     * @param dependencies
+     * @param consumers
+     */
+    public ComponentRelationships(Component component, Set<Dependency> dependencies, Set<Consumer> consumers) {
+        this.component = Objects.requireNonNull(component, "Component required");
+        this.dependencies = new HashSet<>(dependencies);
+        this.consumers = new HashSet<>(consumers);
+    }
 
     public static ComponentRelationships of(Component c, Set<Dependency> dependencies, Set<Consumer> consumers) {
         return new ComponentRelationships(c, dependencies, consumers);
@@ -80,6 +87,49 @@ public class ComponentRelationships {
         // @formatter:on
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(getClass(), component, dependencies, consumers);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || !getClass().equals(o.getClass())) {
+            return false;
+        }
+        ComponentRelationships that = (ComponentRelationships) o;
+        return Objects.equals(this.component, that.component) && Objects.equals(this.dependencies, that.dependencies)
+                && Objects.equals(this.consumers, that.consumers);
+    }
+
+    /**
+     * @return Component
+     */
+    public Component getComponent() {
+        return component;
+    }
+
+    /**
+     * The components dependend upon by the component attribute.
+     * 
+     * @return Dependency Set
+     */
+    public Set<Dependency> getDependencies() {
+        return new HashSet<>(dependencies);
+    }
+
+    /**
+     * The component consuming the component.
+     * 
+     * @return Consumer Set
+     */
+    public Set<Consumer> getConsumers() {
+        return new HashSet<>(consumers);
+    }
+
     /**
      * Create a {@link ComponentRelationships} builder.
      * 
@@ -94,7 +144,6 @@ public class ComponentRelationships {
      * 
      * @author michaeltecourt
      */
-    @EqualsAndHashCode
     @ToString
     public static class ComponentRelationshipsBuilder {
 
@@ -188,6 +237,25 @@ public class ComponentRelationships {
          */
         public ComponentRelationships build() {
             return new ComponentRelationships(component, dependencies, consumers);
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) {
+                return true;
+            }
+            if (o == null || !getClass().equals(o.getClass())) {
+                return false;
+            }
+            ComponentRelationshipsBuilder that = (ComponentRelationshipsBuilder) o;
+            return Objects.equals(this.component, that.component)
+                    && Objects.equals(this.dependencies, that.dependencies)
+                    && Objects.equals(this.consumers, that.consumers);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(getClass(), component, dependencies, consumers);
         }
 
     }

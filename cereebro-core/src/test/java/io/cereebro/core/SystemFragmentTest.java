@@ -6,6 +6,8 @@ import java.util.HashSet;
 import org.junit.Assert;
 import org.junit.Test;
 
+import nl.jqno.equalsverifier.EqualsVerifier;
+
 /**
  * {@link SystemFragment} unit tests.
  * 
@@ -20,6 +22,17 @@ public class SystemFragmentTest {
         HashSet<ComponentRelationships> rels = new HashSet<>(Arrays.asList(c));
         SystemFragment frag = SystemFragment.of(rels);
         Assert.assertEquals(rels, frag.getComponentRelationships());
+    }
+
+    @Test
+    public void verifyHashcodeEquals() {
+        EqualsVerifier.forClass(SystemFragment.class).usingGetClass().verify();
+    }
+
+    @Test
+    public void testToString() {
+        // I'm a lazy slob
+        Assert.assertNotNull(SystemFragment.empty().toString());
     }
 
 }

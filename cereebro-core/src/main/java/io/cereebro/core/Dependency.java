@@ -1,7 +1,8 @@
 package io.cereebro.core;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import java.util.Objects;
+
+import lombok.ToString;
 
 /**
  * Dependency to another Component.
@@ -12,8 +13,7 @@ import lombok.EqualsAndHashCode;
  * 
  * @author michaeltecourt
  */
-@Data
-@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
 public class Dependency extends Relationship {
 
     public Dependency(Component component) {
@@ -22,5 +22,22 @@ public class Dependency extends Relationship {
 
     public static Dependency on(Component component) {
         return new Dependency(component);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getClass(), getComponent());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || !getClass().equals(o.getClass())) {
+            return false;
+        }
+        Dependency that = (Dependency) o;
+        return Objects.equals(this.getComponent(), that.getComponent());
     }
 }

@@ -9,6 +9,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import io.cereebro.core.ComponentRelationships.ComponentRelationshipsBuilder;
+import nl.jqno.equalsverifier.EqualsVerifier;
+import nl.jqno.equalsverifier.Warning;
 
 /**
  * {@link ComponentRelationships} unit tests.
@@ -32,6 +34,18 @@ public class ComponentRelationshipsTest {
         dependencies.add(Dependency.on(dependencyComponent));
         consumers = new HashSet<>();
         consumers.add(Consumer.by(consumerComponent));
+    }
+
+    @Test
+    public void hashcodeEquals() {
+        EqualsVerifier.forClass(ComponentRelationships.class).usingGetClass().verify();
+    }
+
+    @Test
+    public void testToString() {
+        String toString = new ComponentRelationships(component, dependencies, consumers).toString();
+        Assert.assertTrue(toString.contains(component.getName()));
+        Assert.assertTrue(toString.contains(component.getType()));
     }
 
     @Test
@@ -163,6 +177,12 @@ public class ComponentRelationshipsTest {
         Assert.assertEquals(a.consumers(consumers), b.consumers(consumers));
         Assert.assertEquals(a.toString(), b.toString());
         Assert.assertEquals(a.hashCode(), b.hashCode());
+    }
+
+    @Test
+    public void builderHashcodeEquals() {
+        EqualsVerifier.forClass(ComponentRelationshipsBuilder.class).suppress(Warning.NONFINAL_FIELDS).usingGetClass()
+                .verify();
     }
 
 }

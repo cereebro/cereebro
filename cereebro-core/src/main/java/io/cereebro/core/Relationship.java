@@ -1,9 +1,8 @@
 package io.cereebro.core;
 
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NonNull;
+import java.util.Objects;
+
+import lombok.ToString;
 
 /**
  * Base relationship class.
@@ -15,12 +14,22 @@ import lombok.NonNull;
  * 
  * @author michaeltecourt
  */
-@AllArgsConstructor
-@Getter
-@EqualsAndHashCode
+@ToString
 public abstract class Relationship {
 
-    @NonNull
     private final Component component;
+
+    protected Relationship(Component component) {
+        this.component = Objects.requireNonNull(component, "Component required");
+    }
+
+    /**
+     * Related component.
+     * 
+     * @return Component
+     */
+    public Component getComponent() {
+        return component;
+    }
 
 }
