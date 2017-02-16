@@ -2,11 +2,10 @@ package io.cereebro.snitch.spring.boot.actuate.endpoint;
 
 import java.net.URI;
 import java.util.Collections;
+import java.util.Objects;
 import java.util.Set;
 
 import org.springframework.boot.actuate.endpoint.Endpoint;
-import org.springframework.context.EnvironmentAware;
-import org.springframework.core.env.Environment;
 
 import io.cereebro.core.Component;
 import io.cereebro.core.ComponentRelationships;
@@ -16,18 +15,29 @@ import io.cereebro.core.Snitch;
 import io.cereebro.core.SystemFragment;
 
 /**
- * TODO
+ * Snitch actuator Endpoint. Tells everything it knows about the host Spring
+ * Boot application and its dependencies.
  * 
+ * @author lucwarrot
  * @author michaeltecourt
  */
-public class SnitchEndpoint implements Endpoint<SystemFragment>, Snitch, EnvironmentAware {
+public class SnitchEndpoint implements Endpoint<SystemFragment>, Snitch {
 
+    private final Component application;
     private final RelationshipDetector relationshipDetector;
 
-    private Environment environment;
-
-    public SnitchEndpoint(RelationshipDetector relationshipDetector) {
-        this.relationshipDetector = relationshipDetector;
+    /**
+     * Snitch actuator Endpoint. Tells everything it knows about the host Spring
+     * Boot application and its dependencies.
+     * 
+     * @param application
+     *            Component representing the host Spring Boot application.
+     * @param relationshipDetector
+     *            Detector providing all the application relationships.
+     */
+    public SnitchEndpoint(Component application, RelationshipDetector relationshipDetector) {
+        this.application = Objects.requireNonNull(application, "Application component required");
+        this.relationshipDetector = Objects.requireNonNull(relationshipDetector, "Relationship detector required");
     }
 
     @Override
@@ -44,7 +54,7 @@ public class SnitchEndpoint implements Endpoint<SystemFragment>, Snitch, Environ
     @Override
     public boolean isSensitive() {
         // TODO Auto-generated method stub
-        return false;
+        return true;
     }
 
     @Override
@@ -61,16 +71,8 @@ public class SnitchEndpoint implements Endpoint<SystemFragment>, Snitch, Environ
     @Override
     public SystemFragment snitch() {
         Set<Relationship> relations = relationshipDetector.detect();
-        ComponentRelationships cr = ComponentRelationships.of(
-                Component.of(environment.getProperty("spring.application.name", "app"), "WEBAPP"),
-                ComponentRelationships.filterDependencies(relations),
-                ComponentRelationships.filterConsumers(relations));
+        ComponentRelationships cr = ComponentRelationships.of(application, relations);
         return SystemFragment.of(Collections.singleton(cr));
-    }
-
-    @Override
-    public void setEnvironment(Environment env) {
-        this.environment = env;
     }
 
 }

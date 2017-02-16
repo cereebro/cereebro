@@ -13,7 +13,7 @@ import io.cereebro.core.Component;
 import io.cereebro.core.Dependency;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = DummyApplication.class)
+@SpringBootTest(classes = DummyApplication.class, properties = "spring.application.name=whatever")
 @ActiveProfiles("cassandra")
 public class CassandraRelationshipDetectorTest {
 

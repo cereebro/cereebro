@@ -12,6 +12,7 @@ import io.cereebro.autoconfigure.annotation.ConsumerHintAnnotationRelationshipDe
 import io.cereebro.autoconfigure.annotation.DependencyHintAnnotationRelationshipDetector;
 import io.cereebro.autoconfigure.cassandra.CereebroCassandraRelationshipDetectorAutoConfiguration;
 import io.cereebro.autoconfigure.datasource.DataSourceRelationshipDetector;
+import io.cereebro.core.Component;
 import io.cereebro.core.CompositeRelationshipDetector;
 import io.cereebro.core.RelationshipDetector;
 import io.cereebro.snitch.spring.boot.actuate.endpoint.SnitchEndpoint;
@@ -37,7 +38,8 @@ public class CereebroAutoConfiguration {
 
     @Bean
     public SnitchEndpoint endpoint(Set<RelationshipDetector> detectors) {
-        return new SnitchEndpoint(compositeRelationshipDetector(detectors));
+        Component applicationComponent = cereebroProperties.getApplication().getComponent().toComponent();
+        return new SnitchEndpoint(applicationComponent, compositeRelationshipDetector(detectors));
     }
 
     @Bean

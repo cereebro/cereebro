@@ -1,5 +1,6 @@
 package io.cereebro.core;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -33,6 +34,16 @@ public class SystemFragment {
      */
     public static SystemFragment of(Set<ComponentRelationships> rels) {
         return new SystemFragment(rels);
+    }
+
+    /**
+     * Subset of a given System.
+     * 
+     * @param rels
+     * @return SystemFragment
+     */
+    public static SystemFragment of(ComponentRelationships... rels) {
+        return new SystemFragment(new HashSet<>(Arrays.asList(rels)));
     }
 
     /**

@@ -10,7 +10,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import io.cereebro.autoconfigure.DummyApplication;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = DummyApplication.class)
+@SpringBootTest(classes = DummyApplication.class, properties = "spring.application.name=whatever")
 public class CassandraRelationshipDetectorEmptyTest {
 
     @Autowired

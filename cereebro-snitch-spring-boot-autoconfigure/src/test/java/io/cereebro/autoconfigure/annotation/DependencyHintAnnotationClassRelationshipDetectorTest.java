@@ -16,7 +16,7 @@ import io.cereebro.autoconfigure.DummyApplication;
 import io.cereebro.core.Relationship;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = DummyApplication.class)
+@SpringBootTest(classes = DummyApplication.class, properties = "spring.application.name=whatever")
 @ActiveProfiles("annotation-class")
 public class DependencyHintAnnotationClassRelationshipDetectorTest {
 
