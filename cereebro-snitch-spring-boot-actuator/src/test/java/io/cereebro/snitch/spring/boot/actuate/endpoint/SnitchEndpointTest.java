@@ -1,12 +1,12 @@
 package io.cereebro.snitch.spring.boot.actuate.endpoint;
 
+import java.net.URI;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -32,26 +32,26 @@ public class SnitchEndpointTest {
 
     @Before
     public void setUp() {
-        application = Component.of("gambit", "superhero");
-        relationshipDetectorMock = Mockito.mock(RelationshipDetector.class);
-        snitchProperties = new SnitchEndPointProperties();
-        snitchProperties.setId("cereebro");
-        endpoint = new SnitchEndpoint(application, relationshipDetectorMock, snitchProperties);
+	application = Component.of("gambit", "superhero");
+	relationshipDetectorMock = Mockito.mock(RelationshipDetector.class);
+	snitchProperties = new SnitchEndPointProperties();
+	snitchProperties.setId("cereebro");
+	endpoint = new SnitchEndpoint(application, relationshipDetectorMock, snitchProperties);
     }
 
     @Test(expected = NullPointerException.class)
     public void constructorWithNullApplicationComponentShouldThrowNullPointerException() {
-        new SnitchEndpoint(null, relationshipDetectorMock, snitchProperties);
+	new SnitchEndpoint(null, relationshipDetectorMock, snitchProperties);
     }
 
     @Test(expected = NullPointerException.class)
     public void constructorWithNullRelationshipDetectorShouldThrowNullPointerException() {
-        new SnitchEndpoint(application, null, snitchProperties);
+	new SnitchEndpoint(application, null, snitchProperties);
     }
 
     @Test(expected = NullPointerException.class)
     public void constructorWithNullSnitchEndPointPropertiesShouldThrowNullPointerException() {
-        new SnitchEndpoint(application, relationshipDetectorMock, null);
+	new SnitchEndpoint(application, relationshipDetectorMock, null);
     }
 
     /**
@@ -59,7 +59,7 @@ public class SnitchEndpointTest {
      */
     @Test
     public void isSensitive() {
-        Assert.assertTrue(endpoint.isSensitive());
+	Assert.assertTrue(endpoint.isSensitive());
     }
 
     /**
@@ -67,39 +67,37 @@ public class SnitchEndpointTest {
      */
     @Test
     public void isEnabled() {
-        Assert.assertTrue(endpoint.isEnabled());
+	Assert.assertTrue(endpoint.isEnabled());
     }
 
     @Test
     public void id() {
-        Assert.assertEquals("cereebro", endpoint.getId());
+	Assert.assertEquals("cereebro", endpoint.getId());
     }
 
     /**
      * TODO Get a real URI from Spring Boot Server/Management Properties.
      */
     @Test
-    @Ignore // TODO LWA remove this f*** Ignore annotation when the
-            // endpoint.getLocation() is stable
     public void location() {
-        Assert.assertNull(endpoint.getLocation());
+	Assert.assertEquals(URI.create("http://localhost:8080/cereebro"), endpoint.getLocation());
     }
 
     @Test
     public void invoke() {
-        Dependency d1 = Dependency.on(Component.of("cards", "game"));
-        Dependency d2 = Dependency.on(Component.of("rogue", "superhero"));
-        Consumer consumer = Consumer.by(Component.of("angel", "superhero"));
-        Set<Relationship> rels = new HashSet<>(Arrays.asList(d1, d2, consumer));
-        Mockito.when(relationshipDetectorMock.detect()).thenReturn(rels);
-        SystemFragment actual = endpoint.invoke();
+	Dependency d1 = Dependency.on(Component.of("cards", "game"));
+	Dependency d2 = Dependency.on(Component.of("rogue", "superhero"));
+	Consumer consumer = Consumer.by(Component.of("angel", "superhero"));
+	Set<Relationship> rels = new HashSet<>(Arrays.asList(d1, d2, consumer));
+	Mockito.when(relationshipDetectorMock.detect()).thenReturn(rels);
+	SystemFragment actual = endpoint.invoke();
 
-        Set<Dependency> dependencies = new HashSet<>(Arrays.asList(d1, d2));
-        Set<Consumer> consumers = new HashSet<>(Arrays.asList(consumer));
-        ComponentRelationships r = ComponentRelationships.of(application, dependencies, consumers);
-        SystemFragment expected = SystemFragment.of(r);
+	Set<Dependency> dependencies = new HashSet<>(Arrays.asList(d1, d2));
+	Set<Consumer> consumers = new HashSet<>(Arrays.asList(consumer));
+	ComponentRelationships r = ComponentRelationships.of(application, dependencies, consumers);
+	SystemFragment expected = SystemFragment.of(r);
 
-        Assert.assertEquals(expected, actual);
+	Assert.assertEquals(expected, actual);
     }
 
 }
