@@ -43,7 +43,7 @@ public class SystemFragment {
      * @return SystemFragment
      */
     public static SystemFragment of(ComponentRelationships... rels) {
-        return new SystemFragment(new HashSet<>(Arrays.asList(rels)));
+        return SystemFragment.of(new HashSet<>(Arrays.asList(rels)));
     }
 
     /**

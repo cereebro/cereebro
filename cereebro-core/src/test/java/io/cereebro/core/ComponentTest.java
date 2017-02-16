@@ -3,6 +3,8 @@ package io.cereebro.core;
 import org.junit.Assert;
 import org.junit.Test;
 
+import nl.jqno.equalsverifier.EqualsVerifier;
+
 /**
  * {@link Component} unit tests.
  * 
@@ -25,6 +27,19 @@ public class ComponentTest {
     @Test(expected = NullPointerException.class)
     public void constructorWithNullTypeShouldThrowNullPointerException() {
         Component.of("name", null);
+    }
+
+    @Test
+    public void verifyHashcodeEquals() {
+        EqualsVerifier.forClass(Component.class).usingGetClass().verify();
+    }
+
+    @Test
+    public void testToString() {
+        String toString = Component.of("cyclop", "superhero").toString();
+        java.lang.System.out.println(toString);
+        Assert.assertTrue(toString.contains("cyclop"));
+        Assert.assertTrue(toString.contains("superhero"));
     }
 
 }

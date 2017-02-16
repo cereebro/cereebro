@@ -20,7 +20,7 @@ public class SystemFragmentTest {
         ComponentRelationships c = ComponentRelationships.of(TestHelper.componentA(),
                 TestHelper.relationshipSetOfDependencyBAndConsumerC());
         HashSet<ComponentRelationships> rels = new HashSet<>(Arrays.asList(c));
-        SystemFragment frag = SystemFragment.of(rels);
+        SystemFragment frag = SystemFragment.of(c);
         Assert.assertEquals(rels, frag.getComponentRelationships());
     }
 
