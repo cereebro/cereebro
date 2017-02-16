@@ -25,36 +25,37 @@ public class SnitchEndpoint implements Endpoint<SystemFragment>, Snitch {
 
     private final Component application;
     private final RelationshipDetector relationshipDetector;
+    private final SnitchEndPointProperties properties;
 
     /**
      * Snitch actuator Endpoint. Tells everything it knows about the host Spring
      * Boot application and its dependencies.
      * 
-     * @param application
-     *            Component representing the host Spring Boot application.
-     * @param relationshipDetector
-     *            Detector providing all the application relationships.
+     * @param application Component representing the host Spring Boot
+     *            application.
+     * @param relationshipDetector Detector providing all the application
+     *            relationships.
      */
-    public SnitchEndpoint(Component application, RelationshipDetector relationshipDetector) {
+    public SnitchEndpoint(Component application, RelationshipDetector relationshipDetector,
+            SnitchEndPointProperties properties) {
         this.application = Objects.requireNonNull(application, "Application component required");
         this.relationshipDetector = Objects.requireNonNull(relationshipDetector, "Relationship detector required");
+        this.properties = Objects.requireNonNull(properties, "Endpoint properties required");
     }
 
     @Override
     public String getId() {
-        return "cereebro";
+        return this.properties.getId();
     }
 
     @Override
     public boolean isEnabled() {
-        // TODO Auto-generated method stub
-        return true;
+        return this.properties.isEnabled();
     }
 
     @Override
     public boolean isSensitive() {
-        // TODO Auto-generated method stub
-        return true;
+        return this.properties.isSensitive();
     }
 
     @Override
@@ -64,8 +65,8 @@ public class SnitchEndpoint implements Endpoint<SystemFragment>, Snitch {
 
     @Override
     public URI getLocation() {
-        // TODO Auto-generated method stub
-        return null;
+        return URI.create(String.format("http://%s:%s%s/%s", properties.getHost(), properties.getPort(),
+                properties.getContext(), properties.getId()));
     }
 
     @Override
