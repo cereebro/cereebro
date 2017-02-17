@@ -17,14 +17,26 @@ import lombok.ToString;
 public class FakeSnitch implements Snitch {
 
     private final URI location;
+    private final SystemFragment systemFragment;
+
+    /**
+     * Fake Snitch.
+     * 
+     * @param location
+     */
+    public FakeSnitch(URI location) {
+        this(location, SystemFragment.empty());
+    }
 
     /**
      * Fake Snitch with only a location.
      * 
      * @param location
+     * @param systemFragment
      */
-    public FakeSnitch(URI location) {
+    public FakeSnitch(URI location, SystemFragment systemFragment) {
         this.location = Objects.requireNonNull(location, "Snitch location required");
+        this.systemFragment = Objects.requireNonNull(systemFragment, "System fragment required");
     }
 
     /**
@@ -37,9 +49,20 @@ public class FakeSnitch implements Snitch {
         return new FakeSnitch(location);
     }
 
+    /**
+     * Fake Snitch.
+     * 
+     * @param location
+     * @param systemFragment
+     * @return a FakeSnitch instance.
+     */
+    public static Snitch of(URI location, SystemFragment systemFragment) {
+        return new FakeSnitch(location, systemFragment);
+    }
+
     @Override
     public int hashCode() {
-        return Objects.hash(getClass(), location);
+        return Objects.hash(getClass(), location, systemFragment);
     }
 
     @Override
@@ -51,7 +74,7 @@ public class FakeSnitch implements Snitch {
             return false;
         }
         FakeSnitch that = (FakeSnitch) obj;
-        return Objects.equals(this.location, that.location);
+        return Objects.equals(this.location, that.location) && Objects.equals(this.systemFragment, that.systemFragment);
     }
 
     @Override
@@ -61,7 +84,7 @@ public class FakeSnitch implements Snitch {
 
     @Override
     public SystemFragment snitch() {
-        return SystemFragment.empty();
+        return systemFragment;
     }
 
 }

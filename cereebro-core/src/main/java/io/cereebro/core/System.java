@@ -1,5 +1,6 @@
 package io.cereebro.core;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Objects;
@@ -44,13 +45,25 @@ public class System {
     }
 
     /**
+     * System big picture, with all the resolved components and their
+     * relationships.
+     * 
+     * @param name
+     * @param rels
+     * @return System
+     */
+    public static System of(String name, ComponentRelationships... rels) {
+        return System.of(name, Arrays.asList(rels));
+    }
+
+    /**
      * An empty system, without any component.
      * 
      * @param name
      * @return System
      */
     public static System empty(String name) {
-        return new System(name, new HashSet<>());
+        return System.of(name);
     }
 
     @Override
