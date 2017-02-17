@@ -8,7 +8,7 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>cereebro-snitch-spring-boot-actuator</artifactId>
+    <artifactId>cereebro-spring</artifactId>
 
     <dependencies>
         <dependency>
@@ -16,12 +16,16 @@
             <artifactId>cereebro-core</artifactId>
         </dependency>
         <dependency>
-            <groupId>io.cereebro</groupId>
-            <artifactId>cereebro-spring</artifactId>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-actuator</artifactId>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
