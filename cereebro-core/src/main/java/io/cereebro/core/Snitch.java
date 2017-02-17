@@ -20,6 +20,8 @@ public interface Snitch {
      * Describe a visible fragment of the system.
      * 
      * @return a SystemFragment.
+     * @throws SnitchingException
+     *             when something goes wrong while snitching.
      */
     SystemFragment snitch();
 
