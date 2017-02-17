@@ -1,0 +1,4 @@
+cereebro:
+  server:
+    snitch:
+      resources: 'classpath:/gambit.json'
