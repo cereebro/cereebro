@@ -6,6 +6,9 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import lombok.ToString;
 
 /**
@@ -31,7 +34,10 @@ public class ComponentRelationships {
      * @param dependencies
      * @param consumers
      */
-    public ComponentRelationships(Component component, Set<Dependency> dependencies, Set<Consumer> consumers) {
+    @JsonCreator
+    public ComponentRelationships(@JsonProperty("component") Component component,
+            @JsonProperty("dependencies") Set<Dependency> dependencies,
+            @JsonProperty("consumers") Set<Consumer> consumers) {
         this.component = Objects.requireNonNull(component, "Component required");
         this.dependencies = new HashSet<>(dependencies);
         this.consumers = new HashSet<>(consumers);

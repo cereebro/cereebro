@@ -2,6 +2,9 @@ package io.cereebro.core;
 
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import lombok.ToString;
 
 /**
@@ -16,7 +19,8 @@ import lombok.ToString;
 @ToString(callSuper = true)
 public class Dependency extends Relationship {
 
-    public Dependency(Component component) {
+    @JsonCreator
+    public Dependency(@JsonProperty("component") Component component) {
         super(component);
     }
 

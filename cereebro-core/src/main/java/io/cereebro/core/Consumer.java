@@ -2,6 +2,9 @@ package io.cereebro.core;
 
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import lombok.ToString;
 
 /**
@@ -21,7 +24,8 @@ public class Consumer extends Relationship {
      * 
      * @param component
      */
-    public Consumer(Component component) {
+    @JsonCreator
+    public Consumer(@JsonProperty("component") Component component) {
         super(component);
     }
 

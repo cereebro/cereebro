@@ -2,6 +2,9 @@ package io.cereebro.core;
 
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import lombok.ToString;
 
 /**
@@ -22,7 +25,8 @@ public class Component {
      * @param name
      * @param type
      */
-    public Component(String name, String type) {
+    @JsonCreator
+    public Component(@JsonProperty("name") String name, @JsonProperty("type") String type) {
         this.name = Objects.requireNonNull(name, "Component name required");
         this.type = Objects.requireNonNull(type, "Component type required");
     }
