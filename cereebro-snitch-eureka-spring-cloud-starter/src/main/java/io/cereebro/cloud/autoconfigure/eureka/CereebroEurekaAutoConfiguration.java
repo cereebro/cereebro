@@ -12,8 +12,8 @@ import io.cereebro.core.Snitch;
 public class CereebroEurekaAutoConfiguration {
 
     @Bean
-    public EurekaMetaDataPopulator eurekaPopulator(Snitch registry, CloudEurekaInstanceConfig config) {
-	return new EurekaMetaDataPopulator(registry, config);
+    public EurekaMetadataPopulator eurekaPopulator(Snitch registry, CloudEurekaInstanceConfig config) {
+        return new EurekaMetadataPopulator(registry, config);
     }
 
 }
