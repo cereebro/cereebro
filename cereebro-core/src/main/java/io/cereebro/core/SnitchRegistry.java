@@ -1,6 +1,6 @@
 package io.cereebro.core;
 
-import java.util.Set;
+import java.util.List;
 
 /**
  * Registry of available {@link Snitch}es.
@@ -14,6 +14,6 @@ public interface SnitchRegistry {
      * 
      * @return a Set of Snitch objects.
      */
-    Set<Snitch> getAll();
+    List<Snitch> getAll();
 
 }
