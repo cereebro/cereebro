@@ -23,7 +23,11 @@ public class EurekaMetadataPopulator {
     }
 
     private void register(Snitch snitch, CloudEurekaInstanceConfig config) {
-        config.getMetadataMap().put(METADATA_KEY, snitch.getLocation().toString());
+        // TODO
+        // 1 - absolute path
+        // 2 - eurekahostname + relativePath
+        // 3 - eurekahostname + snitch.location
+        config.getMetadataMap().put(METADATA_KEY, config.getHostName(true) + snitch.getLocation());
     }
 
 }

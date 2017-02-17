@@ -6,6 +6,7 @@ import java.util.Objects;
 import java.util.Set;
 
 import org.springframework.boot.actuate.endpoint.Endpoint;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import io.cereebro.core.Component;
 import io.cereebro.core.ComponentRelationships;
@@ -21,6 +22,7 @@ import io.cereebro.core.SystemFragment;
  * @author lucwarrot
  * @author michaeltecourt
  */
+@ConfigurationProperties(prefix = "endpoints.cereebro")
 public class SnitchEndpoint implements Endpoint<SystemFragment>, Snitch {
 
     private final Component application;
