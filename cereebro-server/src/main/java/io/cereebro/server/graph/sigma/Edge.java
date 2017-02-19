@@ -12,6 +12,8 @@ import lombok.Data;
 @AllArgsConstructor(staticName = "create")
 public class Edge {
 
+    public static final String TYPE_ARROW = "arrow";
+
     @NotNull
     private final String id;
     @NotNull
@@ -19,16 +21,18 @@ public class Edge {
     @NotNull
     private final String target;
 
+    private final String type;
+
     public static Edge to(Component component, Dependency dependency) {
         String from = component.getName();
         String to = dependency.getComponent().getName();
-        return Edge.create(from + "-to-" + to, from, to);
+        return Edge.create(from + "-to-" + to, from, to, TYPE_ARROW);
     }
 
     public static Edge from(Component component, Consumer consumer) {
         String to = component.getName();
         String from = consumer.getComponent().getName();
-        return Edge.create(from + "-to-" + to, from, to);
+        return Edge.create(from + "-to-" + to, from, to, TYPE_ARROW);
     }
 
 }

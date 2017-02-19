@@ -16,13 +16,13 @@
 #graph-container {
 	max-width: 840px;
 	height: 480px;
-	margin: auto;
+	margin: 32px auto;
+    border: 1px solid #ddd;
 }
 </style>
 <script type="text/javascript" data-th-inline="javascript">
     /*<![CDATA[*/
     $(document).ready(function() {
-        var graph = /*[[${graph}]]*/{};
 
         // Add a method to the graph model that returns an
         // object with every neighbors of a node inside:
@@ -36,13 +36,13 @@
 
           return neighbors;
         });
-
         
+
+        var graph = /*[[${graph}]]*/{};
         s = new sigma({
             graph : graph,
             container : 'graph-container'
         });
-        
         // We first need to save the original colors of our
         // nodes and edges, like this:
         s.graph.nodes().forEach(function(n) {
