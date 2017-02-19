@@ -12,6 +12,9 @@
 
     <properties>
         <start-class>io.cereebro.server.CereebroServerApplication</start-class>
+        <sonar.exclusions>
+            **io/cereebro/server/CereebroServerApplication.java
+        </sonar.exclusions>
     </properties>
 
     <dependencies>
