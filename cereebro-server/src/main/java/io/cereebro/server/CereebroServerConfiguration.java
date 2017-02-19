@@ -27,12 +27,9 @@ public class CereebroServerConfiguration {
     @Autowired
     private CereebroServerProperties server;
 
-    @Autowired
-    private ObjectMapper objectMapper;
-
     @Bean
     @ConditionalOnMissingBean
-    public SnitchRegistry staticSnitchRegistry() {
+    public SnitchRegistry snitchRegistry(ObjectMapper objectMapper) {
         // @formatter:off
         List<Snitch> snitches = server.getSystem().getSnitch().getResources()
                 .stream().map(resource -> new ResourceSnitch(objectMapper, resource))
