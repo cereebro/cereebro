@@ -19,6 +19,7 @@
         <spring-cloud.version>Camden.SR4</spring-cloud.version>
         <equalsverifier.version>2.2.1</equalsverifier.version>
         <bootstrap-webjar.version>3.3.7-1</bootstrap-webjar.version>
+        <jquery.version>3.1.1-1</jquery.version>
         <rest-assured.version>3.0.2</rest-assured.version>
         <!-- PLugin versions -->
         <maven-compiler-plugin.version>3.6.1</maven-compiler-plugin.version>
@@ -114,6 +115,11 @@
                 <groupId>org.webjars</groupId>
                 <artifactId>bootstrap</artifactId>
                 <version>${bootstrap-webjar.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.webjars</groupId>
+                <artifactId>jquery</artifactId>
+                <version>${jquery.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.rest-assured</groupId>

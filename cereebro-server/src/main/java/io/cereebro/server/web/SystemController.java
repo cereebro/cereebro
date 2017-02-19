@@ -9,7 +9,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import io.cereebro.core.System;
-import io.cereebro.server.SystemService;
+import io.cereebro.core.SystemService;
+import io.cereebro.server.graph.sigma.Graph;
 
 @Controller
 public class SystemController {
@@ -18,13 +19,17 @@ public class SystemController {
 
     @Autowired
     public SystemController(SystemService systemService) {
-        this.systemService = Objects.requireNonNull(systemService);
+        this.systemService = Objects.requireNonNull(systemService, "SystemService required");
     }
 
     @RequestMapping(path = "/", method = RequestMethod.GET)
-    public ModelAndView system() {
-        System system = systemService.getSystem();
-        ModelAndView mav = new ModelAndView("system", "system", system);
+    public ModelAndView home() {
+        System system = systemService.get();
+        ModelAndView mav = new ModelAndView("system");
+        mav.getModelMap().put("system", system);
+        Graph graph = Graph.of(system);
+        // Will be serialized as a JSON object by thymeleaf
+        mav.getModelMap().put("graph", graph);
         return mav;
     }
 

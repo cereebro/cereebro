@@ -1,14 +1,9 @@
 spring:
   application:
     name: cereebro-server
+  thymeleaf:
+    cache: false
   jackson:
     serialization:
       indent_output: true
       write-dates-as-timestamps: false
-
-cereebro:
-  server:
-    system:
-      name: cereebro-system
-    snitch:
-      resources: 'classpath:/snitches/gambit.json'

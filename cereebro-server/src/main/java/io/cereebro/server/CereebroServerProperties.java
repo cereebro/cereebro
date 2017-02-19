@@ -13,6 +13,6 @@ import lombok.Data;
 @Data
 public final class CereebroServerProperties {
 
-    private SnitchProperties snitch = new SnitchProperties();
+    private SystemProperties system = new SystemProperties();
 
 }

@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -134,6 +135,15 @@ public class ComponentRelationships {
      */
     public Set<Consumer> getConsumers() {
         return new HashSet<>(consumers);
+    }
+
+    /**
+     * All relationships at once.
+     * 
+     * @return Both {@link Consumer} and {@link Dependency} relationships.
+     */
+    public Set<Relationship> getRelationships() {
+        return Stream.concat(dependencies.stream(), consumers.stream()).collect(Collectors.toSet());
     }
 
     /**

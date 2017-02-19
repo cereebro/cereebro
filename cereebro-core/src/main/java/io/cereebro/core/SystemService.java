@@ -1,6 +1,4 @@
-package io.cereebro.server;
-
-import io.cereebro.core.System;
+package io.cereebro.core;
 
 /**
  * System service.
@@ -10,10 +8,10 @@ import io.cereebro.core.System;
 public interface SystemService {
 
     /**
-     * Complete view of the system.
+     * Complete view of the System.
      * 
      * @return
      */
-    System getSystem();
+    System get();
 
 }

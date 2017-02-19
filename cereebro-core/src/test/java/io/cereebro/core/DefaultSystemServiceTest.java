@@ -1,14 +1,9 @@
-package io.cereebro.server;
+package io.cereebro.core;
 
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-
-import io.cereebro.core.SnitchRegistry;
-import io.cereebro.core.System;
-import io.cereebro.core.SystemResolver;
-import io.cereebro.server.DefaultSystemService;
 
 /**
  * {@link DefaultSystemService} unit tests.
@@ -47,7 +42,7 @@ public class DefaultSystemServiceTest {
     @Test
     public void getSystem() {
         Mockito.when(systemResolver.resolve(NAME, snitchRegistry)).thenReturn(System.empty(NAME));
-        Assert.assertEquals(System.empty(NAME), service.getSystem());
+        Assert.assertEquals(System.empty(NAME), service.get());
     }
 
 }

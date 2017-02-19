@@ -1,0 +1,9 @@
+cereebro:
+  server:
+    system:
+      name: marvel
+      snitch:
+        resources: 
+          - 'classpath:/snitches/xmen.json'
+          - 'classpath:/snitches/spiderman.json'
+ 

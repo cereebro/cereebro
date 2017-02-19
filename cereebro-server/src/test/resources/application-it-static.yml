@@ -1,4 +1,5 @@
 cereebro:
   server:
-    snitch:
-      resources: 'classpath:/gambit.json'
+    system:
+      snitch:
+        resources: 'classpath:/gambit.json'
