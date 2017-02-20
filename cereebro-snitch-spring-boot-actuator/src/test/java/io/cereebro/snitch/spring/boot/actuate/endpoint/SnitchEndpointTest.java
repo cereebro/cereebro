@@ -28,30 +28,22 @@ public class SnitchEndpointTest {
     private RelationshipDetector relationshipDetectorMock;
     private Component application;
     private SnitchEndpoint endpoint;
-    private SnitchEndpointProperties snitchProperties;
 
     @Before
     public void setUp() {
         application = Component.of("gambit", "superhero");
         relationshipDetectorMock = Mockito.mock(RelationshipDetector.class);
-        snitchProperties = new SnitchEndpointProperties();
-        snitchProperties.setId("cereebro");
-        endpoint = new SnitchEndpoint(application, relationshipDetectorMock, snitchProperties);
+        endpoint = new SnitchEndpoint(application, relationshipDetectorMock);
     }
 
     @Test(expected = NullPointerException.class)
     public void constructorWithNullApplicationComponentShouldThrowNullPointerException() {
-        new SnitchEndpoint(null, relationshipDetectorMock, snitchProperties);
+        new SnitchEndpoint(null, relationshipDetectorMock);
     }
 
     @Test(expected = NullPointerException.class)
     public void constructorWithNullRelationshipDetectorShouldThrowNullPointerException() {
-        new SnitchEndpoint(application, null, snitchProperties);
-    }
-
-    @Test(expected = NullPointerException.class)
-    public void constructorWithNullSnitchEndPointPropertiesShouldThrowNullPointerException() {
-        new SnitchEndpoint(application, relationshipDetectorMock, null);
+        new SnitchEndpoint(application, null);
     }
 
     /**

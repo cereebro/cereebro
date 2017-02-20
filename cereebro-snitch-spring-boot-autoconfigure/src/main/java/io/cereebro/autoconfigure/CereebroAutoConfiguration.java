@@ -15,7 +15,6 @@ import io.cereebro.autoconfigure.datasource.DataSourceRelationshipDetector;
 import io.cereebro.core.Component;
 import io.cereebro.core.CompositeRelationshipDetector;
 import io.cereebro.core.RelationshipDetector;
-import io.cereebro.snitch.spring.boot.actuate.endpoint.SnitchEndpointProperties;
 import io.cereebro.snitch.spring.boot.actuate.endpoint.SnitchEndpoint;
 
 /**
@@ -26,25 +25,21 @@ import io.cereebro.snitch.spring.boot.actuate.endpoint.SnitchEndpoint;
  *
  */
 @Configuration
-@EnableConfigurationProperties({ CereebroProperties.class, SnitchEndpointProperties.class })
+@EnableConfigurationProperties({ CereebroProperties.class })
 @Import({ CereebroCassandraRelationshipDetectorAutoConfiguration.class })
 public class CereebroAutoConfiguration {
 
     @Autowired
     private CereebroProperties cereebroProperties;
 
-    @Autowired
-    private SnitchEndpointProperties snitchEndPointProperties;
-
     public RelationshipDetector compositeRelationshipDetector(Set<RelationshipDetector> detectors) {
         return new CompositeRelationshipDetector(detectors);
     }
 
     @Bean
-    public SnitchEndpoint endpoint(Set<RelationshipDetector> detectors) {
+    public SnitchEndpoint snitchEndpoint(Set<RelationshipDetector> detectors) {
         Component applicationComponent = cereebroProperties.getApplication().getComponent().toComponent();
-        return new SnitchEndpoint(applicationComponent, compositeRelationshipDetector(detectors),
-                snitchEndPointProperties);
+        return new SnitchEndpoint(applicationComponent, compositeRelationshipDetector(detectors));
     }
 
     @Bean

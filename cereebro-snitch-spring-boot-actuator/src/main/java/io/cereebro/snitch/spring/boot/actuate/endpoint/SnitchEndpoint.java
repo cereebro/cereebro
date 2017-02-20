@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.Objects;
 import java.util.Set;
 
-import org.springframework.boot.actuate.endpoint.Endpoint;
+import org.springframework.boot.actuate.endpoint.AbstractEndpoint;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import io.cereebro.core.Component;
@@ -23,11 +23,10 @@ import io.cereebro.core.SystemFragment;
  * @author michaeltecourt
  */
 @ConfigurationProperties(prefix = "endpoints.cereebro")
-public class SnitchEndpoint implements Endpoint<SystemFragment>, Snitch {
+public class SnitchEndpoint extends AbstractEndpoint<SystemFragment> implements Snitch {
 
     private final Component application;
     private final RelationshipDetector relationshipDetector;
-    private final SnitchEndpointProperties properties;
 
     /**
      * Snitch actuator Endpoint. Tells everything it knows about the host Spring
@@ -38,26 +37,10 @@ public class SnitchEndpoint implements Endpoint<SystemFragment>, Snitch {
      * @param relationshipDetector Detector providing all the application
      *            relationships.
      */
-    public SnitchEndpoint(Component application, RelationshipDetector relationshipDetector,
-            SnitchEndpointProperties properties) {
+    public SnitchEndpoint(Component application, RelationshipDetector relationshipDetector) {
+        super("cereebro");
         this.application = Objects.requireNonNull(application, "Application component required");
         this.relationshipDetector = Objects.requireNonNull(relationshipDetector, "Relationship detector required");
-        this.properties = Objects.requireNonNull(properties, "Endpoint properties required");
-    }
-
-    @Override
-    public String getId() {
-        return this.properties.getId();
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return this.properties.isEnabled();
-    }
-
-    @Override
-    public boolean isSensitive() {
-        return this.properties.isSensitive();
     }
 
     @Override
@@ -67,7 +50,7 @@ public class SnitchEndpoint implements Endpoint<SystemFragment>, Snitch {
 
     @Override
     public URI getLocation() {
-        return URI.create(String.format("/%s", getId()));
+        return URI.create(String.format("/%s", this.getId()));
     }
 
     @Override
