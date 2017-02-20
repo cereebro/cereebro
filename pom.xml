@@ -20,6 +20,7 @@
         <equalsverifier.version>2.2.1</equalsverifier.version>
         <bootstrap-webjar.version>3.3.7-1</bootstrap-webjar.version>
         <jquery.version>3.1.1-1</jquery.version>
+        <sigma-js.version>1.0.3</sigma-js.version>
         <rest-assured.version>3.0.2</rest-assured.version>
         <!-- PLugin versions -->
         <maven-compiler-plugin.version>3.6.1</maven-compiler-plugin.version>
@@ -110,7 +111,7 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-            <!-- MISC -->
+            <!-- JS WebJars -->
             <dependency>
                 <groupId>org.webjars</groupId>
                 <artifactId>bootstrap</artifactId>
@@ -121,6 +122,12 @@
                 <artifactId>jquery</artifactId>
                 <version>${jquery.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.webjars</groupId>
+                <artifactId>sigma.js</artifactId>
+                <version>${sigma-js.version}</version>
+            </dependency>
+            <!-- MISC -->
             <dependency>
                 <groupId>io.rest-assured</groupId>
                 <artifactId>rest-assured</artifactId>
