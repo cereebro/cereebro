@@ -19,31 +19,31 @@ import io.cereebro.core.RelationshipDetector;
 import io.cereebro.core.SystemFragment;
 
 /**
- * {@link SnitchEndpoint} unit tests.
+ * {@link CereebroEndpoint} unit tests.
  * 
  * @author michaeltecourt
  */
-public class SnitchEndpointTest {
+public class CereebroEndpointTest {
 
     private RelationshipDetector relationshipDetectorMock;
     private Component application;
-    private SnitchEndpoint endpoint;
+    private CereebroEndpoint endpoint;
 
     @Before
     public void setUp() {
         application = Component.of("gambit", "superhero");
         relationshipDetectorMock = Mockito.mock(RelationshipDetector.class);
-        endpoint = new SnitchEndpoint(application, relationshipDetectorMock);
+        endpoint = new CereebroEndpoint(application, relationshipDetectorMock);
     }
 
     @Test(expected = NullPointerException.class)
     public void constructorWithNullApplicationComponentShouldThrowNullPointerException() {
-        new SnitchEndpoint(null, relationshipDetectorMock);
+        new CereebroEndpoint(null, relationshipDetectorMock);
     }
 
     @Test(expected = NullPointerException.class)
     public void constructorWithNullRelationshipDetectorShouldThrowNullPointerException() {
-        new SnitchEndpoint(application, null);
+        new CereebroEndpoint(application, null);
     }
 
     /**

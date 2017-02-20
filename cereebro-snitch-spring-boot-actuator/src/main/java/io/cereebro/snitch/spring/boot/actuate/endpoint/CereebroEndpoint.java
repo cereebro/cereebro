@@ -23,7 +23,7 @@ import io.cereebro.core.SystemFragment;
  * @author michaeltecourt
  */
 @ConfigurationProperties(prefix = "endpoints.cereebro")
-public class SnitchEndpoint extends AbstractEndpoint<SystemFragment> implements Snitch {
+public class CereebroEndpoint extends AbstractEndpoint<SystemFragment> implements Snitch {
 
     private final Component application;
     private final RelationshipDetector relationshipDetector;
@@ -37,7 +37,7 @@ public class SnitchEndpoint extends AbstractEndpoint<SystemFragment> implements 
      * @param relationshipDetector Detector providing all the application
      *            relationships.
      */
-    public SnitchEndpoint(Component application, RelationshipDetector relationshipDetector) {
+    public CereebroEndpoint(Component application, RelationshipDetector relationshipDetector) {
         super("cereebro");
         this.application = Objects.requireNonNull(application, "Application component required");
         this.relationshipDetector = Objects.requireNonNull(relationshipDetector, "Relationship detector required");
