@@ -67,8 +67,7 @@ public class SnitchEndpoint implements Endpoint<SystemFragment>, Snitch {
 
     @Override
     public URI getLocation() {
-        return URI.create(String.format("http://%s:%s%s/%s", properties.getHost(), properties.getPort(),
-                properties.getContext(), properties.getId()));
+        return URI.create(String.format("/%s", getId()));
     }
 
     @Override
