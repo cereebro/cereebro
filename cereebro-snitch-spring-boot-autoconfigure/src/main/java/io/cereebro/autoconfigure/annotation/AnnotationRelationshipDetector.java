@@ -15,7 +15,6 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.type.MethodMetadata;
-import org.springframework.core.type.StandardMethodMetadata;
 
 import io.cereebro.core.Relationship;
 import io.cereebro.core.RelationshipDetector;
@@ -93,8 +92,8 @@ public abstract class AnnotationRelationshipDetector<T extends Annotation>
         for (String beanName : annotateBeans) {
             /* ... and get the bean definition of each declared beans */
             BeanDefinition beanDefinition = factory.getMergedBeanDefinition(beanName);
-            if (beanDefinition.getSource() instanceof StandardMethodMetadata) {
-                StandardMethodMetadata metadata = StandardMethodMetadata.class.cast(beanDefinition.getSource());
+            if (beanDefinition.getSource() instanceof MethodMetadata) {
+                MethodMetadata metadata = MethodMetadata.class.cast(beanDefinition.getSource());
                 Optional<Relationship> rel = detectMethodMetadata(metadata);
                 if (rel.isPresent()) {
                     result.add(rel.get());
@@ -104,7 +103,7 @@ public abstract class AnnotationRelationshipDetector<T extends Annotation>
         return result;
     }
 
-    protected Optional<Relationship> detectMethodMetadata(final StandardMethodMetadata metadata) {
+    protected Optional<Relationship> detectMethodMetadata(final MethodMetadata metadata) {
         /*
          * ... get the metadata of the current definition bean for the
          * annotation DependencyHint. In this case, we retrieve the annotation
