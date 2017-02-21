@@ -1,9 +1,10 @@
 ![Build status](https://travis-ci.org/cereebro/cereebro.svg?branch=master)
+
 # cereebro
 
 ## Mission statement
 
-The goal of project cereebro is to automate the documentation of applications' dependencies in a distributed system.
+The goal of Cereebro is to automate the documentation of components' dependencies in a distributed system.
 
 ## Why
 
@@ -12,7 +13,7 @@ The name is inspired by the [X-Men's Cerebro](https://en.wikipedia.org/wiki/Cere
 We named it cere**e**bro because : 
 
  * cerebro.io wasn't available
- * no legal issues
+ * no legal issues with Marvel comics
  * [that's the way americans pronounce cerebro anyway](https://www.youtube.com/watch?v=EFyYvdvUEqo)
  
 ## Continuous Integration
@@ -29,8 +30,13 @@ Java :
   * indent using spaces only
   * auto-format all the things
   * Use off/on tags to keep the formatter off sections that need specific formatting (like builders)
+  * test all the things
 
 XML :
 
   * indent using 4 spaces
   * line width : 120
+
+## License
+
+Cereebro is Open Source software released under the [Apache 2.0 license](http://www.apache.org/licenses/LICENSE-2.0.html).
