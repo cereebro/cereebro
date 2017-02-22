@@ -1,9 +1,12 @@
 package io.cereebro.autoconfigure.annotation;
 
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
+
+import com.google.common.collect.Sets;
 
 import io.cereebro.core.Component;
 import io.cereebro.core.Dependency;
@@ -27,15 +30,15 @@ public class DependencyHintAnnotationRelationshipDetector extends AnnotationRela
     }
 
     @Override
-    protected Relationship extractFromAnnotation(DependencyHint annotation) {
-        return Dependency.on(Component.of(annotation.name(), annotation.type()));
+    protected Set<Relationship> extractFromAnnotation(DependencyHint annotation) {
+        return Sets.newHashSet(Dependency.on(Component.of(annotation.name(), annotation.type())));
     }
 
     @Override
-    protected Relationship extractFromAnnotationAttributes(Map<String, Object> annotationAttributes) {
+    protected Set<Relationship> extractFromAnnotationAttributes(Map<String, Object> annotationAttributes) {
         String name = String.class.cast(annotationAttributes.get("name"));
         String type = String.class.cast(annotationAttributes.get("type"));
-        return Dependency.on(Component.of(name, type));
+        return Sets.newHashSet(Dependency.on(Component.of(name, type)));
     }
 
 }

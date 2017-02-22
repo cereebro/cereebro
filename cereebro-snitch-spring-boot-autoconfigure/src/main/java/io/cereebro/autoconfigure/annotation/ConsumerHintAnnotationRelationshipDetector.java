@@ -1,6 +1,9 @@
 package io.cereebro.autoconfigure.annotation;
 
 import java.util.Map;
+import java.util.Set;
+
+import com.google.common.collect.Sets;
 
 import io.cereebro.core.Component;
 import io.cereebro.core.Consumer;
@@ -24,15 +27,15 @@ public class ConsumerHintAnnotationRelationshipDetector extends AnnotationRelati
     }
 
     @Override
-    protected Relationship extractFromAnnotation(ConsumerHint annotation) {
-        return Consumer.by(Component.of(annotation.name(), annotation.type()));
+    protected Set<Relationship> extractFromAnnotation(ConsumerHint annotation) {
+        return Sets.newHashSet(Consumer.by(Component.of(annotation.name(), annotation.type())));
     }
 
     @Override
-    protected Relationship extractFromAnnotationAttributes(Map<String, Object> annotationAttributes) {
+    protected Set<Relationship> extractFromAnnotationAttributes(Map<String, Object> annotationAttributes) {
         String name = String.class.cast(annotationAttributes.get("name"));
         String type = String.class.cast(annotationAttributes.get("type"));
-        return Consumer.by(Component.of(name, type));
+        return Sets.newHashSet(Consumer.by(Component.of(name, type)));
     }
 
 }

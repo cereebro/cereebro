@@ -1,5 +1,6 @@
 package io.cereebro.snitch.cloud;
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
@@ -20,6 +21,7 @@ public class CereebroEurekaClientAutoConfiguration {
 
     @Bean
     @Primary
+    @ConditionalOnBean(DiscoveryClient.class)
     public SnitchRegistry eurekaSnitchRegistry(DiscoveryClient discoveryClient, ObjectMapper objectMapper) {
         return new EurekaSnitchRegistry(discoveryClient, objectMapper);
     }

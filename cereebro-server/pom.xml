@@ -27,6 +27,10 @@
             <artifactId>cereebro-spring</artifactId>
         </dependency>
         <dependency>
+            <groupId>io.cereebro</groupId>
+            <artifactId>cereebro-snitch-spring-cloud-eureka-client</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
         </dependency>

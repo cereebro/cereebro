@@ -1,8 +1,11 @@
 package io.cereebro.cloud.autoconfigure.annotation.feign;
 
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.cloud.netflix.feign.FeignClient;
+
+import com.google.common.collect.Sets;
 
 import io.cereebro.autoconfigure.annotation.AnnotationRelationshipDetector;
 import io.cereebro.core.Component;
@@ -18,13 +21,14 @@ public class FeignClientAnnotationRelationshipDetector extends AnnotationRelatio
     }
 
     @Override
-    protected Relationship extractFromAnnotation(FeignClient annotation) {
-        return Dependency.on(Component.of(annotation.name(), FEIGN_DEPENDENCY_TYPE));
+    protected Set<Relationship> extractFromAnnotation(FeignClient annotation) {
+        return Sets.newHashSet(Dependency.on(Component.of(annotation.name(), FEIGN_DEPENDENCY_TYPE)));
     }
 
     @Override
-    protected Relationship extractFromAnnotationAttributes(Map<String, Object> annotationAttributes) {
-        return Dependency.on(Component.of(String.class.cast(annotationAttributes.get("name")), FEIGN_DEPENDENCY_TYPE));
+    protected Set<Relationship> extractFromAnnotationAttributes(Map<String, Object> annotationAttributes) {
+        return Sets.newHashSet(Dependency
+                .on(Component.of(String.class.cast(annotationAttributes.get("name")), FEIGN_DEPENDENCY_TYPE)));
     }
 
 }

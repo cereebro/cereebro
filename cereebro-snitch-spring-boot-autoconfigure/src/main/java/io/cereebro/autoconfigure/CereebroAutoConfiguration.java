@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Import;
 
 import io.cereebro.autoconfigure.annotation.ConsumerHintAnnotationRelationshipDetector;
 import io.cereebro.autoconfigure.annotation.DependencyHintAnnotationRelationshipDetector;
+import io.cereebro.autoconfigure.annotation.RelationshipHintsAnnotationRelationshipDetector;
 import io.cereebro.autoconfigure.cassandra.CereebroCassandraRelationshipDetectorAutoConfiguration;
 import io.cereebro.autoconfigure.datasource.DataSourceRelationshipDetector;
 import io.cereebro.core.Component;
@@ -60,6 +61,12 @@ public class CereebroAutoConfiguration {
     @Bean
     public ConsumerHintAnnotationRelationshipDetector consumerHintAnnotationRelationshipDetector() {
         return new ConsumerHintAnnotationRelationshipDetector();
+    }
+
+    @Bean
+    public RelationshipHintsAnnotationRelationshipDetector relationshipHintsDetector() {
+        return new RelationshipHintsAnnotationRelationshipDetector(dependencyHintAnnotationRelationshipDetector(),
+                consumerHintAnnotationRelationshipDetector());
     }
 
 }

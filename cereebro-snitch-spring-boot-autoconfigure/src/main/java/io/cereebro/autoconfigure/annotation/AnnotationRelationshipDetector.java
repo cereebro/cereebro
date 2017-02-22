@@ -74,7 +74,7 @@ public abstract class AnnotationRelationshipDetector<T extends Annotation>
         String[] annotatedBeans = applicationContext.getBeanNamesForAnnotation(annotation);
         for (String beanName : annotatedBeans) {
             T anno = applicationContext.findAnnotationOnBean(beanName, annotation);
-            result.add(extractFromAnnotation(anno));
+            result.addAll(extractFromAnnotation(anno));
         }
         return result;
     }
@@ -94,16 +94,16 @@ public abstract class AnnotationRelationshipDetector<T extends Annotation>
             BeanDefinition beanDefinition = factory.getMergedBeanDefinition(beanName);
             if (beanDefinition.getSource() instanceof MethodMetadata) {
                 MethodMetadata metadata = MethodMetadata.class.cast(beanDefinition.getSource());
-                Optional<Relationship> rel = detectMethodMetadata(metadata);
+                Optional<Set<Relationship>> rel = detectMethodMetadata(metadata);
                 if (rel.isPresent()) {
-                    result.add(rel.get());
+                    result.addAll(rel.get());
                 }
             }
         }
         return result;
     }
 
-    protected Optional<Relationship> detectMethodMetadata(final MethodMetadata metadata) {
+    protected Optional<Set<Relationship>> detectMethodMetadata(final MethodMetadata metadata) {
         /*
          * ... get the metadata of the current definition bean for the
          * annotation DependencyHint. In this case, we retrieve the annotation
@@ -114,7 +114,7 @@ public abstract class AnnotationRelationshipDetector<T extends Annotation>
          * ... get the Hint directly from the class (Target = ElementType.TYPE)
          */
         T methodAnnotation = getAnnotation(metadata);
-        Relationship rel = null;
+        Set<Relationship> rel = null;
         if (hintData != null && !hintData.isEmpty()) {
             rel = extractFromAnnotationAttributes(hintData);
         } else if (methodAnnotation != null) {
@@ -130,7 +130,7 @@ public abstract class AnnotationRelationshipDetector<T extends Annotation>
      * @param annotation
      * @return Relationship
      */
-    protected abstract Relationship extractFromAnnotation(T annotation);
+    protected abstract Set<Relationship> extractFromAnnotation(T annotation);
 
     /**
      * Extract a Relationship from the annotation represented as a Map. Used
@@ -140,7 +140,7 @@ public abstract class AnnotationRelationshipDetector<T extends Annotation>
      * @param annotationAttributes
      * @return Relationship
      */
-    protected abstract Relationship extractFromAnnotationAttributes(Map<String, Object> annotationAttributes);
+    protected abstract Set<Relationship> extractFromAnnotationAttributes(Map<String, Object> annotationAttributes);
 
     /**
      * Get the annotation from the class instead of the {@link Bean} method.

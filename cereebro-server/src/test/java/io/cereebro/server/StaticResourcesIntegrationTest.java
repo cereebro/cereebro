@@ -22,7 +22,7 @@ import io.cereebro.core.SystemFragment;
 import io.restassured.RestAssured;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = CereebroServerApplication.class, webEnvironment = WebEnvironment.RANDOM_PORT)
+@SpringBootTest(classes = CereebroServerApplication.class, webEnvironment = WebEnvironment.RANDOM_PORT, properties = "eureka.client.enabled=false")
 @ActiveProfiles("it-static")
 public class StaticResourcesIntegrationTest {
 

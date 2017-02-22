@@ -9,9 +9,11 @@ import java.lang.annotation.Target;
  * Designate a given object as a component Dependency.
  * 
  * @author michaeltecourt
+ * 
+ * @see RelationshipHints
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target(value={ ElementType.TYPE, ElementType.METHOD })
+@Target(value = { ElementType.TYPE, ElementType.METHOD })
 public @interface DependencyHint {
 
     String name();
