@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.ToString;
@@ -52,9 +53,8 @@ public class ComponentRelationships {
      * Pictures a Component and how it relates to other
      * 
      * @param component
-     * @param relationships
-     *            Relationship Collection that will be split between Dependency
-     *            and Consumer.
+     * @param relationships Relationship Collection that will be split between
+     *            Dependency and Consumer.
      */
     public static ComponentRelationships of(Component c, Collection<Relationship> relationships) {
         return new ComponentRelationships(c, filterDependencies(relationships), filterConsumers(relationships));
@@ -142,6 +142,7 @@ public class ComponentRelationships {
      * 
      * @return Both {@link Consumer} and {@link Dependency} relationships.
      */
+    @JsonIgnore
     public Set<Relationship> getRelationships() {
         return Stream.concat(dependencies.stream(), consumers.stream()).collect(Collectors.toSet());
     }
