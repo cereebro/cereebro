@@ -53,9 +53,10 @@ public class Node {
      */
     public static Node of(Component component, int size) {
         // @formatter:off
+        String cmp = component.getType() + ":" + component.getName();
         return Node.builder()
-                .id(component.getName())
-                .label(component.getName() + " (" + component.getType() + ")")
+                .id(cmp)
+                .label(cmp)
                 .x(randomCoordinate())
                 .y(randomCoordinate())
                 .size(size)
@@ -72,8 +73,20 @@ public class Node {
      * @return {@code true} if the Node identifiers are the same, {@code false}
      *         otherwise.
      */
-    public boolean isSame(Node that) {
+    @Override
+    public boolean equals(Object o) {
+        if (o == this) {
+            return true;
+        } else if (o == null || !getClass().equals(o.getClass())) {
+            return false;
+        }
+        Node that = (Node) o;
         return Objects.equals(this.id, that.id) && Objects.equals(this.label, that.label);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getClass(), id, label);
     }
 
     public static int randomSize() {

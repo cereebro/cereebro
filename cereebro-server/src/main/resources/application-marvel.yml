@@ -3,7 +3,11 @@ cereebro:
     system:
       name: marvel
       snitch:
-        resources: 
-          - 'classpath:/snitches/xmen.json'
-          - 'classpath:/snitches/spiderman.json'
+        resources:
+          - http://127.0.0.1:13033/management/cereebro
+          - http://127.0.0.1:13058/lab-mios-api/management/cereebro
+          - http://127.0.0.1:13055/management/cereebro
+          - http://127.0.0.1:13029/management/cereebro 
+#          - 'classpath:/snitches/xmen.json'
+#          - 'classpath:/snitches/spiderman.json'
  

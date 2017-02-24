@@ -24,14 +24,14 @@ public class Edge {
     private final String type;
 
     public static Edge to(Component component, Dependency dependency) {
-        String from = component.getName();
-        String to = dependency.getComponent().getName();
+        String from = component.asString();
+        String to = dependency.getComponent().asString();
         return Edge.create(from + "-to-" + to, from, to, TYPE_ARROW);
     }
 
     public static Edge from(Component component, Consumer consumer) {
-        String to = component.getName();
-        String from = consumer.getComponent().getName();
+        String to = component.asString();
+        String from = consumer.getComponent().asString();
         return Edge.create(from + "-to-" + to, from, to, TYPE_ARROW);
     }
 

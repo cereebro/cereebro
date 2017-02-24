@@ -16,7 +16,13 @@ public class NodeTest {
 
     @Test
     public void verifyHashcodeEquals() {
-        EqualsVerifier.forClass(Node.class).suppress(Warning.STRICT_INHERITANCE).verify();
+        // @formatter:off
+        EqualsVerifier.forClass(Node.class)
+            .usingGetClass()
+            .withIgnoredFields("x", "y", "size")
+            .suppress(Warning.STRICT_INHERITANCE)
+            .verify();
+        // @formatter:on
     }
 
     @Test
@@ -30,8 +36,8 @@ public class NodeTest {
     @Test
     public void nodeFromComponent() {
         Node node = Node.of(Component.of("apocalypse", "villain"));
-        Assert.assertEquals("apocalypse", node.getId());
-        Assert.assertEquals("apocalypse (villain)", node.getLabel());
+        Assert.assertEquals("villain:apocalypse", node.getId());
+        Assert.assertEquals("villain:apocalypse", node.getLabel());
         Assert.assertTrue(node.getSize() > 2);
         Assert.assertTrue(node.getX() >= 0);
         Assert.assertTrue(node.getY() >= 0);

@@ -1,6 +1,7 @@
 package io.cereebro.core;
 
 import java.util.Objects;
+import java.util.StringJoiner;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -57,6 +58,10 @@ public class Component {
         }
         Component that = (Component) o;
         return Objects.equals(this.name, that.name) && Objects.equals(this.type, that.type);
+    }
+
+    public String asString() {
+        return new StringJoiner(":").add(type).add(name).toString();
     }
 
     /**

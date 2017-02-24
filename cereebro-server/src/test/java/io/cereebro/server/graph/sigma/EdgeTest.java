@@ -24,14 +24,16 @@ public class EdgeTest {
     @Test
     public void consumerToComponent() {
         Edge actual = Edge.from(Component.of("phoenix", "superhero"), Consumer.by(Component.of("cyclop", "superhero")));
-        Edge expected = Edge.create("cyclop-to-phoenix", "cyclop", "phoenix", Edge.TYPE_ARROW);
+        Edge expected = Edge.create("superhero:cyclop-to-superhero:phoenix", "superhero:cyclop", "superhero:phoenix",
+                Edge.TYPE_ARROW);
         Assert.assertEquals(expected, actual);
     }
 
     @Test
     public void componentToDependency() {
         Edge actual = Edge.to(Component.of("phoenix", "superhero"), Dependency.on(Component.of("xavier", "superhero")));
-        Edge expected = Edge.create("phoenix-to-xavier", "phoenix", "xavier", Edge.TYPE_ARROW);
+        Edge expected = Edge.create("superhero:phoenix-to-superhero:xavier", "superhero:phoenix", "superhero:xavier",
+                Edge.TYPE_ARROW);
         Assert.assertEquals(expected, actual);
     }
 
