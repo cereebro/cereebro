@@ -28,7 +28,7 @@ public class FeignClientRelationshipDetectorTest {
         Assertions.assertThat(relations).hasSize(1);
         Relationship relation = Iterables.getFirst(relations, null);
         Assertions.assertThat(relation.getComponent().getName()).isEqualTo("dummy-api");
-        Assertions.assertThat(relation.getComponent().getType()).isEqualTo("RESTAPI");
+        Assertions.assertThat(relation.getComponent().getType()).isEqualTo("WEBAPP");
     }
 
 }
