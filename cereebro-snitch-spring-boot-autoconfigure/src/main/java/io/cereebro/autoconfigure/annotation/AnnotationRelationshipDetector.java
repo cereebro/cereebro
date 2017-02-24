@@ -8,6 +8,7 @@ import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.annotation.AnnotatedBeanDefinition;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.ApplicationContext;
@@ -91,16 +92,24 @@ public abstract class AnnotationRelationshipDetector<T extends Annotation>
         ConfigurableBeanFactory factory = applicationContext.getBeanFactory();
         for (String beanName : annotateBeans) {
             /* ... and get the bean definition of each declared beans */
-            BeanDefinition beanDefinition = factory.getMergedBeanDefinition(beanName);
-            if (beanDefinition.getSource() instanceof MethodMetadata) {
-                MethodMetadata metadata = MethodMetadata.class.cast(beanDefinition.getSource());
-                Optional<Set<Relationship>> rel = detectMethodMetadata(metadata);
+            Optional<MethodMetadata> metadata = getMethodMetadata(factory.getMergedBeanDefinition(beanName));
+            if (metadata.isPresent()) {
+                Optional<Set<Relationship>> rel = detectMethodMetadata(metadata.get());
                 if (rel.isPresent()) {
                     result.addAll(rel.get());
                 }
             }
         }
         return result;
+    }
+
+    protected Optional<MethodMetadata> getMethodMetadata(BeanDefinition beanDefinition) {
+        if (beanDefinition.getSource() instanceof MethodMetadata) {
+            return Optional.of(MethodMetadata.class.cast(beanDefinition.getSource()));
+        } else if (beanDefinition instanceof AnnotatedBeanDefinition) {
+            return Optional.of(AnnotatedBeanDefinition.class.cast(beanDefinition).getFactoryMethodMetadata());
+        }
+        return Optional.empty();
     }
 
     protected Optional<Set<Relationship>> detectMethodMetadata(final MethodMetadata metadata) {
