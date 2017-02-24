@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.datastax.driver.core.Session;
 
 import io.cereebro.core.Component;
+import io.cereebro.core.ComponentType;
 import io.cereebro.core.Dependency;
 import io.cereebro.core.Relationship;
 import io.cereebro.core.RelationshipDetector;
@@ -30,7 +31,7 @@ public class CassandraRelationshipDetector implements RelationshipDetector {
         final Set<Relationship> result = new HashSet<>();
         if (sessions != null) {
             for (Session s : sessions) {
-                result.add(Dependency.on(Component.of(s.getLoggedKeyspace(), "CASSANDRA")));
+                result.add(Dependency.on(Component.of(s.getLoggedKeyspace(), ComponentType.CASSANDRA)));
             }
         }
         return result;
