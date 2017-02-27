@@ -9,6 +9,8 @@ import org.springframework.cloud.netflix.eureka.CloudEurekaInstanceConfig;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import io.cereebro.core.Snitch;
 
 @Configuration
@@ -20,14 +22,15 @@ public class CereebroEurekaAutoConfiguration {
 
     @Bean
     @ConditionalOnEnabledEndpoint("cereebro")
-    public EurekaMetadataPopulator eurekaPopulator(Snitch snitch, CloudEurekaInstanceConfig config) {
-        return new EurekaMetadataPopulator(snitch, config);
+    public EurekaMetadataPopulator eurekaPopulator(Snitch snitch, CloudEurekaInstanceConfig config,
+            ObjectMapper mapper) {
+        return new EurekaMetadataPopulator(snitch, config, mapper);
     }
 
     @PostConstruct
     public void register() {
         if (eurekaMetadata != null) {
-            eurekaMetadata.register();
+            eurekaMetadata.populate();
         }
     }
 

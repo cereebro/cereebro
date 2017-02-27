@@ -46,17 +46,11 @@ public class CereebroEndpointTest {
         new CereebroEndpoint(application, null);
     }
 
-    /**
-     * TODO Make configurable with properties.
-     */
     @Test
     public void isSensitive() {
         Assert.assertTrue(endpoint.isSensitive());
     }
 
-    /**
-     * TODO Make configurable with properties.
-     */
     @Test
     public void isEnabled() {
         Assert.assertTrue(endpoint.isEnabled());
@@ -67,9 +61,6 @@ public class CereebroEndpointTest {
         Assert.assertEquals("cereebro", endpoint.getId());
     }
 
-    /**
-     * TODO Get a real URI from Spring Boot Server/Management Properties.
-     */
     @Test
     public void location() {
         Assert.assertEquals(URI.create("/cereebro"), endpoint.getLocation());

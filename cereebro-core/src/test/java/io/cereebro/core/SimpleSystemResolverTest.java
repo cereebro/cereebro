@@ -54,7 +54,7 @@ public class SimpleSystemResolverTest {
                 .addConsumer(Consumer.by(SABRETOOTH))
                 .build();
         // @formatter:on
-        Snitch snitch1 = FakeSnitch.of(URI.create("fake://1"), SystemFragment.of(wolverineRels));
+        Snitch snitch1 = StaticSnitch.of(URI.create("fake://1"), SystemFragment.of(wolverineRels));
         System actual = resolver.resolve(SYSTEM_NAME, StaticSnitchRegistry.of(snitch1));
 
         // Resolved relationships (expected)
@@ -96,8 +96,8 @@ public class SimpleSystemResolverTest {
                 .addDependency(Dependency.on(XAVIER))
                 .build();
         // @formatter:on
-        Snitch snitch1 = FakeSnitch.of(URI.create("fake://1"), SystemFragment.of(cyclopRels));
-        Snitch snitch2 = FakeSnitch.of(URI.create("fake://2"), SystemFragment.of(phoenixRels));
+        Snitch snitch1 = StaticSnitch.of(URI.create("fake://1"), SystemFragment.of(cyclopRels));
+        Snitch snitch2 = StaticSnitch.of(URI.create("fake://2"), SystemFragment.of(phoenixRels));
         SnitchRegistry registry = StaticSnitchRegistry.of(snitch1, snitch2);
         System actual = resolver.resolve(SYSTEM_NAME, registry);
 
@@ -148,7 +148,7 @@ public class SimpleSystemResolverTest {
                 .addDependency(Dependency.on(CABLE))
                 .build();
         // @formatter:on
-        Snitch snitch1 = FakeSnitch.of(URI.create("fake://1"), SystemFragment.of(cable));
+        Snitch snitch1 = StaticSnitch.of(URI.create("fake://1"), SystemFragment.of(cable));
         System actual = resolver.resolve(SYSTEM_NAME, StaticSnitchRegistry.of(snitch1));
         System expected = System.of(SYSTEM_NAME, cableResolved);
 

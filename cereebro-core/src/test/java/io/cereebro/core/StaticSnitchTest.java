@@ -8,14 +8,14 @@ import org.junit.Test;
 
 import nl.jqno.equalsverifier.EqualsVerifier;
 
-public class FakeSnitchTest {
+public class StaticSnitchTest {
 
     private static final URI SNITCH_URI = URI.create("fake://nope");
     private Snitch snitch;
 
     @Before
     public void setUp() {
-        snitch = FakeSnitch.of(SNITCH_URI);
+        snitch = StaticSnitch.of(SNITCH_URI);
     }
 
     @Test
@@ -31,7 +31,7 @@ public class FakeSnitchTest {
 
     @Test
     public void verifyHashcodeEquals() {
-        EqualsVerifier.forClass(FakeSnitch.class).usingGetClass().verify();
+        EqualsVerifier.forClass(StaticSnitch.class).usingGetClass().verify();
     }
 
     @Test

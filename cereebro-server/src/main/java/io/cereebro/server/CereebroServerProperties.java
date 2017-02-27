@@ -5,7 +5,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import lombok.Data;
 
 /**
- * TODO see how this can be merged within CereebroProperties.
+ * Cereebro Server properties.
  * 
  * @author michaeltecourt
  */

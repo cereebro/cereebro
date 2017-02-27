@@ -6,15 +6,12 @@ import java.util.Objects;
 import lombok.ToString;
 
 /**
- * Fake Snitch with only a location.
- * <p>
- * Useful for mostly tests.
- * </p>
+ * Snitch that returns canned data.
  * 
  * @author michaeltecourt
  */
 @ToString
-public class FakeSnitch implements Snitch {
+public class StaticSnitch implements Snitch {
 
     private final URI location;
     private final SystemFragment systemFragment;
@@ -24,7 +21,7 @@ public class FakeSnitch implements Snitch {
      * 
      * @param location
      */
-    public FakeSnitch(URI location) {
+    public StaticSnitch(URI location) {
         this(location, SystemFragment.empty());
     }
 
@@ -34,7 +31,7 @@ public class FakeSnitch implements Snitch {
      * @param location
      * @param systemFragment
      */
-    public FakeSnitch(URI location, SystemFragment systemFragment) {
+    public StaticSnitch(URI location, SystemFragment systemFragment) {
         this.location = Objects.requireNonNull(location, "Snitch location required");
         this.systemFragment = Objects.requireNonNull(systemFragment, "System fragment required");
     }
@@ -46,7 +43,7 @@ public class FakeSnitch implements Snitch {
      * @return a FakeSnitch instance.
      */
     public static Snitch of(URI location) {
-        return new FakeSnitch(location);
+        return new StaticSnitch(location);
     }
 
     /**
@@ -57,7 +54,7 @@ public class FakeSnitch implements Snitch {
      * @return a FakeSnitch instance.
      */
     public static Snitch of(URI location, SystemFragment systemFragment) {
-        return new FakeSnitch(location, systemFragment);
+        return new StaticSnitch(location, systemFragment);
     }
 
     @Override
@@ -73,7 +70,7 @@ public class FakeSnitch implements Snitch {
         if (obj == null || !getClass().equals(obj.getClass())) {
             return false;
         }
-        FakeSnitch that = (FakeSnitch) obj;
+        StaticSnitch that = (StaticSnitch) obj;
         return Objects.equals(this.location, that.location) && Objects.equals(this.systemFragment, that.systemFragment);
     }
 

@@ -1,3 +1,7 @@
+eureka:
+  client:
+    enabled: false
+
 cereebro:
   server:
     system:

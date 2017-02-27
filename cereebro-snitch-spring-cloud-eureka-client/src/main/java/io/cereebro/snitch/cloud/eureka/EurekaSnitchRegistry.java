@@ -1,24 +1,25 @@
 package io.cereebro.snitch.cloud.eureka;
 
-import java.net.MalformedURLException;
-import java.util.ArrayList;
+import java.io.IOException;
+import java.net.URI;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.cloud.netflix.eureka.EurekaDiscoveryClient.EurekaServiceInstance;
 import org.springframework.core.io.UrlResource;
+import org.springframework.util.StringUtils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.base.Strings;
-import com.google.common.collect.Iterables;
 
 import io.cereebro.core.Snitch;
 import io.cereebro.core.SnitchRegistry;
+import io.cereebro.core.StaticSnitch;
+import io.cereebro.core.SystemFragment;
 import io.cereebro.spring.ResourceSnitch;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * The implementation of a {@link SnitchRegistry} based on Eureka. For each
@@ -26,13 +27,13 @@ import io.cereebro.spring.ResourceSnitch;
  * endpoint.
  * 
  * @author lucwarrot
- *
+ * @author michaeltecourt
  */
+@Slf4j
 public class EurekaSnitchRegistry implements SnitchRegistry {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(EurekaSnitchRegistry.class);
-
-    public static final String CEREEBRO_ENDPOINT_KEY = "io.cereebro.endpoint";
+    public static final String METADATA_KEY_URL = "io.cereebro.snitch.url";
+    public static final String METADATA_KEY_FRAGMENT = "io.cereebro.snitch.fragment";
 
     private final DiscoveryClient discoveryClient;
     private final ObjectMapper objectMapper;
@@ -44,30 +45,21 @@ public class EurekaSnitchRegistry implements SnitchRegistry {
 
     @Override
     public List<Snitch> getAll() {
-        List<Snitch> result = new ArrayList<>();
-        for (String serviceId : discoveryClient.getServices()) {
-            ServiceInstance instance = retrieveInstance(serviceId);
-            if (instance instanceof EurekaServiceInstance) {
-                Snitch eurekaSnitch = toSnitch(EurekaServiceInstance.class.cast(instance));
-                if (eurekaSnitch != null) {
-                    result.add(eurekaSnitch);
-                    LOGGER.info("The service {} found in Eureka implements cereebro endpoint at {}", serviceId,
-                            eurekaSnitch.getLocation());
-                }
-            }
-        }
-        return result;
-    }
-
-    /**
-     * Retrieve a {@link ServiceInstance} for the given service id.
-     * 
-     * @param serviceId
-     * @return
-     */
-    protected ServiceInstance retrieveInstance(String serviceId) {
-        List<ServiceInstance> services = discoveryClient.getInstances(serviceId);
-        return Iterables.getFirst(services, null);
+        // @formatter:off
+        // Read service IDs
+        return discoveryClient.getServices().stream()
+            // Find all instances for each service
+            .map(discoveryClient::getInstances)
+            .flatMap(List::stream)
+            // Convert Eureka instances to Snitch (normally all of them at this point)
+            .filter(EurekaServiceInstance.class::isInstance)
+            .map(EurekaServiceInstance.class::cast)
+            .map(this::toSnitch)
+            // Exclude absent values
+            .filter(Optional::isPresent)
+            .map(Optional::get)
+            .collect(Collectors.toList());
+        // @formatter:on
     }
 
     /**
@@ -75,23 +67,30 @@ public class EurekaSnitchRegistry implements SnitchRegistry {
      * URL of the {@link Snitch} from metadata
      * 
      * @param instance
-     * @return
+     *            Eureka service instance
+     * @return Snitch
      */
-    protected Snitch toSnitch(EurekaServiceInstance instance) {
-        EurekaServiceInstance eurekaServiceInstance = EurekaServiceInstance.class.cast(instance);
-        String endpointLocation = eurekaServiceInstance.getMetadata().get(CEREEBRO_ENDPOINT_KEY);
-        if (!Strings.isNullOrEmpty(endpointLocation)) {
-            try {
-                return ResourceSnitch.of(objectMapper, new UrlResource(endpointLocation));
-            } catch (MalformedURLException e) {
-                LOGGER.warn("Could not load the resource at the url {} for the service {}", endpointLocation,
-                        instance.getServiceId());
-                if (LOGGER.isDebugEnabled()) {
-                    LOGGER.debug(e.getMessage(), e);
-                }
+    protected Optional<Snitch> toSnitch(EurekaServiceInstance instance) {
+        String endpointLocation = instance.getMetadata().get(METADATA_KEY_URL);
+        String systemFragmentString = instance.getMetadata().get(METADATA_KEY_FRAGMENT);
+        try {
+            if (StringUtils.hasText(systemFragmentString)) {
+                LOGGER.debug("Using snitched system fragment from Eureka - {}", endpointLocation);
+                SystemFragment frag = objectMapper.readValue(systemFragmentString, SystemFragment.class);
+                Snitch snitch = StaticSnitch.of(URI.create(endpointLocation), frag);
+                return Optional.of(snitch);
+            } else if (StringUtils.hasText(endpointLocation)) {
+                LOGGER.debug("Using Snitch URL from Eureka - {}", endpointLocation);
+                ResourceSnitch snitch = ResourceSnitch.of(objectMapper, new UrlResource(endpointLocation));
+                return Optional.of(snitch);
             }
+        } catch (IOException | RuntimeException e) {
+            LOGGER.warn("Could not create snitch out of service : {} - instance : {} - meta-data : {} - error : {}",
+                    instance.getServiceId(), instance.getInstanceInfo().getId(), instance.getMetadata(),
+                    e.getMessage());
+            LOGGER.debug("Exception caught while creating snitch : " + endpointLocation, e);
         }
-        return null;
+        return Optional.empty();
     }
 
 }

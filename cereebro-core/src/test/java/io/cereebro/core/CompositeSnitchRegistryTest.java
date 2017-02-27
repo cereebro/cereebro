@@ -18,8 +18,8 @@ public class CompositeSnitchRegistryTest {
 
     @Test
     public void getAll() {
-        Snitch s1 = new FakeSnitch(URI.create("fake://1"));
-        Snitch s2 = new FakeSnitch(URI.create("fake://2"));
+        Snitch s1 = new StaticSnitch(URI.create("fake://1"));
+        Snitch s2 = new StaticSnitch(URI.create("fake://2"));
         ArrayList<SnitchRegistry> registries = Lists.newArrayList(StaticSnitchRegistry.of(s1),
                 StaticSnitchRegistry.of(s2));
         SnitchRegistry composite = CompositeSnitchRegistry.of(registries);

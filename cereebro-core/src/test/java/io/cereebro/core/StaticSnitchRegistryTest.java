@@ -41,7 +41,7 @@ public class StaticSnitchRegistryTest {
     @Test
     public void testToString() {
         String uri = "fake://nope";
-        Snitch fakeSnitch = FakeSnitch.of(URI.create(uri));
+        Snitch fakeSnitch = StaticSnitch.of(URI.create(uri));
         SnitchRegistry registry = StaticSnitchRegistry.of(fakeSnitch);
         Assert.assertTrue(registry.toString().contains(uri));
     }
