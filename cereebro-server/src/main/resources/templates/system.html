@@ -140,12 +140,12 @@
           <td data-th-text="${rel.component.type}"></td>
           <td>
             <ul data-th-each="dependency : ${rel.dependencies}">
-              <li data-th-text="${dependency.component.name}" data-th-title="${dependency.component.type}"></li>
+              <li data-th-text="${dependency.component.asString()}"></li>
             </ul>
           </td>
           <td>
             <ul data-th-each="consumer : ${rel.consumers}">
-              <li data-th-text="${consumer.component.name}" data-th-title="${consumer.component.type}"></li>
+              <li data-th-text="${consumer.component.asString()}"></li>
             </ul>
           </td>
         </tr>
