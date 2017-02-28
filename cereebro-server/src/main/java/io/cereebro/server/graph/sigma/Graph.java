@@ -32,24 +32,22 @@ public class Graph {
      * @return Graph
      */
     public static Graph of(System system) {
-        Set<Node> nodes = new HashSet<>();
-        Set<Edge> edges = new HashSet<>();
-        for (ComponentRelationships rel : system.getComponentRelationships()) {
-            nodes.add(Node.of(rel.getComponent(), rel.getRelationships().size() + 3));
-            // @formatter:off
-            // Transform dependency relationships to graph edges
-            Set<Edge> dependencies = rel.getDependencies().stream()
-                .map(d -> Edge.to(rel.getComponent(), d))
-                .collect(Collectors.toSet());
-            edges.addAll(dependencies);
-            // Transform consumer relationships to graph edges
-            Set<Edge> consumers = rel.getConsumers().stream()
-                .map(c -> Edge.from(rel.getComponent(), c))
-                .collect(Collectors.toSet());
-            edges.addAll(consumers);
-            // @formatter:on
-        }
-        return Graph.create(nodes, edges);
+	Set<Node> nodes = new HashSet<>();
+	Set<Edge> edges = new HashSet<>();
+	for (ComponentRelationships rel : system.getComponentRelationships()) {
+	    nodes.add(Node.of(rel.getComponent(), rel.getRelationships().size() + 30));
+	    // @formatter:off
+	    // Transform dependency relationships to graph edges
+	    Set<Edge> dependencies = rel.getDependencies().stream().map(d -> Edge.to(rel.getComponent(), d))
+		    .collect(Collectors.toSet());
+	    edges.addAll(dependencies);
+	    // Transform consumer relationships to graph edges
+	    Set<Edge> consumers = rel.getConsumers().stream().map(c -> Edge.from(rel.getComponent(), c))
+		    .collect(Collectors.toSet());
+	    edges.addAll(consumers);
+	    // @formatter:on
+	}
+	return Graph.create(nodes, edges);
     }
 
 }

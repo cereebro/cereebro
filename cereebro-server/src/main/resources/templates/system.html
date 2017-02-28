@@ -9,9 +9,12 @@
   data-th-src="@{/webjars/jquery/3.1.1-1/jquery.min.js}"></script>
 <link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css"
   data-th-href="@{/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css}" rel="stylesheet" />
-<script data-th-src="@{/webjars/sigma.js/1.0.3/sigma.min.js}" src="/js/sigma.js/sigma.min.js"></script>
-<script data-th-src="@{/webjars/sigma.js/1.0.3/plugins/sigma.parsers.json.min.js}" src="/js/sigma.js/plugins/sigma.parsers.json.min.js"></script>
-<script data-th-src="@{/webjars/sigma.js/1.0.3/plugins/sigma.layout.forceAtlas2.min.js}" src="/js/sigma.js/plugins/sigma.layout.forceAtlas2.min.js"></script>
+  
+<script data-th-src="@{/webjars/linkurious.js/1.5.1/sigma.min.js}" src="/js/sigma.js/sigma.min.js"></script>
+<script data-th-src="@{/webjars/linkurious.js/1.5.1/plugins/sigma.parsers.json.min.js}" src="/js/sigma.js/plugins/sigma.parsers.json.min.js"></script>
+<script data-th-src="@{/webjars/linkurious.js/1.5.1/plugins/sigma.layouts.forceAtlas2.min.js}" src="/js/sigma.js/plugins/sigma.layouts.forceAtlas2.min.js"></script>
+<script data-th-src="@{/webjars/linkurious.js/1.5.1/plugins/sigma.renderers.linkurious.min.js}" src="/js/sigma.js/plugins/sigma.renderers.linkurious.min.js"></script>
+
 <style type="text/css">
 #graph-container {
 	max-width: 840px;
@@ -29,11 +32,14 @@
         sigma.classes.graph.addMethod('neighbors', function(nodeId) {
           var k,
               neighbors = {},
-              index = this.allNeighborsIndex[nodeId] || {};
+              //index = this.allNeighborsIndex[nodeId] || {};
+              index = this.allNeighborsIndex.get(nodeId).valueList();
 
-          for (k in index)
-            neighbors[k] = this.nodesIndex[k];
-
+          for (k in index){
+        	neighbors[index[k].valueList()[0].source] = index[k].valueList()[0];
+        	neighbors[index[k].valueList()[0].target] = index[k].valueList()[0];
+            //neighbors[k] = this.nodesIndex[k];
+          }
           return neighbors;
         });
         
@@ -61,7 +67,7 @@
         // edges that have both extremities colored.
         s.bind('clickNode', function(e) {
           // enlarge clicked node
-          e.data.node.size = 20;
+          e.data.node.size = 2000;
           var nodeId = e.data.node.id,
               toKeep = s.graph.neighbors(nodeId);
           toKeep[nodeId] = e.data.node;

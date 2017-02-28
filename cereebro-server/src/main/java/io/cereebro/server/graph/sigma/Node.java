@@ -23,6 +23,8 @@ public class Node {
     private final int y;
     private final int size;
 
+    private final Image image;
+
     /**
      * Create a graph Node with random coordinates and size.
      * 
@@ -31,7 +33,7 @@ public class Node {
      * @return Node
      */
     public static Node create(String id, String label) {
-        return Node.create(id, label, randomCoordinate(), randomCoordinate(), randomSize());
+	return Node.create(id, label, randomCoordinate(), randomCoordinate(), randomSize(), Image.DEFAULT);
     }
 
     /**
@@ -41,7 +43,7 @@ public class Node {
      * @return Node
      */
     public static Node of(Component component) {
-        return Node.of(component, randomSize());
+	return Node.of(component, randomSize());
     }
 
     /**
@@ -52,16 +54,11 @@ public class Node {
      * @return Node
      */
     public static Node of(Component component, int size) {
-        // @formatter:off
-        String cmp = component.getType() + ":" + component.getName();
-        return Node.builder()
-                .id(cmp)
-                .label(cmp)
-                .x(randomCoordinate())
-                .y(randomCoordinate())
-                .size(size)
-                .build();
-        // @formatter:on
+	// @formatter:off
+	String cmp = component.getType() + ":" + component.getName();
+	return Node.builder().id(cmp).label(cmp).x(randomCoordinate()).y(randomCoordinate()).size(size)
+		.image(Image.of(component)).build();
+	// @formatter:on
     }
 
     /**
@@ -75,26 +72,26 @@ public class Node {
      */
     @Override
     public boolean equals(Object o) {
-        if (o == this) {
-            return true;
-        } else if (o == null || !getClass().equals(o.getClass())) {
-            return false;
-        }
-        Node that = (Node) o;
-        return Objects.equals(this.id, that.id) && Objects.equals(this.label, that.label);
+	if (o == this) {
+	    return true;
+	} else if (o == null || !getClass().equals(o.getClass())) {
+	    return false;
+	}
+	Node that = (Node) o;
+	return Objects.equals(this.id, that.id) && Objects.equals(this.label, that.label);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getClass(), id, label);
+	return Objects.hash(getClass(), id, label);
     }
 
     public static int randomSize() {
-        return Math.max(3, new Random().nextInt(6));
+	return Math.max(30, new Random().nextInt(60));
     }
 
     public static int randomCoordinate() {
-        return new Random().nextInt(64);
+	return new Random().nextInt(64);
     }
 
 }

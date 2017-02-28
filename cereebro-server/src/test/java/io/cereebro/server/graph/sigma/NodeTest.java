@@ -19,7 +19,7 @@ public class NodeTest {
         // @formatter:off
         EqualsVerifier.forClass(Node.class)
             .usingGetClass()
-            .withIgnoredFields("x", "y", "size")
+            .withIgnoredFields("x", "y", "size", "image")
             .suppress(Warning.STRICT_INHERITANCE)
             .verify();
         // @formatter:on

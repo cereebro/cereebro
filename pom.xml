@@ -20,7 +20,7 @@
         <equalsverifier.version>2.2.1</equalsverifier.version>
         <bootstrap-webjar.version>3.3.7-1</bootstrap-webjar.version>
         <jquery.version>3.1.1-1</jquery.version>
-        <sigma-js.version>1.0.3</sigma-js.version>
+        <linkurious.version>1.5.1</linkurious.version>
         <rest-assured.version>3.0.2</rest-assured.version>
         <!-- PLugin versions -->
         <maven-compiler-plugin.version>3.6.1</maven-compiler-plugin.version>
@@ -124,8 +124,8 @@
             </dependency>
             <dependency>
                 <groupId>org.webjars</groupId>
-                <artifactId>sigma.js</artifactId>
-                <version>${sigma-js.version}</version>
+                <artifactId>linkurious.js</artifactId>
+                <version>${linkurious.version}</version>
             </dependency>
             <!-- MISC -->
             <dependency>
