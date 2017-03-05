@@ -13,7 +13,7 @@ import io.cereebro.cloud.autoconfigure.not.found.DummyApplicationWithoutFeignCli
 import io.cereebro.core.Relationship;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = DummyApplicationWithoutFeignClient.class, properties = "spring.application.name=whatever")
+@SpringBootTest(classes = DummyApplicationWithoutFeignClient.class)
 public class FeignClientRelationshipDetectorWithoutDeclaredClientTest {
 
     @Autowired
