@@ -28,7 +28,7 @@
         </dependency>
         <dependency>
             <groupId>io.cereebro</groupId>
-            <artifactId>cereebro-snitch-spring-cloud-eureka-client</artifactId>
+            <artifactId>cereebro-eureka-client-spring-cloud-starter</artifactId>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>

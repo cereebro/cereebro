@@ -48,8 +48,11 @@
         <module>cereebro-snitch-spring-boot-actuator</module>
         <module>cereebro-snitch-spring-boot-autoconfigure</module>
         <module>cereebro-snitch-spring-boot-starter</module>
-        <module>cereebro-snitch-spring-cloud-eureka-client</module>
+        <module>cereebro-spring-cloud-autoconfigure</module>
+        <module>cereebro-snitch-feign-spring-cloud-starter</module>
         <module>cereebro-snitch-eureka-spring-cloud-starter</module>
+        <module>cereebro-eureka-client-spring-cloud-starter</module>
+        <module>cereebro-snitch-netflix-spring-cloud-starter</module>
         <module>cereebro-server</module>
     </modules>
 
@@ -83,12 +86,27 @@
             </dependency>
             <dependency>
                 <groupId>io.cereebro</groupId>
-                <artifactId>cereebro-snitch-spring-cloud-eureka-client</artifactId>
+                <artifactId>cereebro-spring-cloud-autoconfigure</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.cereebro</groupId>
+                <artifactId>cereebro-snitch-netflix-spring-cloud-starter</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.cereebro</groupId>
+                <artifactId>cereebro-snitch-feign-spring-cloud-starter</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.cereebro</groupId>
                 <artifactId>cereebro-snitch-eureka-spring-cloud-starter</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.cereebro</groupId>
+                <artifactId>cereebro-eureka-client-spring-cloud-starter</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

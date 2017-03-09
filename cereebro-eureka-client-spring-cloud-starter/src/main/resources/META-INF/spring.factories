@@ -1,0 +1,1 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=io.cereebro.spring.cloud.autoconfigure.discovery.CereebroDiscoveryClientAutoConfiguration
