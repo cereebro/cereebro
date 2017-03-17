@@ -159,7 +159,7 @@ public abstract class AnnotationRelationshipDetector<T extends Annotation>
         try {
             return Optional.ofNullable(Class.forName(metadata.getReturnTypeName()).getDeclaredAnnotation(annotation));
         } catch (ClassNotFoundException e) {
-            LOGGER.error("Could not load class : " + metadata.getReturnTypeName(), e.getMessage());
+            LOGGER.error("Could not load class : " + metadata.getReturnTypeName(), e);
         }
         return Optional.empty();
     }

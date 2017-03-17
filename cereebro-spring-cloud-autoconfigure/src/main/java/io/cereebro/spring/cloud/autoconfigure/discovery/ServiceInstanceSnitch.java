@@ -87,7 +87,8 @@ public class ServiceInstanceSnitch implements Snitch {
 
     @Override
     public URI getUri() {
-        return extractSnitchURI(serviceInstance).get();
+        return extractSnitchURI(serviceInstance).orElseThrow(() -> new IllegalStateException(
+                "Could not extract Snitch URI from service instance metadata : " + serviceInstance));
     }
 
     @Override

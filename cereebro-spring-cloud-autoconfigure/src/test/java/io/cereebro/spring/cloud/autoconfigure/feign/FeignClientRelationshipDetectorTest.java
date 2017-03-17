@@ -1,5 +1,6 @@
 package io.cereebro.spring.cloud.autoconfigure.feign;
 
+import java.util.HashMap;
 import java.util.Set;
 
 import org.assertj.core.api.Assertions;
@@ -33,6 +34,11 @@ public class FeignClientRelationshipDetectorTest {
         Relationship relation = Iterables.getFirst(relations, null);
         Assertions.assertThat(relation.getComponent().getName()).isEqualTo("dummy-api");
         Assertions.assertThat(relation.getComponent().getType()).isEqualTo(ComponentType.HTTP_APPLICATION);
+    }
+
+    @Test(expected = UnsupportedOperationException.class)
+    public void testMethodDetectorShouldThrowUnsupportedOperationException() {
+        detector.extractFromAnnotationAttributes(new HashMap<>());
     }
 
     @SpringBootApplication

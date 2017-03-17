@@ -22,8 +22,6 @@ public class Node {
     private final int y;
     private final int size;
 
-    // private final Image image;
-
     /**
      * Create a graph Node with random coordinates and size.
      * 
@@ -32,8 +30,6 @@ public class Node {
      * @return Node
      */
     public static Node create(String id, String label) {
-        // return Node.create(id, label, randomCoordinate(), randomCoordinate(),
-        // randomSize(), Image.DEFAULT);
         return Node.create(id, label, randomCoordinate(), randomCoordinate(), randomSize());
     }
 

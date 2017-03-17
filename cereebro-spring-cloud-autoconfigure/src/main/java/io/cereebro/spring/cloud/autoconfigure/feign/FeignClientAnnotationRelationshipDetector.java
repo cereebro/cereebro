@@ -25,11 +25,13 @@ public class FeignClientAnnotationRelationshipDetector extends AnnotationRelatio
         return new HashSet<>(Arrays.asList(dependency));
     }
 
+    /**
+     * @throws UnsupportedOperationException
+     *             because {@link FeignClient} cannot be applied on methods.
+     */
     @Override
     protected Set<Relationship> extractFromAnnotationAttributes(Map<String, Object> annotationAttributes) {
-        Dependency dependency = Dependency
-                .on(Component.of(String.class.cast(annotationAttributes.get("name")), ComponentType.HTTP_APPLICATION));
-        return new HashSet<>(Arrays.asList(dependency));
+        throw new UnsupportedOperationException("@FeignClient cannot be used on methods");
     }
 
 }
