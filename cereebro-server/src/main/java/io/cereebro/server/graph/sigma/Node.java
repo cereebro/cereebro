@@ -3,27 +3,26 @@ package io.cereebro.server.graph.sigma;
 import java.util.Objects;
 import java.util.Random;
 
-import javax.validation.constraints.NotNull;
-
 import io.cereebro.core.Component;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NonNull;
 
 @Data
 @AllArgsConstructor(staticName = "create")
 @Builder
 public class Node {
 
-    @NotNull
+    @NonNull
     private final String id;
-    @NotNull
+    @NonNull
     private final String label;
     private final int x;
     private final int y;
     private final int size;
 
-    private final Image image;
+    // private final Image image;
 
     /**
      * Create a graph Node with random coordinates and size.
@@ -33,7 +32,9 @@ public class Node {
      * @return Node
      */
     public static Node create(String id, String label) {
-	return Node.create(id, label, randomCoordinate(), randomCoordinate(), randomSize(), Image.DEFAULT);
+        // return Node.create(id, label, randomCoordinate(), randomCoordinate(),
+        // randomSize(), Image.DEFAULT);
+        return Node.create(id, label, randomCoordinate(), randomCoordinate(), randomSize());
     }
 
     /**
@@ -43,7 +44,7 @@ public class Node {
      * @return Node
      */
     public static Node of(Component component) {
-	return Node.of(component, randomSize());
+        return Node.of(component, randomSize());
     }
 
     /**
@@ -54,10 +55,15 @@ public class Node {
      * @return Node
      */
     public static Node of(Component component, int size) {
-	// @formatter:off
-	String cmp = component.getType() + ":" + component.getName();
-	return Node.builder().id(cmp).label(cmp).x(randomCoordinate()).y(randomCoordinate()).size(size)
-		.image(Image.of(component)).build();
+        // @formatter:off
+	return Node.builder()
+	        .id(component.asString())
+	        .label(component.asString())
+	        .x(randomCoordinate())
+	        .y(randomCoordinate())
+	        .size(size)
+		// .image(Image.of(component))
+		.build();
 	// @formatter:on
     }
 
@@ -72,26 +78,26 @@ public class Node {
      */
     @Override
     public boolean equals(Object o) {
-	if (o == this) {
-	    return true;
-	} else if (o == null || !getClass().equals(o.getClass())) {
-	    return false;
-	}
-	Node that = (Node) o;
-	return Objects.equals(this.id, that.id) && Objects.equals(this.label, that.label);
+        if (o == this) {
+            return true;
+        } else if (o == null || !getClass().equals(o.getClass())) {
+            return false;
+        }
+        Node that = (Node) o;
+        return Objects.equals(this.id, that.id) && Objects.equals(this.label, that.label);
     }
 
     @Override
     public int hashCode() {
-	return Objects.hash(getClass(), id, label);
+        return Objects.hash(getClass(), id, label);
     }
 
     public static int randomSize() {
-	return Math.max(30, new Random().nextInt(60));
+        return Math.max(30, new Random().nextInt(60));
     }
 
     public static int randomCoordinate() {
-	return new Random().nextInt(64);
+        return new Random().nextInt(64);
     }
 
 }

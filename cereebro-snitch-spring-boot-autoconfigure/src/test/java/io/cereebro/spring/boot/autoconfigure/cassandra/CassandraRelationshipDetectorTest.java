@@ -13,6 +13,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import com.datastax.driver.core.Session;
 
 import io.cereebro.core.Component;
+import io.cereebro.core.ComponentType;
 import io.cereebro.core.Dependency;
 import io.cereebro.spring.boot.autoconfigure.cassandra.CassandraRelationshipDetectorTest.CassandraTestApplication;
 
@@ -25,7 +26,8 @@ public class CassandraRelationshipDetectorTest {
 
     @Test
     public void cassandraRelationshipWithSessionAvailable() {
-        Assertions.assertThat(detector.detect()).contains(Dependency.on(Component.of("keyspace", "CASSANDRA")));
+        Assertions.assertThat(detector.detect())
+                .contains(Dependency.on(Component.of("keyspace", ComponentType.CASSANDRA)));
     }
 
     @SpringBootApplication

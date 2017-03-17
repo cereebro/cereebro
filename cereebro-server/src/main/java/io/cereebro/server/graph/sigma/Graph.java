@@ -4,12 +4,11 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import javax.validation.constraints.NotNull;
-
 import io.cereebro.core.ComponentRelationships;
 import io.cereebro.core.System;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NonNull;
 
 /**
  * Sigma.js graph object.
@@ -20,9 +19,9 @@ import lombok.Data;
 @AllArgsConstructor(staticName = "create")
 public class Graph {
 
-    @NotNull
+    @NonNull
     private final Set<Node> nodes;
-    @NotNull
+    @NonNull
     private final Set<Edge> edges;
 
     /**
@@ -32,11 +31,11 @@ public class Graph {
      * @return Graph
      */
     public static Graph of(System system) {
-	Set<Node> nodes = new HashSet<>();
-	Set<Edge> edges = new HashSet<>();
-	for (ComponentRelationships rel : system.getComponentRelationships()) {
-	    nodes.add(Node.of(rel.getComponent(), rel.getRelationships().size() + 30));
-	    // @formatter:off
+        Set<Node> nodes = new HashSet<>();
+        Set<Edge> edges = new HashSet<>();
+        for (ComponentRelationships rel : system.getComponentRelationships()) {
+            nodes.add(Node.of(rel.getComponent(), rel.getRelationships().size() + 30));
+            // @formatter:off
 	    // Transform dependency relationships to graph edges
 	    Set<Edge> dependencies = rel.getDependencies().stream().map(d -> Edge.to(rel.getComponent(), d))
 		    .collect(Collectors.toSet());
@@ -46,8 +45,8 @@ public class Graph {
 		    .collect(Collectors.toSet());
 	    edges.addAll(consumers);
 	    // @formatter:on
-	}
-	return Graph.create(nodes, edges);
+        }
+        return Graph.create(nodes, edges);
     }
 
 }

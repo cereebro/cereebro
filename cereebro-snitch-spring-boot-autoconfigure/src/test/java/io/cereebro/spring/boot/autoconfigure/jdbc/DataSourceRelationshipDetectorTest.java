@@ -16,6 +16,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import io.cereebro.core.Component;
+import io.cereebro.core.ComponentType;
 import io.cereebro.core.Dependency;
 import io.cereebro.spring.boot.autoconfigure.jdbc.DataSourceRelationshipDetectorTest.DataSourceTestApplication;
 
@@ -29,7 +30,8 @@ public class DataSourceRelationshipDetectorTest {
     @Test
     public void dataSourceRelationshipWithDataSourceAvailable() throws SQLException {
 
-        Assertions.assertThat(detector.detect()).contains(Dependency.on(Component.of("catalog", "DATABASE")));
+        Assertions.assertThat(detector.detect())
+                .contains(Dependency.on(Component.of("catalog", ComponentType.RELATIONAL_DATABASE)));
     }
 
     @SpringBootApplication

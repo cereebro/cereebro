@@ -22,8 +22,8 @@ import io.cereebro.core.SystemFragment;
  * @author lucwarrot
  * @author michaeltecourt
  */
-@ConfigurationProperties(prefix = "endpoints.cereebro")
-public class CereebroEndpoint extends AbstractEndpoint<SystemFragment> implements Snitch {
+@ConfigurationProperties(prefix = "cereebro.endpoint.snitch")
+public class CereebroSnitchEndpoint extends AbstractEndpoint<SystemFragment> implements Snitch {
 
     private final Component application;
     private final RelationshipDetector relationshipDetector;
@@ -32,13 +32,13 @@ public class CereebroEndpoint extends AbstractEndpoint<SystemFragment> implement
      * Snitch actuator Endpoint. Tells everything it knows about the host Spring
      * Boot application and its dependencies.
      * 
-     * @param application Component representing the host Spring Boot
-     *            application.
-     * @param relationshipDetector Detector providing all the application
-     *            relationships.
+     * @param application
+     *            Component representing the host Spring Boot application.
+     * @param relationshipDetector
+     *            Detector providing all the application relationships.
      */
-    public CereebroEndpoint(Component application, RelationshipDetector relationshipDetector) {
-        super("cereebro");
+    public CereebroSnitchEndpoint(Component application, RelationshipDetector relationshipDetector) {
+        super("cereebro/snitch");
         this.application = Objects.requireNonNull(application, "Application component required");
         this.relationshipDetector = Objects.requireNonNull(relationshipDetector, "Relationship detector required");
     }
@@ -50,7 +50,7 @@ public class CereebroEndpoint extends AbstractEndpoint<SystemFragment> implement
 
     @Override
     public URI getLocation() {
-        return URI.create(String.format("/%s", this.getId()));
+        return URI.create("/" + this.getId());
     }
 
     @Override

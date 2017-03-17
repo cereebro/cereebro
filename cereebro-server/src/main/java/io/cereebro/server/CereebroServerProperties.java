@@ -13,6 +13,8 @@ import lombok.Data;
 @Data
 public final class CereebroServerProperties {
 
+    private String systemResourcePath = "/cereebro/system";
+
     private SystemProperties system = new SystemProperties();
 
 }

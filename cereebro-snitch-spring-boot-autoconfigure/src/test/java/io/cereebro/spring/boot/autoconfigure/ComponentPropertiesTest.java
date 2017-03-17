@@ -25,7 +25,7 @@ public class ComponentPropertiesTest {
     public void defaultValues() {
         ComponentProperties c = new ComponentProperties();
         Assert.assertNotNull(c.getName());
-        Assert.assertEquals(ComponentType.WEB_APPLICATION, c.getType());
+        Assert.assertEquals(ComponentType.HTTP_APPLICATION, c.getType());
     }
 
     @Test

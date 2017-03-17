@@ -6,7 +6,7 @@ import lombok.Data;
 @Data
 public final class SystemProperties {
 
-    public static final String DEFAULT_NAME = "cereebro-system";
+    public static final String DEFAULT_NAME = "cereebro";
 
     /**
      * System name.
@@ -14,7 +14,7 @@ public final class SystemProperties {
     private String name = DEFAULT_NAME;
 
     /**
-     * {@link Snitch}es availables.
+     * Available {@link Snitch} resources.
      */
     private SnitchProperties snitch = new SnitchProperties();
 

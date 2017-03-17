@@ -27,8 +27,8 @@ public class DefaultSystemService implements SystemService {
      */
     public DefaultSystemService(String name, SystemResolver systemResolver, SnitchRegistry snitchRegistry) {
         this.name = Objects.requireNonNull(name);
-        this.systemResolver = Objects.requireNonNull(systemResolver);
-        this.snitchRegistry = Objects.requireNonNull(snitchRegistry);
+        this.systemResolver = Objects.requireNonNull(systemResolver, "System resolver required");
+        this.snitchRegistry = Objects.requireNonNull(snitchRegistry, "Snitch registry required");
     }
 
     @Override

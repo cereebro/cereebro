@@ -1,4 +1,4 @@
-package io.cereebro.server.web;
+package io.cereebro.server;
 
 import java.util.HashSet;
 
@@ -16,7 +16,7 @@ import io.cereebro.core.SystemService;
 import io.cereebro.server.graph.sigma.Graph;
 
 /**
- * {@link SystemController} unit tests.
+ * {@link CereebroSystemController} unit tests.
  * 
  * @author michaeltecourt
  */
@@ -28,13 +28,13 @@ public class SystemControllerTest {
     @Mock
     private SystemService systemServiceMock;
     @InjectMocks
-    private SystemController controller;
+    private CereebroSystemController controller;
 
     @Test
     public void emptySystem() {
         Mockito.when(systemServiceMock.get()).thenReturn(System.empty(SYSTEM_NAME));
-        ModelAndView result = controller.home();
-        ModelAndViewAssert.assertViewName(result, "system");
+        ModelAndView result = controller.systemPage();
+        ModelAndViewAssert.assertViewName(result, "cereebro/system");
         ModelAndViewAssert.assertModelAttributeValue(result, "system", System.empty(SYSTEM_NAME));
         Graph expectedEmptyGraph = Graph.create(new HashSet<>(), new HashSet<>());
         ModelAndViewAssert.assertModelAttributeValue(result, "graph", expectedEmptyGraph);

@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * SnitchRegistry aggregating multiple registries.
+ * Snitch registry aggregating multiple registries.
  * 
  * @author michaeltecourt
  */
@@ -16,16 +16,7 @@ public class CompositeSnitchRegistry implements SnitchRegistry {
     private List<SnitchRegistry> registries;
 
     /**
-     * SnitchRegistry aggregating multiple registries.
-     * 
-     * @param registries
-     */
-    public CompositeSnitchRegistry(SnitchRegistry... registries) {
-        this(Arrays.asList(registries));
-    }
-
-    /**
-     * SnitchRegistry aggregating multiple registries.
+     * Snitch registry aggregating multiple registries.
      * 
      * @param registries
      */
@@ -34,17 +25,17 @@ public class CompositeSnitchRegistry implements SnitchRegistry {
     }
 
     /**
-     * SnitchRegistry aggregating multiple registries.
+     * Snitch registry aggregating multiple registries.
      * 
      * @param registries
      * @return CompositeSnitchRegistry
      */
     public static SnitchRegistry of(SnitchRegistry... registries) {
-        return new CompositeSnitchRegistry(registries);
+        return new CompositeSnitchRegistry(Arrays.asList(registries));
     }
 
     /**
-     * SnitchRegistry aggregating multiple registries.
+     * Snitch registry aggregating multiple registries.
      * 
      * @param registries
      * @return CompositeSnitchRegistry

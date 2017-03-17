@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Configuration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import io.cereebro.core.CompositeSnitchRegistry;
 import io.cereebro.core.DefaultSystemService;
 import io.cereebro.core.SimpleSystemResolver;
 import io.cereebro.core.Snitch;
@@ -28,8 +29,7 @@ public class CereebroServerConfiguration {
     private CereebroServerProperties server;
 
     @Bean
-    @ConditionalOnMissingBean
-    public SnitchRegistry snitchRegistry(ObjectMapper objectMapper) {
+    public SnitchRegistry staticResourceSnitchRegistry(ObjectMapper objectMapper) {
         // @formatter:off
         List<Snitch> snitches = server.getSystem().getSnitch().getResources()
                 .stream().map(resource -> new ResourceSnitch(objectMapper, resource))
@@ -46,8 +46,14 @@ public class CereebroServerConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public SystemService systemService(SystemResolver systemResolver, SnitchRegistry snitchRegistry) {
-        return new DefaultSystemService(server.getSystem().getName(), systemResolver, snitchRegistry);
+    public SystemService systemService(SystemResolver systemResolver, List<SnitchRegistry> snitchRegistries) {
+        SnitchRegistry compositeSnitchRegistry = new CompositeSnitchRegistry(snitchRegistries);
+        return new DefaultSystemService(server.getSystem().getName(), systemResolver, compositeSnitchRegistry);
+    }
+
+    @Bean
+    public CereebroSystemController cereebroSystemController(SystemService systemService) {
+        return new CereebroSystemController(systemService);
     }
 
 }

@@ -8,6 +8,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.test.context.ActiveProfiles;
@@ -19,14 +20,16 @@ import io.cereebro.core.Consumer;
 import io.cereebro.core.Dependency;
 import io.cereebro.core.SnitchRegistry;
 import io.cereebro.core.SystemFragment;
+import io.cereebro.server.StaticResourcesIntegrationTest.TestApplication;
 import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = CereebroServerApplication.class, webEnvironment = WebEnvironment.RANDOM_PORT, properties = "eureka.client.enabled=false")
+@SpringBootTest(classes = TestApplication.class, webEnvironment = WebEnvironment.RANDOM_PORT, properties = "eureka.client.enabled=false")
 @ActiveProfiles("it-static")
 public class StaticResourcesIntegrationTest {
 
-    @Value("http://localhost:${local.server.port}/")
+    @Value("http://localhost:${local.server.port}/cereebro/system")
     URI homePageURI;
 
     @Autowired
@@ -36,11 +39,31 @@ public class StaticResourcesIntegrationTest {
     public void testHtml() {
         // @formatter:off
         RestAssured
-            .get(homePageURI)
+            .given()
+                .accept(ContentType.HTML)
+            .when()
+                .get(homePageURI)
             .then()
+                .statusCode(200)
+                .contentType(ContentType.HTML)
                 .body("html.body.div.h1", Matchers.is("cereebro-system"));
                 // The expression works, but can't guess the order when using sets
                 // .body("html.body.div.table.tbody.tr[0].td[0]", Matchers.is("gambit"))
+        // @formatter:on
+    }
+
+    @Test
+    public void testJsonApi() {
+        // @formatter:off
+        RestAssured
+            .given()
+                .accept(ContentType.JSON)
+            .when()
+                .get(homePageURI)
+            .then()
+                .statusCode(200)
+                .contentType(ContentType.JSON)
+                .body("name", Matchers.is("cereebro-system"));
         // @formatter:on
     }
 
@@ -60,6 +83,11 @@ public class StaticResourcesIntegrationTest {
         SystemFragment expected = SystemFragment.of(rel);
         SystemFragment actual = registry.getAll().iterator().next().snitch();
         Assert.assertEquals(expected, actual);
+    }
+
+    @SpringBootApplication
+    static class TestApplication {
+
     }
 
 }

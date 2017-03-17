@@ -1,9 +1,0 @@
-spring:
-  application:
-    name: cereebro-server
-  thymeleaf:
-    cache: false
-  jackson:
-    serialization:
-      indent_output: true
-      write-dates-as-timestamps: false

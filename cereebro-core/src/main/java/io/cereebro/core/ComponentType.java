@@ -7,10 +7,9 @@ package io.cereebro.core;
  */
 public class ComponentType {
 
-    public static final String WEB_APPLICATION = "WEBAPP";
-    public static final String DATABASE = "DATABASE";
-    public static final String CASSANDRA = "CASSANDRA";
-    public static final String REST_API = "RESTAPI";
+    public static final String HTTP_APPLICATION = "application/http";
+    public static final String RELATIONAL_DATABASE = "database/relational";
+    public static final String CASSANDRA = "database/cassandra";
 
     private ComponentType() {
 

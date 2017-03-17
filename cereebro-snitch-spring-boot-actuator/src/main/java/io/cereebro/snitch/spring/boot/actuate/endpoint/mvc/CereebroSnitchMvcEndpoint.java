@@ -3,12 +3,12 @@ package io.cereebro.snitch.spring.boot.actuate.endpoint.mvc;
 import org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-import io.cereebro.snitch.spring.boot.actuate.endpoint.CereebroEndpoint;
+import io.cereebro.snitch.spring.boot.actuate.endpoint.CereebroSnitchEndpoint;
 
 @ConfigurationProperties(prefix = "endpoints.cereebro")
-public class CereebroMvcEndpoint extends EndpointMvcAdapter {
+public class CereebroSnitchMvcEndpoint extends EndpointMvcAdapter {
 
-    public CereebroMvcEndpoint(CereebroEndpoint delegate) {
+    public CereebroSnitchMvcEndpoint(CereebroSnitchEndpoint delegate) {
         super(delegate);
     }
 

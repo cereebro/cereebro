@@ -21,14 +21,14 @@ public class FeignClientAnnotationRelationshipDetector extends AnnotationRelatio
 
     @Override
     protected Set<Relationship> extractFromAnnotation(FeignClient annotation) {
-        Dependency dependency = Dependency.on(Component.of(annotation.name(), ComponentType.WEB_APPLICATION));
+        Dependency dependency = Dependency.on(Component.of(annotation.name(), ComponentType.HTTP_APPLICATION));
         return new HashSet<>(Arrays.asList(dependency));
     }
 
     @Override
     protected Set<Relationship> extractFromAnnotationAttributes(Map<String, Object> annotationAttributes) {
         Dependency dependency = Dependency
-                .on(Component.of(String.class.cast(annotationAttributes.get("name")), ComponentType.WEB_APPLICATION));
+                .on(Component.of(String.class.cast(annotationAttributes.get("name")), ComponentType.HTTP_APPLICATION));
         return new HashSet<>(Arrays.asList(dependency));
     }
 

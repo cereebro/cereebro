@@ -14,8 +14,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import com.google.common.collect.Iterables;
 
+import io.cereebro.core.ComponentType;
 import io.cereebro.core.Relationship;
-import io.cereebro.spring.cloud.autoconfigure.feign.FeignClientAnnotationRelationshipDetector;
 import io.cereebro.spring.cloud.autoconfigure.feign.FeignClientRelationshipDetectorTest.FeignClientTestApplication;
 
 @RunWith(SpringRunner.class)
@@ -32,7 +32,7 @@ public class FeignClientRelationshipDetectorTest {
         Assertions.assertThat(relations).hasSize(1);
         Relationship relation = Iterables.getFirst(relations, null);
         Assertions.assertThat(relation.getComponent().getName()).isEqualTo("dummy-api");
-        Assertions.assertThat(relation.getComponent().getType()).isEqualTo("WEBAPP");
+        Assertions.assertThat(relation.getComponent().getType()).isEqualTo(ComponentType.HTTP_APPLICATION);
     }
 
     @SpringBootApplication

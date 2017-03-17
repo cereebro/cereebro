@@ -19,7 +19,7 @@ import io.cereebro.core.RelationshipDetector;
 import io.cereebro.core.SystemFragment;
 
 /**
- * {@link CereebroEndpoint} unit tests.
+ * {@link CereebroSnitchEndpoint} unit tests.
  * 
  * @author michaeltecourt
  */
@@ -27,23 +27,23 @@ public class CereebroEndpointTest {
 
     private RelationshipDetector relationshipDetectorMock;
     private Component application;
-    private CereebroEndpoint endpoint;
+    private CereebroSnitchEndpoint endpoint;
 
     @Before
     public void setUp() {
         application = Component.of("gambit", "superhero");
         relationshipDetectorMock = Mockito.mock(RelationshipDetector.class);
-        endpoint = new CereebroEndpoint(application, relationshipDetectorMock);
+        endpoint = new CereebroSnitchEndpoint(application, relationshipDetectorMock);
     }
 
     @Test(expected = NullPointerException.class)
     public void constructorWithNullApplicationComponentShouldThrowNullPointerException() {
-        new CereebroEndpoint(null, relationshipDetectorMock);
+        new CereebroSnitchEndpoint(null, relationshipDetectorMock);
     }
 
     @Test(expected = NullPointerException.class)
     public void constructorWithNullRelationshipDetectorShouldThrowNullPointerException() {
-        new CereebroEndpoint(application, null);
+        new CereebroSnitchEndpoint(application, null);
     }
 
     @Test
@@ -58,12 +58,12 @@ public class CereebroEndpointTest {
 
     @Test
     public void id() {
-        Assert.assertEquals("cereebro", endpoint.getId());
+        Assert.assertEquals("cereebro/snitch", endpoint.getId());
     }
 
     @Test
     public void location() {
-        Assert.assertEquals(URI.create("/cereebro"), endpoint.getLocation());
+        Assert.assertEquals(URI.create("/cereebro/snitch"), endpoint.getLocation());
     }
 
     @Test

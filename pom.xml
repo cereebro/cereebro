@@ -48,12 +48,14 @@
         <module>cereebro-snitch-spring-boot-actuator</module>
         <module>cereebro-snitch-spring-boot-autoconfigure</module>
         <module>cereebro-snitch-spring-boot-starter</module>
+        <module>cereebro-server</module>
+        <module>cereebro-server-spring-boot-starter</module>
         <module>cereebro-spring-cloud-autoconfigure</module>
         <module>cereebro-snitch-feign-spring-cloud-starter</module>
         <module>cereebro-snitch-eureka-spring-cloud-starter</module>
         <module>cereebro-eureka-client-spring-cloud-starter</module>
         <module>cereebro-snitch-netflix-spring-cloud-starter</module>
-        <module>cereebro-server</module>
+        <module>cereebro-server-eureka-addon-spring-cloud-starter</module>
     </modules>
 
     <dependencyManagement>
@@ -86,6 +88,16 @@
             </dependency>
             <dependency>
                 <groupId>io.cereebro</groupId>
+                <artifactId>cereebro-server</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.cereebro</groupId>
+                <artifactId>cereebro-server-spring-boot-starter</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.cereebro</groupId>
                 <artifactId>cereebro-spring-cloud-autoconfigure</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -111,7 +123,7 @@
             </dependency>
             <dependency>
                 <groupId>io.cereebro</groupId>
-                <artifactId>cereebro-server</artifactId>
+                <artifactId>cereebro-server-eureka-addon-spring-cloud-starter</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <!-- Spring dependencies -->
@@ -166,6 +178,7 @@
             <artifactId>spring-boot-configuration-processor</artifactId>
             <optional>true</optional>
         </dependency>
+        <!-- Logging -->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
@@ -262,6 +275,12 @@
                             </goals>
                         </execution>
                     </executions>
+                </plugin>
+                <!-- Spring -->
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <version>${spring-boot.version}</version>
                 </plugin>
             </plugins>
         </pluginManagement>

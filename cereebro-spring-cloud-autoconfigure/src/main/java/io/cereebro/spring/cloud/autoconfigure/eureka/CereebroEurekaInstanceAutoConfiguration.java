@@ -11,6 +11,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.cereebro.core.Snitch;
 
+/**
+ * Adds Cereebro metadata when registering an Eureka service (client
+ * application).
+ * 
+ * @author michaeltecourt
+ *
+ */
 @Configuration
 @ConditionalOnClass(value = CloudEurekaInstanceConfig.class)
 public class CereebroEurekaInstanceAutoConfiguration {

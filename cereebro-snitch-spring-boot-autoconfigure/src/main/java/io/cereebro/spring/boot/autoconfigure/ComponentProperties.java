@@ -10,7 +10,7 @@ import lombok.Data;
 public final class ComponentProperties {
 
     private String name = UUID.randomUUID().toString();
-    private String type = ComponentType.WEB_APPLICATION;
+    private String type = ComponentType.HTTP_APPLICATION;
 
     /**
      * Convert this properties class to a core {@link Component} object.

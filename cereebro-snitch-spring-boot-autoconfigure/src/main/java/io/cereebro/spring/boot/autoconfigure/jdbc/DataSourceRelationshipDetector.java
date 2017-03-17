@@ -52,7 +52,7 @@ public class DataSourceRelationshipDetector implements RelationshipDetector {
             final Set<Relationship> result = new HashSet<>();
             for (DataSource ds : dataSources) {
                 try {
-                    result.add(Dependency.on(Component.of(ds.getConnection().getCatalog(), ComponentType.DATABASE)));
+                    result.add(Dependency.on(Component.of(ds.getConnection().getCatalog(), ComponentType.RELATIONAL_DATABASE)));
                 } catch (SQLException e) {
                     if (LOGGER.isInfoEnabled()) {
                         LOGGER.info("could not fetch the default catalog of the database connection");

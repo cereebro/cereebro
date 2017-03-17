@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Import;
 import io.cereebro.core.Component;
 import io.cereebro.core.CompositeRelationshipDetector;
 import io.cereebro.core.RelationshipDetector;
-import io.cereebro.snitch.spring.boot.actuate.endpoint.CereebroEndpoint;
+import io.cereebro.snitch.spring.boot.actuate.endpoint.CereebroSnitchEndpoint;
 import io.cereebro.spring.annotation.ConsumerHintAnnotationRelationshipDetector;
 import io.cereebro.spring.annotation.DependencyHintAnnotationRelationshipDetector;
 import io.cereebro.spring.annotation.RelationshipHintsAnnotationRelationshipDetector;
@@ -20,7 +20,7 @@ import io.cereebro.spring.boot.autoconfigure.jdbc.DataSourceRelationshipDetector
 
 /**
  * Autoconfiguration class used to instantiate {@link RelationshipDetector}s and
- * the {@link CereebroEndpoint}
+ * the {@link CereebroSnitchEndpoint}
  * 
  * @author lwarrot
  *
@@ -39,9 +39,9 @@ public class CereebroAutoConfiguration {
     }
 
     @Bean
-    public CereebroEndpoint cereebroEndpoint(Set<RelationshipDetector> detectors) {
+    public CereebroSnitchEndpoint cereebroEndpoint(Set<RelationshipDetector> detectors) {
         Component applicationComponent = cereebroProperties.getApplication().getComponent().toComponent();
-        return new CereebroEndpoint(applicationComponent, compositeRelationshipDetector(detectors));
+        return new CereebroSnitchEndpoint(applicationComponent, compositeRelationshipDetector(detectors));
     }
 
     @Bean
