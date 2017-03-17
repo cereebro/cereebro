@@ -42,4 +42,9 @@ public class ComponentTest {
         Assert.assertTrue(toString.contains("superhero"));
     }
 
+    @Test
+    public void testAsString() {
+        Assert.assertEquals("type:name", Component.of("name", "type").asString());
+    }
+
 }

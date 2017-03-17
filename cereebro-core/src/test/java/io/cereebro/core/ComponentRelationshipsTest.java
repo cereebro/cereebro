@@ -2,6 +2,7 @@ package io.cereebro.core;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.junit.Assert;
@@ -177,6 +178,16 @@ public class ComponentRelationshipsTest {
         Assert.assertEquals(a.consumers(consumers), b.consumers(consumers));
         Assert.assertEquals(a.toString(), b.toString());
         Assert.assertEquals(a.hashCode(), b.hashCode());
+    }
+
+    @Test
+    public void getRelationshipsShouldReturnBothConsumersAndDependencies() {
+        ComponentRelationships c = ComponentRelationships.builder().component(component).dependencies(dependencies)
+                .consumers(consumers).build();
+        List<Relationship> relationships = Arrays.asList(Consumer.by(consumerComponent),
+                Dependency.on(dependencyComponent));
+        HashSet<Relationship> expected = new HashSet<>(relationships);
+        Assert.assertEquals(expected, c.getRelationships());
     }
 
     @Test

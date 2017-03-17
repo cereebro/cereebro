@@ -20,6 +20,9 @@ import io.cereebro.core.SnitchingException;
 import io.cereebro.core.SystemFragment;
 import io.cereebro.spring.cloud.autoconfigure.discovery.CereebroDiscoveryClientConstants;
 
+/**
+ * {@link EurekaMetadataPopulator} unit tests.
+ */
 public class EurekaMetadataPopulatorTest {
 
     private static final URI TEST_URI = URI.create("/cereebro");
@@ -54,6 +57,7 @@ public class EurekaMetadataPopulatorTest {
     public void populateEurekaMetadaFromAbsolutePath() {
         populator.setUrl(DEFAULT_URL);
         populator.populate();
+        Assertions.assertThat(populator.getUrl()).isEqualTo(DEFAULT_URL);
         Assertions.assertThat(metadata).isNotEmpty();
         Assertions.assertThat(metadata).containsEntry(CereebroDiscoveryClientConstants.METADATA_KEY_SNITCH_URI,
                 DEFAULT_URL);
@@ -61,8 +65,10 @@ public class EurekaMetadataPopulatorTest {
 
     @Test
     public void populateEurekaMetadaFromRelativePath() {
-        populator.setUrlPath("/cereebro");
+        final String urlPath = "/cereebro";
+        populator.setUrlPath(urlPath);
         populator.populate();
+        Assertions.assertThat(populator.getUrlPath()).isEqualTo(urlPath);
         Assertions.assertThat(metadata).isNotEmpty();
         Assertions.assertThat(metadata).containsEntry(CereebroDiscoveryClientConstants.METADATA_KEY_SNITCH_URI,
                 DEFAULT_URL);

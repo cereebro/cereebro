@@ -68,8 +68,15 @@ public class EurekaMetadataPopulator {
         return url;
     }
 
-    public void setUrl(String absolutePath) {
-        this.url = absolutePath;
+    /**
+     * Absolute URL of the endpoint (ex: "http://localhost:8080/cereebro"). <br>
+     * Will take precedence over the {@link #urlPath} if both are set.
+     * 
+     * @param url
+     *            absolute URL.
+     */
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     /**
@@ -81,8 +88,13 @@ public class EurekaMetadataPopulator {
         return urlPath;
     }
 
-    public void setUrlPath(String relativePath) {
-        this.urlPath = relativePath;
+    /**
+     * Relative path of the endpoint location (ex: "/cereebro").
+     * 
+     * @param urlPath
+     */
+    public void setUrlPath(String urlPath) {
+        this.urlPath = urlPath;
     }
 
     /**
