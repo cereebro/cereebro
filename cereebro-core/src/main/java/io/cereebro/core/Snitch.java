@@ -10,11 +10,11 @@ import java.net.URI;
 public interface Snitch {
 
     /**
-     * Where the snitch is located.
+     * Snitch URI.
      * 
      * @return Snitch URI.
      */
-    URI getLocation();
+    URI getUri();
 
     /**
      * Describe a visible fragment of the system.

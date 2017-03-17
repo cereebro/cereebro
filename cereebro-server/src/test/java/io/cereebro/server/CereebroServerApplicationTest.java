@@ -20,14 +20,14 @@ import io.cereebro.core.Consumer;
 import io.cereebro.core.Dependency;
 import io.cereebro.core.SnitchRegistry;
 import io.cereebro.core.SystemFragment;
-import io.cereebro.server.StaticResourcesIntegrationTest.TestApplication;
+import io.cereebro.server.CereebroServerApplicationTest.TestApplication;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = TestApplication.class, webEnvironment = WebEnvironment.RANDOM_PORT, properties = "eureka.client.enabled=false")
 @ActiveProfiles("it-static")
-public class StaticResourcesIntegrationTest {
+public class CereebroServerApplicationTest {
 
     @Value("http://localhost:${local.server.port}/cereebro/system")
     URI homePageURI;

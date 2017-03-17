@@ -71,7 +71,7 @@ public class StaticSnitchRegistry implements SnitchRegistry {
     public static List<Snitch> filterDuplicateLocations(Collection<Snitch> snitches) {
         // @formatter:off
         return snitches.stream()
-            .collect(Collectors.groupingBy(Snitch::getLocation))
+            .collect(Collectors.groupingBy(Snitch::getUri))
             .values()
             .stream()
             .flatMap(list -> Stream.of(list.get(0)))

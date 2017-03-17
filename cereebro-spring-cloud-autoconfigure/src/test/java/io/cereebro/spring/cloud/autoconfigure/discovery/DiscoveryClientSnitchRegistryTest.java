@@ -54,8 +54,8 @@ public class DiscoveryClientSnitchRegistryTest {
         Map<String, String> metadata = new HashMap<>();
         final String fakeJsonThatWorks = "{ \"valid\" : true }";
         final String url = "http://fake";
-        metadata.put(CereebroDiscoveryClientConstants.METADATA_KEY_SNITCH_SYSTEM_FRAGMENT, fakeJsonThatWorks);
-        metadata.put(CereebroDiscoveryClientConstants.METADATA_KEY_SNITCH_URL, url);
+        metadata.put(CereebroDiscoveryClientConstants.METADATA_KEY_SNITCH_SYSTEM_FRAGMENT_JSON, fakeJsonThatWorks);
+        metadata.put(CereebroDiscoveryClientConstants.METADATA_KEY_SNITCH_URI, url);
         Mockito.when(serviceInstanceMock.getMetadata()).thenReturn(metadata);
         Mockito.when(serviceInstanceMock.getInstanceInfo()).thenReturn(instanceInfoMock);
         Mockito.when(objectMapperMock.readValue(fakeJsonThatWorks, SystemFragment.class))
@@ -64,7 +64,7 @@ public class DiscoveryClientSnitchRegistryTest {
         Assertions.assertThat(result.size()).isEqualTo(1);
         Snitch snitch = result.get(0);
         Assertions.assertThat(snitch).isInstanceOf(ServiceInstanceSnitch.class);
-        Assertions.assertThat(URI.create("http://fake")).isEqualTo(snitch.getLocation());
+        Assertions.assertThat(URI.create("http://fake")).isEqualTo(snitch.getUri());
     }
 
 }

@@ -43,7 +43,7 @@ public class EurekaServerSnitchRegistryTest {
         Mockito.when(eurekaServerContextMock.getRegistry()).thenReturn(instanceRegistryMock);
         Map<String, String> metadata = new HashMap<>();
         String uri = "http://cereebro.io";
-        metadata.put(CereebroDiscoveryClientConstants.METADATA_KEY_SNITCH_URL, uri);
+        metadata.put(CereebroDiscoveryClientConstants.METADATA_KEY_SNITCH_URI, uri);
         // @formatter:off
         InstanceInfo instanceInfo = InstanceInfo.Builder.newBuilder()
                 .setInstanceId("id")
@@ -56,7 +56,7 @@ public class EurekaServerSnitchRegistryTest {
         List<Snitch> result = registry.getAll();
         Assertions.assertThat(result).hasSize(1);
         Snitch snitch = result.get(0);
-        Assertions.assertThat(snitch.getLocation()).isEqualTo(URI.create(uri));
+        Assertions.assertThat(snitch.getUri()).isEqualTo(URI.create(uri));
     }
 
 }

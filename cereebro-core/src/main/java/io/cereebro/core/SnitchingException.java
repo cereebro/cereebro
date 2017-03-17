@@ -30,7 +30,7 @@ public class SnitchingException extends RuntimeException {
      * 
      * @return URI
      */
-    public URI getSnitchLocation() {
+    public URI getSnitchUri() {
         return snitchUri;
     }
 

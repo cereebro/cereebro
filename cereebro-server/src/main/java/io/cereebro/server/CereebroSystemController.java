@@ -15,6 +15,7 @@ import io.cereebro.core.SystemService;
 import io.cereebro.server.graph.sigma.Graph;
 
 @Controller
+@RequestMapping("${cereebro.server.system.path:/cereebro/system}")
 public class CereebroSystemController {
 
     private final SystemService systemService;
@@ -24,7 +25,7 @@ public class CereebroSystemController {
         this.systemService = Objects.requireNonNull(systemService, "SystemService required");
     }
 
-    @RequestMapping(path = "${cereebro.server.path:/cereebro/system}", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
+    @RequestMapping(method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
     public ModelAndView systemPage() {
         System system = systemService.get();
         ModelAndView mav = new ModelAndView("cereebro/system");
@@ -35,7 +36,7 @@ public class CereebroSystemController {
         return mav;
     }
 
-    @RequestMapping(path = "${cereebro.server.path:/cereebro/system}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public System systemJson() {
         return systemService.get();

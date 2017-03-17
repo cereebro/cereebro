@@ -1,11 +1,13 @@
 package io.cereebro.spring.cloud.autoconfigure.eureka;
 
 import java.io.IOException;
+import java.net.URI;
 import java.util.Objects;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.cloud.netflix.eureka.CloudEurekaInstanceConfig;
 import org.springframework.util.StringUtils;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -19,7 +21,7 @@ import io.cereebro.spring.cloud.autoconfigure.discovery.CereebroDiscoveryClientC
  * @author lucwarrot
  *
  */
-@ConfigurationProperties(prefix = "cereebro.endpoint")
+@ConfigurationProperties(prefix = "cereebro.eureka.instance.snitch")
 public class EurekaMetadataPopulator {
 
     /**
@@ -45,13 +47,13 @@ public class EurekaMetadataPopulator {
 
     public void populate() {
         try {
-            this.config.getMetadataMap().put(CereebroDiscoveryClientConstants.METADATA_KEY_SNITCH_URL,
-                    getEndpointLocation(this.snitch, this.config));
+            this.config.getMetadataMap().put(CereebroDiscoveryClientConstants.METADATA_KEY_SNITCH_URI,
+                    getEndpointUri(this.snitch, this.config).toString());
             String report = objectMapper.writeValueAsString(snitch.snitch());
-            this.config.getMetadataMap().put(CereebroDiscoveryClientConstants.METADATA_KEY_SNITCH_SYSTEM_FRAGMENT,
+            this.config.getMetadataMap().put(CereebroDiscoveryClientConstants.METADATA_KEY_SNITCH_SYSTEM_FRAGMENT_JSON,
                     report);
         } catch (IOException e) {
-            throw new SnitchingException(snitch.getLocation(), "Error while serializing fragment", e);
+            throw new SnitchingException(snitch.getUri(), "Error while serializing fragment", e);
         }
 
     }
@@ -88,19 +90,21 @@ public class EurekaMetadataPopulator {
      * 
      * @param snitch
      * @param config
-     * @return
+     * @return uri string
      */
-    protected String getEndpointLocation(Snitch snitch, CloudEurekaInstanceConfig config) {
+    protected URI getEndpointUri(Snitch snitch, CloudEurekaInstanceConfig config) {
         if (!StringUtils.isEmpty(url)) {
-            return url;
+            return URI.create(url);
         }
-        if (!StringUtils.isEmpty(urlPath)) {
-            return httpHostname(config.getHostName(true), config.getNonSecurePort()) + urlPath;
-        }
-        return httpHostname(config.getHostName(true), config.getNonSecurePort()) + snitch.getLocation();
+        // @formatter:off
+        return UriComponentsBuilder.newInstance()
+                .scheme("http")
+                .host(config.getHostName(true))
+                .port(config.getNonSecurePort())
+                .path(StringUtils.isEmpty(urlPath) ? snitch.getUri().toString() : urlPath)
+                .build()
+                .toUri();
+        // @formatter:on
     }
 
-    private String httpHostname(String hostname, int port) {
-        return "http://" + hostname + ":" + port;
-    }
 }

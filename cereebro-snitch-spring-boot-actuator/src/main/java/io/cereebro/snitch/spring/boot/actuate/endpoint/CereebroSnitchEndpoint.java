@@ -49,7 +49,7 @@ public class CereebroSnitchEndpoint extends AbstractEndpoint<SystemFragment> imp
     }
 
     @Override
-    public URI getLocation() {
+    public URI getUri() {
         return URI.create("/" + this.getId());
     }
 

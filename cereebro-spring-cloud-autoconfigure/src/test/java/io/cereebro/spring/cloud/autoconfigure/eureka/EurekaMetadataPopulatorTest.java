@@ -18,7 +18,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.cereebro.core.Snitch;
 import io.cereebro.core.SnitchingException;
 import io.cereebro.core.SystemFragment;
-import io.cereebro.spring.cloud.autoconfigure.eureka.EurekaMetadataPopulator;
+import io.cereebro.spring.cloud.autoconfigure.discovery.CereebroDiscoveryClientConstants;
 
 public class EurekaMetadataPopulatorTest {
 
@@ -38,7 +38,7 @@ public class EurekaMetadataPopulatorTest {
         Mockito.when(cloudEurekaInstanceConfig.getHostName(true)).thenReturn("localhost");
         Mockito.when(cloudEurekaInstanceConfig.getNonSecurePort()).thenReturn(8080);
         snitch = Mockito.mock(Snitch.class);
-        Mockito.when(snitch.getLocation()).thenReturn(TEST_URI);
+        Mockito.when(snitch.getUri()).thenReturn(TEST_URI);
         populator = new EurekaMetadataPopulator(snitch, cloudEurekaInstanceConfig, new ObjectMapper());
     }
 
@@ -46,7 +46,8 @@ public class EurekaMetadataPopulatorTest {
     public void populateEurekaMetadaFromSnitch() {
         populator.populate();
         Assertions.assertThat(metadata).isNotEmpty();
-        Assertions.assertThat(metadata).containsEntry("io.cereebro.snitch.url", DEFAULT_URL);
+        Assertions.assertThat(metadata).containsEntry(CereebroDiscoveryClientConstants.METADATA_KEY_SNITCH_URI,
+                DEFAULT_URL);
     }
 
     @Test
@@ -54,7 +55,8 @@ public class EurekaMetadataPopulatorTest {
         populator.setUrl(DEFAULT_URL);
         populator.populate();
         Assertions.assertThat(metadata).isNotEmpty();
-        Assertions.assertThat(metadata).containsEntry("io.cereebro.snitch.url", DEFAULT_URL);
+        Assertions.assertThat(metadata).containsEntry(CereebroDiscoveryClientConstants.METADATA_KEY_SNITCH_URI,
+                DEFAULT_URL);
     }
 
     @Test
@@ -62,7 +64,8 @@ public class EurekaMetadataPopulatorTest {
         populator.setUrlPath("/cereebro");
         populator.populate();
         Assertions.assertThat(metadata).isNotEmpty();
-        Assertions.assertThat(metadata).containsEntry("io.cereebro.snitch.url", DEFAULT_URL);
+        Assertions.assertThat(metadata).containsEntry(CereebroDiscoveryClientConstants.METADATA_KEY_SNITCH_URI,
+                DEFAULT_URL);
     }
 
     @Test
@@ -77,7 +80,7 @@ public class EurekaMetadataPopulatorTest {
             pop.populate();
             Assert.fail("SnitchingException expected");
         } catch (SnitchingException e) {
-            Assertions.assertThat(e.getSnitchLocation()).isEqualTo(TEST_URI);
+            Assertions.assertThat(e.getSnitchUri()).isEqualTo(TEST_URI);
         }
     }
 

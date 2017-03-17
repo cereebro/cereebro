@@ -20,7 +20,7 @@ public class StaticSnitchTest {
 
     @Test
     public void getLocation() {
-        Assert.assertEquals(SNITCH_URI, snitch.getLocation());
+        Assert.assertEquals(SNITCH_URI, snitch.getUri());
     }
 
     @Test

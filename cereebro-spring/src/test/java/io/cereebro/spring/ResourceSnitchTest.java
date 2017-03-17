@@ -42,7 +42,7 @@ public class ResourceSnitchTest {
         Mockito.when(resourceMock.getURI()).thenThrow(new IOException("unit test"));
         ResourceSnitch snitch = ResourceSnitch.of(objectMapper, resourceMock);
         try {
-            snitch.getLocation();
+            snitch.getUri();
             Assert.fail("Expected IllegalStateException");
         } catch (IllegalStateException e) {
             // ok
@@ -92,7 +92,7 @@ public class ResourceSnitchTest {
     @Test
     public void locationShouldMatchResourceURI() {
         ResourceSnitch snitch = ResourceSnitch.of(objectMapper, new ClassPathResource(RESOURCE_PATH));
-        Assert.assertTrue(snitch.getLocation().toString().contains(RESOURCE_PATH));
+        Assert.assertTrue(snitch.getUri().toString().contains(RESOURCE_PATH));
     }
 
 }

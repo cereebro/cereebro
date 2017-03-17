@@ -23,8 +23,9 @@ import io.restassured.http.ContentType;
  * application (i.e. from IDE or maven CLI).
  * <p>
  * The problems come from Thymeleaf and FreeMarker templates contained in other
- * jars in the classpath. Spring Boot's uber jar structure must solve the issue
- * somehow.
+ * jars in the classpath (technically just adding a folder named "templates" on
+ * the classpath is sufficient to bug the eureka server). Spring Boot's uber jar
+ * structure must solve the issue somehow.
  * </p>
  * <p>
  * Replacing local server URLs with a running sample like

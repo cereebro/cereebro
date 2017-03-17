@@ -20,11 +20,11 @@ public class StaticSnitchRegistryTest {
     @Test
     public void getAll() {
         Snitch snitch1 = Mockito.mock(Snitch.class);
-        Mockito.when(snitch1.getLocation()).thenReturn(URI.create("fake://snitch1"));
+        Mockito.when(snitch1.getUri()).thenReturn(URI.create("fake://snitch1"));
         Snitch snitch2 = Mockito.mock(Snitch.class);
-        Mockito.when(snitch2.getLocation()).thenReturn(URI.create("fake://snitch2"));
+        Mockito.when(snitch2.getUri()).thenReturn(URI.create("fake://snitch2"));
         Snitch snitchDuplicate2 = Mockito.mock(Snitch.class);
-        Mockito.when(snitchDuplicate2.getLocation()).thenReturn(URI.create("fake://snitch2"));
+        Mockito.when(snitchDuplicate2.getUri()).thenReturn(URI.create("fake://snitch2"));
         SnitchRegistry registry = StaticSnitchRegistry.of(snitch1, snitch2);
         List<Snitch> actual = registry.getAll();
         List<Snitch> expected = new ArrayList<>(Arrays.asList(snitch1, snitch2));

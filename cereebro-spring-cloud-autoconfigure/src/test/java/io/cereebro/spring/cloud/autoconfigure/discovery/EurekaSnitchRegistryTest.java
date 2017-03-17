@@ -65,7 +65,7 @@ public class EurekaSnitchRegistryTest {
         Mockito.when(discoveryClient.getServices()).thenReturn(Lists.newArrayList("serviceId"));
         Mockito.when(discoveryClient.getInstances("serviceId")).thenReturn(Lists.newArrayList(serviceInstance));
         Mockito.when(serviceInstance.getMetadata()).thenReturn(Maps.newHashMap(
-                CereebroDiscoveryClientConstants.METADATA_KEY_SNITCH_URL, "http://localhost:8080/cereebro"));
+                CereebroDiscoveryClientConstants.METADATA_KEY_SNITCH_URI, "http://localhost:8080/cereebro"));
         DiscoveryClientSnitchRegistry snitchR = new DiscoveryClientSnitchRegistry(discoveryClient, objectMapper);
         List<Snitch> snitches = snitchR.getAll();
         Assertions.assertThat(snitches).isNotEmpty();
@@ -85,9 +85,9 @@ public class EurekaSnitchRegistryTest {
                 .thenReturn(Lists.newArrayList(secondServiceInstance));
 
         Mockito.when(firstServiceInstance.getMetadata()).thenReturn(Maps.newHashMap(
-                CereebroDiscoveryClientConstants.METADATA_KEY_SNITCH_URL, "http://localhost:8081/cereebro"));
+                CereebroDiscoveryClientConstants.METADATA_KEY_SNITCH_URI, "http://localhost:8081/cereebro"));
         Mockito.when(secondServiceInstance.getMetadata()).thenReturn(Maps.newHashMap(
-                CereebroDiscoveryClientConstants.METADATA_KEY_SNITCH_URL, "http://localhost:8082/cereebro"));
+                CereebroDiscoveryClientConstants.METADATA_KEY_SNITCH_URI, "http://localhost:8082/cereebro"));
 
         DiscoveryClientSnitchRegistry snitchR = new DiscoveryClientSnitchRegistry(discoveryClient, objectMapper);
         List<Snitch> snitches = snitchR.getAll();
@@ -109,7 +109,7 @@ public class EurekaSnitchRegistryTest {
         Mockito.when(discoveryClient.getServices()).thenReturn(Lists.newArrayList("serviceId"));
         Mockito.when(discoveryClient.getInstances("serviceId")).thenReturn(Lists.newArrayList(serviceInstance));
         Mockito.when(serviceInstance.getMetadata())
-                .thenReturn(Maps.newHashMap(CereebroDiscoveryClientConstants.METADATA_KEY_SNITCH_URL, ""));
+                .thenReturn(Maps.newHashMap(CereebroDiscoveryClientConstants.METADATA_KEY_SNITCH_URI, ""));
         DiscoveryClientSnitchRegistry snitchR = new DiscoveryClientSnitchRegistry(discoveryClient, objectMapper);
         List<Snitch> snitches = snitchR.getAll();
         Assertions.assertThat(snitches).isEmpty();

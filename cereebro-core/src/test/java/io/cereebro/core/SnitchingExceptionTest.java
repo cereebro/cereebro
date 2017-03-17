@@ -12,7 +12,7 @@ public class SnitchingExceptionTest {
         URI uri = URI.create("fake://nope");
         String message = "test";
         SnitchingException e = new SnitchingException(uri, message);
-        Assert.assertEquals(uri, e.getSnitchLocation());
+        Assert.assertEquals(uri, e.getSnitchUri());
         Assert.assertEquals(message, e.getMessage());
     }
 
@@ -21,7 +21,7 @@ public class SnitchingExceptionTest {
         URI uri = URI.create("fake://nope");
         Throwable cause = new RuntimeException("unit test");
         SnitchingException e = new SnitchingException(uri, cause);
-        Assert.assertEquals(uri, e.getSnitchLocation());
+        Assert.assertEquals(uri, e.getSnitchUri());
         Assert.assertEquals(cause, e.getCause());
     }
 }

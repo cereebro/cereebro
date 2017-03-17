@@ -63,7 +63,7 @@ public class CereebroEndpointTest {
 
     @Test
     public void location() {
-        Assert.assertEquals(URI.create("/cereebro/snitch"), endpoint.getLocation());
+        Assert.assertEquals(URI.create("/cereebro/snitch"), endpoint.getUri());
     }
 
     @Test

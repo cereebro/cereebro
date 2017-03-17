@@ -13,33 +13,33 @@ import lombok.ToString;
 @ToString
 public class StaticSnitch implements Snitch {
 
-    private final URI location;
+    private final URI uri;
     private final SystemFragment systemFragment;
 
     /**
      * Fake Snitch.
      * 
-     * @param location
+     * @param uri
      */
-    public StaticSnitch(URI location) {
-        this(location, SystemFragment.empty());
+    public StaticSnitch(URI uri) {
+        this(uri, SystemFragment.empty());
     }
 
     /**
-     * Fake Snitch with only a location.
+     * Fake Snitch with only a uri.
      * 
-     * @param location
+     * @param uri
      * @param systemFragment
      */
     public StaticSnitch(URI location, SystemFragment systemFragment) {
-        this.location = Objects.requireNonNull(location, "Snitch location required");
+        this.uri = Objects.requireNonNull(location, "Snitch uri required");
         this.systemFragment = Objects.requireNonNull(systemFragment, "System fragment required");
     }
 
     /**
-     * Fake Snitch with only a location.
+     * Fake Snitch with only a uri.
      * 
-     * @param location
+     * @param uri
      * @return a FakeSnitch instance.
      */
     public static Snitch of(URI location) {
@@ -49,7 +49,7 @@ public class StaticSnitch implements Snitch {
     /**
      * Fake Snitch.
      * 
-     * @param location
+     * @param uri
      * @param systemFragment
      * @return a FakeSnitch instance.
      */
@@ -59,7 +59,7 @@ public class StaticSnitch implements Snitch {
 
     @Override
     public int hashCode() {
-        return Objects.hash(getClass(), location, systemFragment);
+        return Objects.hash(getClass(), uri, systemFragment);
     }
 
     @Override
@@ -71,12 +71,12 @@ public class StaticSnitch implements Snitch {
             return false;
         }
         StaticSnitch that = (StaticSnitch) obj;
-        return Objects.equals(this.location, that.location) && Objects.equals(this.systemFragment, that.systemFragment);
+        return Objects.equals(this.uri, that.uri) && Objects.equals(this.systemFragment, that.systemFragment);
     }
 
     @Override
-    public URI getLocation() {
-        return location;
+    public URI getUri() {
+        return uri;
     }
 
     @Override

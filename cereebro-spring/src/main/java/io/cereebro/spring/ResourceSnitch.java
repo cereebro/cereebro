@@ -52,7 +52,7 @@ public class ResourceSnitch implements Snitch {
     }
 
     @Override
-    public URI getLocation() {
+    public URI getUri() {
         try {
             return resource.getURI();
         } catch (IOException e) {
@@ -65,7 +65,7 @@ public class ResourceSnitch implements Snitch {
         try {
             return objectMapper.readValue(resource.getInputStream(), SystemFragment.class);
         } catch (IOException e) {
-            throw new SnitchingException(getLocation(), "Error while reading resource content", e);
+            throw new SnitchingException(getUri(), "Error while reading resource content", e);
         }
     }
 

@@ -68,7 +68,7 @@ public class ServiceInstanceSnitch implements Snitch {
      *         metadata, {@code false} otherwise.
      */
     public static boolean hasCereebroMetadata(ServiceInstance instance) {
-        return extractSnitchUri(instance).isPresent();
+        return extractSnitchURI(instance).isPresent();
     }
 
     /**
@@ -77,8 +77,8 @@ public class ServiceInstanceSnitch implements Snitch {
      * @param instance
      * @return Optional URI.
      */
-    private static Optional<URI> extractSnitchUri(ServiceInstance instance) {
-        String uri = instance.getMetadata().get(CereebroDiscoveryClientConstants.METADATA_KEY_SNITCH_URL);
+    private static Optional<URI> extractSnitchURI(ServiceInstance instance) {
+        String uri = instance.getMetadata().get(CereebroDiscoveryClientConstants.METADATA_KEY_SNITCH_URI);
         if (StringUtils.hasText(uri)) {
             return Optional.of(URI.create(uri));
         }
@@ -86,27 +86,27 @@ public class ServiceInstanceSnitch implements Snitch {
     }
 
     @Override
-    public URI getLocation() {
-        return extractSnitchUri(serviceInstance).get();
+    public URI getUri() {
+        return extractSnitchURI(serviceInstance).get();
     }
 
     @Override
     public SystemFragment snitch() {
-        URI endpointLocation = getLocation();
+        URI uri = getUri();
         try {
-            if (StringUtils.hasText(getSystemFragmentString())) {
-                LOGGER.debug("Using snitched system fragment from discovery client - {}", getLocation());
-                SystemFragment frag = objectMapper.readValue(getSystemFragmentString(), SystemFragment.class);
-                return StaticSnitch.of(endpointLocation, frag).snitch();
+            if (StringUtils.hasText(getSystemFragmentJsonString())) {
+                LOGGER.debug("Using snitched system fragment from discovery client - uri : {}", uri);
+                SystemFragment frag = objectMapper.readValue(getSystemFragmentJsonString(), SystemFragment.class);
+                return StaticSnitch.of(uri, frag).snitch();
             } else {
-                LOGGER.debug("Using Snitch URL from discovery client - {}", endpointLocation);
-                return ResourceSnitch.of(objectMapper, new UrlResource(endpointLocation)).snitch();
+                LOGGER.debug("Using Snitch URL from discovery client - uri : {}", uri);
+                return ResourceSnitch.of(objectMapper, new UrlResource(uri)).snitch();
             }
         } catch (IOException | RuntimeException e) {
             LOGGER.warn("Could not create snitch out of service : {} - meta-data : {} - error : {}",
                     serviceInstance.getServiceId(), serviceInstance.getMetadata(), e.getMessage());
-            throw new SnitchingException(getLocation(), "Error while creating snitch for uri : " + endpointLocation
-                    + " - service instance : " + serviceInstance.getServiceId(), e);
+            throw new SnitchingException(uri, "Error while creating snitch for uri : " + uri + " - service instance : "
+                    + serviceInstance.getServiceId(), e);
         }
     }
 
@@ -116,8 +116,9 @@ public class ServiceInstanceSnitch implements Snitch {
      * 
      * @return SystemFragment as a JSON String.
      */
-    private String getSystemFragmentString() {
-        return serviceInstance.getMetadata().get(CereebroDiscoveryClientConstants.METADATA_KEY_SNITCH_SYSTEM_FRAGMENT);
+    private String getSystemFragmentJsonString() {
+        return serviceInstance.getMetadata()
+                .get(CereebroDiscoveryClientConstants.METADATA_KEY_SNITCH_SYSTEM_FRAGMENT_JSON);
     }
 
 }
