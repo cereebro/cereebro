@@ -1,4 +1,4 @@
-package io.cereebro.snitch.spring.boot.actuate.endpoint;
+package io.cereebro.spring.boot.autoconfigure.actuate;
 
 import java.net.URI;
 import java.util.Arrays;
@@ -19,31 +19,31 @@ import io.cereebro.core.RelationshipDetector;
 import io.cereebro.core.SystemFragment;
 
 /**
- * {@link CereebroSnitchEndpoint} unit tests.
+ * {@link CereebroSnitchMvcEndpoint} unit tests.
  * 
  * @author michaeltecourt
  */
-public class CereebroEndpointTest {
+public class CereebroSnitchMvcEndpointTest {
 
     private RelationshipDetector relationshipDetectorMock;
     private Component application;
-    private CereebroSnitchEndpoint endpoint;
+    private CereebroSnitchMvcEndpoint endpoint;
 
     @Before
     public void setUp() {
         application = Component.of("gambit", "superhero");
         relationshipDetectorMock = Mockito.mock(RelationshipDetector.class);
-        endpoint = new CereebroSnitchEndpoint(application, relationshipDetectorMock);
+        endpoint = new CereebroSnitchMvcEndpoint(application, relationshipDetectorMock);
     }
 
     @Test(expected = NullPointerException.class)
     public void constructorWithNullApplicationComponentShouldThrowNullPointerException() {
-        new CereebroSnitchEndpoint(null, relationshipDetectorMock);
+        new CereebroSnitchMvcEndpoint(null, relationshipDetectorMock);
     }
 
     @Test(expected = NullPointerException.class)
     public void constructorWithNullRelationshipDetectorShouldThrowNullPointerException() {
-        new CereebroSnitchEndpoint(application, null);
+        new CereebroSnitchMvcEndpoint(application, null);
     }
 
     @Test
@@ -57,23 +57,23 @@ public class CereebroEndpointTest {
     }
 
     @Test
-    public void id() {
-        Assert.assertEquals("cereebro/snitch", endpoint.getId());
-    }
-
-    @Test
     public void location() {
         Assert.assertEquals(URI.create("/cereebro/snitch"), endpoint.getUri());
     }
 
     @Test
-    public void invoke() {
+    public void path() {
+        Assert.assertEquals("/cereebro/snitch", endpoint.getPath());
+    }
+
+    @Test
+    public void snitch() {
         Dependency d1 = Dependency.on(Component.of("cards", "game"));
         Dependency d2 = Dependency.on(Component.of("rogue", "superhero"));
         Consumer consumer = Consumer.by(Component.of("angel", "superhero"));
         Set<Relationship> rels = new HashSet<>(Arrays.asList(d1, d2, consumer));
         Mockito.when(relationshipDetectorMock.detect()).thenReturn(rels);
-        SystemFragment actual = endpoint.invoke();
+        SystemFragment actual = endpoint.snitch();
 
         Set<Dependency> dependencies = new HashSet<>(Arrays.asList(d1, d2));
         Set<Consumer> consumers = new HashSet<>(Arrays.asList(consumer));

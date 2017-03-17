@@ -1,6 +1,5 @@
 package io.cereebro.spring.cloud.autoconfigure.eureka;
 
-import org.springframework.boot.actuate.condition.ConditionalOnEnabledEndpoint;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.cloud.netflix.eureka.CloudEurekaInstanceConfig;
@@ -23,8 +22,7 @@ import io.cereebro.core.Snitch;
 public class CereebroEurekaInstanceAutoConfiguration {
 
     @Bean
-    @ConditionalOnEnabledEndpoint("cereebro")
-    @ConditionalOnBean(CloudEurekaInstanceConfig.class)
+    @ConditionalOnBean({ Snitch.class, CloudEurekaInstanceConfig.class })
     public EurekaMetadataPopulator eurekaPopulator(Snitch snitch, CloudEurekaInstanceConfig config,
             ObjectMapper mapper) {
         EurekaMetadataPopulator eurekaMetadataPopulator = new EurekaMetadataPopulator(snitch, config, mapper);

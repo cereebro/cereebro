@@ -24,7 +24,7 @@ public class ComponentPropertiesTest {
     @Test
     public void defaultValues() {
         ComponentProperties c = new ComponentProperties();
-        Assert.assertNotNull(c.getName());
+        Assert.assertNull(c.getName());
         Assert.assertEquals(ComponentType.HTTP_APPLICATION, c.getType());
     }
 

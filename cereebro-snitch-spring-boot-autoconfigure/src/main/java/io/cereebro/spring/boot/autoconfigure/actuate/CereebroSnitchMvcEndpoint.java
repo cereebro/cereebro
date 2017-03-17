@@ -1,12 +1,15 @@
-package io.cereebro.snitch.spring.boot.actuate.endpoint;
+package io.cereebro.spring.boot.autoconfigure.actuate;
 
 import java.net.URI;
 import java.util.Collections;
 import java.util.Objects;
 import java.util.Set;
 
-import org.springframework.boot.actuate.endpoint.AbstractEndpoint;
+import org.springframework.boot.actuate.endpoint.mvc.AbstractMvcEndpoint;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import io.cereebro.core.Component;
 import io.cereebro.core.ComponentRelationships;
@@ -22,8 +25,10 @@ import io.cereebro.core.SystemFragment;
  * @author lucwarrot
  * @author michaeltecourt
  */
-@ConfigurationProperties(prefix = "cereebro.endpoint.snitch")
-public class CereebroSnitchEndpoint extends AbstractEndpoint<SystemFragment> implements Snitch {
+@ConfigurationProperties(prefix = "endpoints.cereebro")
+public class CereebroSnitchMvcEndpoint extends AbstractMvcEndpoint implements Snitch {
+
+    public static final String DEFAULT_PATH = "/cereebro/snitch";
 
     private final Component application;
     private final RelationshipDetector relationshipDetector;
@@ -37,22 +42,19 @@ public class CereebroSnitchEndpoint extends AbstractEndpoint<SystemFragment> imp
      * @param relationshipDetector
      *            Detector providing all the application relationships.
      */
-    public CereebroSnitchEndpoint(Component application, RelationshipDetector relationshipDetector) {
-        super("cereebro/snitch");
+    public CereebroSnitchMvcEndpoint(Component application, RelationshipDetector relationshipDetector) {
+        super(DEFAULT_PATH, true, true);
         this.application = Objects.requireNonNull(application, "Application component required");
         this.relationshipDetector = Objects.requireNonNull(relationshipDetector, "Relationship detector required");
     }
 
     @Override
-    public SystemFragment invoke() {
-        return snitch();
-    }
-
-    @Override
     public URI getUri() {
-        return URI.create("/" + this.getId());
+        return URI.create(getPath());
     }
 
+    @RequestMapping(method = RequestMethod.GET)
+    @ResponseBody
     @Override
     public SystemFragment snitch() {
         Set<Relationship> relations = relationshipDetector.detect();

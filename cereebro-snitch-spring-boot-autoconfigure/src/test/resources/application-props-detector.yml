@@ -1,0 +1,15 @@
+cereebro:
+  application:
+    component:
+      name: app-props-detector
+      type: properties/application
+    dependencies:
+      - 
+        component:
+          name: dependency
+          type: properties/dependency
+    consumers:
+      - 
+        component:
+          name: consumer
+          type: properties/consumer

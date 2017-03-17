@@ -1,5 +1,7 @@
 package io.cereebro.spring.boot.autoconfigure;
 
+import java.util.UUID;
+
 import org.springframework.boot.bind.RelaxedPropertyResolver;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.EnvironmentAware;
@@ -19,14 +21,14 @@ public final class CereebroProperties implements EnvironmentAware {
     @Override
     public void setEnvironment(Environment env) {
         this.environment = env;
-        // set the application name from the environment,
-        // but allow the defaults to use relaxed binding
-        // (shamelessly copied from Spring Boot)
-        RelaxedPropertyResolver springPropertyResolver = new RelaxedPropertyResolver(this.environment,
-                "spring.application.");
-        String springAppName = springPropertyResolver.getProperty("name");
-        if (StringUtils.hasText(springAppName)) {
-            application.getComponent().setName(springAppName);
+        if (!StringUtils.hasText(application.getComponent().getName())) {
+            // set the application name from the environment,
+            // but allow the defaults to use relaxed binding
+            // (shamelessly copied from Spring Boot)
+            RelaxedPropertyResolver springPropertyResolver = new RelaxedPropertyResolver(this.environment,
+                    "spring.application.");
+            String appName = springPropertyResolver.getProperty("name");
+            application.getComponent().setName(StringUtils.hasText(appName) ? appName : UUID.randomUUID().toString());
         }
     }
 

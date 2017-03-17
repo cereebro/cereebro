@@ -45,7 +45,6 @@
     <modules>
         <module>cereebro-core</module>
         <module>cereebro-spring</module>
-        <module>cereebro-snitch-spring-boot-actuator</module>
         <module>cereebro-snitch-spring-boot-autoconfigure</module>
         <module>cereebro-snitch-spring-boot-starter</module>
         <module>cereebro-server</module>
@@ -69,11 +68,6 @@
             <dependency>
                 <groupId>io.cereebro</groupId>
                 <artifactId>cereebro-spring</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.cereebro</groupId>
-                <artifactId>cereebro-snitch-spring-boot-actuator</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
