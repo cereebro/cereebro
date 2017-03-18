@@ -23,6 +23,7 @@ public class Consumer extends Relationship {
      * Component that is dependent.
      * 
      * @param component
+     *            Dependant component.
      */
     @JsonCreator
     public Consumer(@JsonProperty("component") Component component) {
@@ -33,6 +34,7 @@ public class Consumer extends Relationship {
      * Component that is dependent.
      * 
      * @param consumer
+     *            Dependant component.
      * @return Consumer
      */
     public static Consumer by(Component consumer) {

@@ -30,11 +30,14 @@ public class ComponentRelationships {
     private final Set<Consumer> consumers;
 
     /**
-     * Pictures a Component and how it relates to other
+     * Pictures a Component and how it relates to others.
      * 
      * @param component
+     *            The documented component.
      * @param dependencies
+     *            Components that are depended upon by the documented component.
      * @param consumers
+     *            Components that rely on the documented component.
      */
     @JsonCreator
     public ComponentRelationships(@JsonProperty("component") Component component,
@@ -45,19 +48,34 @@ public class ComponentRelationships {
         this.consumers = new HashSet<>(consumers);
     }
 
-    public static ComponentRelationships of(Component c, Set<Dependency> dependencies, Set<Consumer> consumers) {
-        return new ComponentRelationships(c, dependencies, consumers);
+    /**
+     * Pictures a Component and how it relates to others.
+     * 
+     * @param component
+     *            The documented component.
+     * @param dependencies
+     *            Components that are depended upon by the documented component.
+     * @param consumers
+     *            Components that rely on the documented component.
+     * @return ComponentRelationships
+     */
+    public static ComponentRelationships of(Component component, Set<Dependency> dependencies,
+            Set<Consumer> consumers) {
+        return new ComponentRelationships(component, dependencies, consumers);
     }
 
     /**
-     * Pictures a Component and how it relates to other
+     * Pictures a Component and how it relates to others.
      * 
      * @param component
-     * @param relationships Relationship Collection that will be split between
-     *            Dependency and Consumer.
+     *            The documented component.
+     * @param relationships
+     *            Relationship Collection that will be split between Dependency
+     *            and Consumer.
+     * @return ComponentRelationships
      */
-    public static ComponentRelationships of(Component c, Collection<Relationship> relationships) {
-        return new ComponentRelationships(c, filterDependencies(relationships), filterConsumers(relationships));
+    public static ComponentRelationships of(Component component, Collection<Relationship> relationships) {
+        return new ComponentRelationships(component, filterDependencies(relationships), filterConsumers(relationships));
     }
 
     /**
@@ -65,6 +83,7 @@ public class ComponentRelationships {
      * collection.
      * 
      * @param relationships
+     *            The relationships to filter.
      * @return Set of casted Consumer objects.
      */
     public static Set<Consumer> filterConsumers(Collection<Relationship> relationships) {
@@ -82,6 +101,7 @@ public class ComponentRelationships {
      * collection.
      * 
      * @param relationships
+     *            The relationships to filter.
      * @return Set of Dependency objects.
      */
     public static Set<Dependency> filterDependencies(Collection<Relationship> relationships) {
@@ -172,6 +192,7 @@ public class ComponentRelationships {
          * Set the target component.
          * 
          * @param component
+         *            The documented component.
          * @return this ComponentRelationshipsBuilder instance.
          */
         public ComponentRelationshipsBuilder component(Component component) {
@@ -183,6 +204,7 @@ public class ComponentRelationships {
          * Overwrite the Dependency Set.
          * 
          * @param dependencies
+         *            Dependencies that will overwrite the existing ones.
          * @return this ComponentRelationshipsBuilder instance.
          */
         public ComponentRelationshipsBuilder dependencies(Collection<Dependency> dependencies) {
@@ -195,6 +217,7 @@ public class ComponentRelationships {
          * Overwrite the Consumer Set.
          * 
          * @param consumers
+         *            Consumers that will overwrite the existing ones.
          * @return this ComponentRelationshipsBuilder instance.
          */
         public ComponentRelationshipsBuilder consumers(Collection<Consumer> consumers) {
@@ -206,44 +229,48 @@ public class ComponentRelationships {
         /**
          * Add a Dependency to the existing set.
          * 
-         * @param d
+         * @param dependency
+         *            Dependency to be added.
          * @return this ComponentRelationshipsBuilder instance.
          */
-        public ComponentRelationshipsBuilder addDependency(Dependency d) {
-            this.dependencies.add(d);
+        public ComponentRelationshipsBuilder addDependency(Dependency dependency) {
+            this.dependencies.add(dependency);
             return this;
         }
 
         /**
          * Add a Consumer to the existing Set.
          * 
-         * @param c
+         * @param consumer
+         *            Consumer to be added.
          * @return this ComponentRelationshipsBuilder instance.
          */
-        public ComponentRelationshipsBuilder addConsumer(Consumer c) {
-            this.consumers.add(c);
+        public ComponentRelationshipsBuilder addConsumer(Consumer consumer) {
+            this.consumers.add(consumer);
             return this;
         }
 
         /**
          * Add all dependencies to the existing Set.
          * 
-         * @param d
+         * @param dependencies
+         *            Collection of dependencies to be added.
          * @return this ComponentRelationshipsBuilder instance.
          */
-        public ComponentRelationshipsBuilder addDependencies(Collection<Dependency> d) {
-            this.dependencies.addAll(d);
+        public ComponentRelationshipsBuilder addDependencies(Collection<Dependency> dependencies) {
+            this.dependencies.addAll(dependencies);
             return this;
         }
 
         /**
          * Add all consumers to the existing Set.
          * 
-         * @param c
+         * @param consumers
+         *            Collection of consumers to be added.
          * @return this ComponentRelationshipsBuilder instance.
          */
-        public ComponentRelationshipsBuilder addConsumers(Collection<Consumer> c) {
-            this.consumers.addAll(c);
+        public ComponentRelationshipsBuilder addConsumers(Collection<Consumer> consumers) {
+            this.consumers.addAll(consumers);
             return this;
         }
 

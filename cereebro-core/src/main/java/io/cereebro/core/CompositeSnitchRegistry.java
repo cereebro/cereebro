@@ -19,6 +19,7 @@ public class CompositeSnitchRegistry implements SnitchRegistry {
      * Snitch registry aggregating multiple registries.
      * 
      * @param registries
+     *            Registries to wrap.
      */
     public CompositeSnitchRegistry(Collection<SnitchRegistry> registries) {
         this.registries = new ArrayList<>(registries);
@@ -28,6 +29,7 @@ public class CompositeSnitchRegistry implements SnitchRegistry {
      * Snitch registry aggregating multiple registries.
      * 
      * @param registries
+     *            Registries to wrap.
      * @return CompositeSnitchRegistry
      */
     public static SnitchRegistry of(SnitchRegistry... registries) {
@@ -38,6 +40,7 @@ public class CompositeSnitchRegistry implements SnitchRegistry {
      * Snitch registry aggregating multiple registries.
      * 
      * @param registries
+     *            Registries to wrap.
      * @return CompositeSnitchRegistry
      */
     public static SnitchRegistry of(Collection<SnitchRegistry> registries) {

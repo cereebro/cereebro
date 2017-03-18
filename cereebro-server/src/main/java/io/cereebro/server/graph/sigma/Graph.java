@@ -28,6 +28,7 @@ public class Graph {
      * Create the Graph of a System.
      * 
      * @param system
+     *            System to picture.
      * @return Graph
      */
     public static Graph of(System system) {

@@ -26,7 +26,9 @@ public class Node {
      * Create a graph Node with random coordinates and size.
      * 
      * @param id
+     *            Node unique ID.
      * @param label
+     *            Label displayed when hovering the node.
      * @return Node
      */
     public static Node create(String id, String label) {
@@ -37,6 +39,7 @@ public class Node {
      * Create a graph Node from Cereebro Component.
      * 
      * @param component
+     *            Component to picture as a Node.
      * @return Node
      */
     public static Node of(Component component) {
@@ -47,7 +50,9 @@ public class Node {
      * Create a graph Node from Cereebro Component.
      * 
      * @param component
+     *            Component to picture as a Node.
      * @param size
+     *            Size of the node.
      * @return Node
      */
     public static Node of(Component component, int size) {
@@ -68,7 +73,8 @@ public class Node {
      * and label. Other fields are less interesting as they probably have random
      * values.
      * 
-     * @param that
+     * @param o
+     *            Object to match.
      * @return {@code true} if the Node identifiers are the same, {@code false}
      *         otherwise.
      */

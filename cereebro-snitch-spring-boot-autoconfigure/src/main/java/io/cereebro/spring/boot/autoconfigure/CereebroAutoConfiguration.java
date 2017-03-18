@@ -14,11 +14,9 @@ import io.cereebro.spring.boot.autoconfigure.cassandra.CassandraRelationshipDete
 import io.cereebro.spring.boot.autoconfigure.jdbc.DataSourceRelationshipDetectorAutoConfiguration;
 
 /**
- * Autoconfiguration class used to instantiate {@link RelationshipDetector}s and
- * the {@link CereebroSnitchEndpoint}
+ * Configures various {@link RelationshipDetector}s.
  * 
  * @author lwarrot
- *
  */
 @Configuration
 @EnableConfigurationProperties({ CereebroProperties.class })

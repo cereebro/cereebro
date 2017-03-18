@@ -17,44 +17,50 @@ public class StaticSnitch implements Snitch {
     private final SystemFragment systemFragment;
 
     /**
-     * Fake Snitch.
+     * Creates an Empty Snitch.
      * 
      * @param uri
+     *            Snitch URI.
      */
     public StaticSnitch(URI uri) {
         this(uri, SystemFragment.empty());
     }
 
     /**
-     * Fake Snitch with only a uri.
+     * Snitch holding a static system fragment.
      * 
      * @param uri
+     *            Snitch URI.
      * @param systemFragment
+     *            static system fragment.
      */
-    public StaticSnitch(URI location, SystemFragment systemFragment) {
-        this.uri = Objects.requireNonNull(location, "Snitch uri required");
+    public StaticSnitch(URI uri, SystemFragment systemFragment) {
+        this.uri = Objects.requireNonNull(uri, "Snitch uri required");
         this.systemFragment = Objects.requireNonNull(systemFragment, "System fragment required");
     }
 
     /**
-     * Fake Snitch with only a uri.
+     * Creates an Empty Snitch.
      * 
      * @param uri
-     * @return a FakeSnitch instance.
+     *            Snitch URI.
+     * @return a StaticSnitch instance.
      */
-    public static Snitch of(URI location) {
-        return new StaticSnitch(location);
+    public static Snitch of(URI uri) {
+        return new StaticSnitch(uri);
     }
 
     /**
-     * Fake Snitch.
+     * Snitch holding a static system fragment.
      * 
      * @param uri
+     *            Snitch URI.
      * @param systemFragment
-     * @return a FakeSnitch instance.
+     *            static system fragment.
+     * @return a StaticSnitch instance.
      */
-    public static Snitch of(URI location, SystemFragment systemFragment) {
-        return new StaticSnitch(location, systemFragment);
+    public static Snitch of(URI uri, SystemFragment systemFragment) {
+        return new StaticSnitch(uri, systemFragment);
     }
 
     @Override

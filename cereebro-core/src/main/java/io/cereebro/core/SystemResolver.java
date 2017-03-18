@@ -13,8 +13,10 @@ public interface SystemResolver {
      * Resolve a complete System by browsing a SnitchRegistry.
      * 
      * @param systemName
+     *            Name of the System.
      * @param snitchRegistry
-     * @return System
+     *            Snitch registry to be browsed.
+     * @return resolved System
      */
     System resolve(String systemName, SnitchRegistry snitchRegistry);
 
@@ -22,8 +24,10 @@ public interface SystemResolver {
      * Resolve a complete System out of system fragments.
      * 
      * @param systemName
+     *            Name of the system.
      * @param fragments
-     * @return System
+     *            Sum of system fragments to be assembled.
+     * @return resolved System
      */
     System resolve(String systemName, Collection<SystemFragment> fragments);
 

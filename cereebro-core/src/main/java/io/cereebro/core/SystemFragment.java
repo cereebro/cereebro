@@ -24,6 +24,7 @@ public class SystemFragment {
      * Subset of a given System.
      * 
      * @param rels
+     *            known relationships.
      */
     @JsonCreator
     public SystemFragment(@JsonProperty("componentRelationships") Set<ComponentRelationships> rels) {
@@ -34,6 +35,7 @@ public class SystemFragment {
      * Subset of a given System.
      * 
      * @param rels
+     *            known relationships.
      * @return SystemFragment
      */
     public static SystemFragment of(Set<ComponentRelationships> rels) {
@@ -44,6 +46,7 @@ public class SystemFragment {
      * Subset of a given System.
      * 
      * @param rels
+     *            known relationships.
      * @return SystemFragment
      */
     public static SystemFragment of(ComponentRelationships... rels) {

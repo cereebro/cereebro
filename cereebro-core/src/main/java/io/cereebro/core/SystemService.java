@@ -10,7 +10,7 @@ public interface SystemService {
     /**
      * Complete view of the System.
      * 
-     * @return
+     * @return resolved System.
      */
     System get();
 

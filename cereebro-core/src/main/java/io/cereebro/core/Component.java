@@ -24,7 +24,9 @@ public class Component {
      * Cereebro base unit of work.
      * 
      * @param name
+     *            Name of the component
      * @param type
+     *            Type of the component
      */
     @JsonCreator
     public Component(@JsonProperty("name") String name, @JsonProperty("type") String type) {
@@ -36,7 +38,9 @@ public class Component {
      * Cereebro base unit of work.
      * 
      * @param name
+     *            Name of the component
      * @param type
+     *            Type of the component
      * @return Component
      */
     public static Component of(String name, String type) {

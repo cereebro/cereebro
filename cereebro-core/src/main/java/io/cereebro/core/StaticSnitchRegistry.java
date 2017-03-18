@@ -25,6 +25,7 @@ public class StaticSnitchRegistry implements SnitchRegistry {
      * based on their location.
      * 
      * @param snitches
+     *            Snitch instances to register.
      */
     public StaticSnitchRegistry(Snitch... snitches) {
         this(Arrays.asList(snitches));
@@ -34,10 +35,11 @@ public class StaticSnitchRegistry implements SnitchRegistry {
      * Registry holding a static collection of snitches. Duplicates are filtered
      * based on their location.
      * 
-     * @param registry
+     * @param snitches
+     *            Snitch instances to register.
      */
-    public StaticSnitchRegistry(Collection<Snitch> registry) {
-        this.registry = Collections.unmodifiableList(filterDuplicateLocations(registry));
+    public StaticSnitchRegistry(Collection<Snitch> snitches) {
+        this.registry = Collections.unmodifiableList(filterDuplicateLocations(snitches));
     }
 
     /**
@@ -45,7 +47,8 @@ public class StaticSnitchRegistry implements SnitchRegistry {
      * based on their location.
      * 
      * @param snitches
-     * @return SnitchRegistry
+     *            Snitch instances to register.
+     * @return StaticSnitchRegistry instance.
      */
     public static SnitchRegistry of(Snitch... snitches) {
         return new StaticSnitchRegistry(snitches);
@@ -55,18 +58,20 @@ public class StaticSnitchRegistry implements SnitchRegistry {
      * Registry holding a static collection of snitches. Duplicates are filtered
      * based on their location.
      * 
-     * @param registry
-     * @return SnitchRegistry
+     * @param snitches
+     *            Snitch instances to register.
+     * @return StaticSnitchRegistry instance.
      */
-    public static SnitchRegistry of(Collection<Snitch> registry) {
-        return new StaticSnitchRegistry(registry);
+    public static SnitchRegistry of(Collection<Snitch> snitches) {
+        return new StaticSnitchRegistry(snitches);
     }
 
     /**
-     * Filter snitch duplicates based on the Snitch location.
+     * Filter snitch duplicates based on the Snitch URI.
      * 
      * @param snitches
-     * @return Snitch Set
+     *            Snitch instances to be filtered.
+     * @return a List of Snitch objects without any duplicate URI.
      */
     public static List<Snitch> filterDuplicateLocations(Collection<Snitch> snitches) {
         // @formatter:off
