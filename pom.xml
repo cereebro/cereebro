@@ -8,7 +8,7 @@
     <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
-    <name>cereebro</name>
+    <name>${project.groupId}:${project.artifactId}</name>
     <description>Cereebro Parent POM</description>
     <url>http://cereebro.io</url>
 
@@ -23,7 +23,7 @@
         <developer>
             <name>Michael Tecourt</name>
             <email>michael.tecourt@gmail.com</email>
-            <url>http://github.com/michaeltecourt</url>
+            <url>https://github.com/michaeltecourt</url>
         </developer>
         <developer>
             <name>Luc Warrot</name>

@@ -9,6 +9,9 @@
     </parent>
 
     <artifactId>cereebro-snitch-spring-boot-autoconfigure</artifactId>
+    <name>${project.groupId}:${project.artifactId}</name>
+    <description>Cereebro Snitch Spring Boot AutoConfigure</description>
+    <url>http://cereebro.io</url>
 
     <dependencies>
         <dependency>

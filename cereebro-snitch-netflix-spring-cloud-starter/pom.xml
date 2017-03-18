@@ -9,6 +9,9 @@
     </parent>
 
     <artifactId>cereebro-snitch-netflix-spring-cloud-starter</artifactId>
+    <name>${project.groupId}:${project.artifactId}</name>
+    <description>Cereebro Snitch Netflix All Spring Cloud Starter</description>
+    <url>http://cereebro.io</url>
 
     <dependencies>
         <dependency>

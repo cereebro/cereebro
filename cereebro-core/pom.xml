@@ -9,6 +9,9 @@
     </parent>
 
     <artifactId>cereebro-core</artifactId>
+    <name>${project.groupId}:${project.artifactId}</name>
+    <description>Cereebro Core</description>
+    <url>http://cereebro.io</url>
 
     <dependencies>
         <dependency>

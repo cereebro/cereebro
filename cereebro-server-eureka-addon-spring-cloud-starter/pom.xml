@@ -9,6 +9,9 @@
     </parent>
 
     <artifactId>cereebro-server-eureka-addon-spring-cloud-starter</artifactId>
+    <name>${project.groupId}:${project.artifactId}</name>
+    <description>Cereebro Server Eureka Server Add-on Spring Cloud Starter</description>
+    <url>http://cereebro.io</url>
 
     <dependencies>
         <dependency>
