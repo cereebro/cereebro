@@ -6,7 +6,14 @@ The goal of Cereebro is to automate the documentation of components' dependencie
 
 ## Why
 
-The name is inspired by the [X-Men's Cerebro](https://en.wikipedia.org/wiki/Cerebro) device, which allows its user to locate mutants accross the world.
+When building a distributed system, it quickly becomes hard to keep track of every component and its dependencies.    
+Writing architecture documents and drawing diagrams is cool, but these pieces of art eventually get obsolete after a few time. Keeping software documentation up-to-date is an ageless problem.  
+Project Cereebro answers it by generating a map of a system at runtime : 
+
+ * by simply adding a Spring Boot starter, the context of each application is analyzed to detect its  relationships with other components, providing a fragment of the whole system. This information is published through a Snitch endpoint.
+ * the Cereebro server resolves the fragments from every Snitch to reconstitute the big picture  
+
+The name Cereebro is inspired by the [X-Men's Cerebro](https://en.wikipedia.org/wiki/Cerebro) device, which allows its user to locate mutants accross the world.
 
 We named it cere**e**bro because : 
 
