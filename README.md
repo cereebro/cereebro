@@ -2,8 +2,6 @@
 
 # cereebro
 
-## Mission statement
-
 The goal of Cereebro is to automate the documentation of components' dependencies in a distributed system.
 
 ## Why
