@@ -7,7 +7,6 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 
-import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.AnnotatedBeanDefinition;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
@@ -43,7 +42,7 @@ public abstract class AnnotationRelationshipDetector<T extends Annotation>
     }
 
     @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+    public void setApplicationContext(ApplicationContext applicationContext) {
         if (applicationContext instanceof ConfigurableApplicationContext) {
             this.applicationContext = ConfigurableApplicationContext.class.cast(applicationContext);
         }
