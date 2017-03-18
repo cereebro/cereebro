@@ -25,7 +25,9 @@ public class System {
      * relationships.
      * 
      * @param name
+     *            System name.
      * @param rels
+     *            Components and their relationships.
      */
     public System(String name, Collection<ComponentRelationships> rels) {
         this.name = Objects.requireNonNull(name, "System name required");
@@ -37,7 +39,9 @@ public class System {
      * relationships.
      * 
      * @param name
+     *            System name.
      * @param rels
+     *            Components and their relationships.
      * @return System
      */
     public static System of(String name, Collection<ComponentRelationships> rels) {
@@ -49,7 +53,9 @@ public class System {
      * relationships.
      * 
      * @param name
+     *            System name.
      * @param rels
+     *            Components and their relationships.
      * @return System
      */
     public static System of(String name, ComponentRelationships... rels) {
@@ -60,6 +66,7 @@ public class System {
      * An empty system, without any component.
      * 
      * @param name
+     *            System name.
      * @return System
      */
     public static System empty(String name) {

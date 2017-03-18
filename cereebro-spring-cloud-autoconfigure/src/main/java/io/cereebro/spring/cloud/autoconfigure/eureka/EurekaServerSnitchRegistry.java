@@ -37,7 +37,9 @@ public class EurekaServerSnitchRegistry implements SnitchRegistry {
      * </p>
      * 
      * @param eurekaServerContext
+     *            Eureka server context holding service instances.
      * @param objectMapper
+     *            JSON object mapper.
      */
     public EurekaServerSnitchRegistry(EurekaServerContext eurekaServerContext, ObjectMapper objectMapper) {
         this.eurekaServerContext = Objects.requireNonNull(eurekaServerContext, "Eureka server context required");

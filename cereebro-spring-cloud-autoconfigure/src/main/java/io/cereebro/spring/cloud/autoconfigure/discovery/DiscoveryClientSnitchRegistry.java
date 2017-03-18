@@ -28,7 +28,9 @@ public class DiscoveryClientSnitchRegistry implements SnitchRegistry {
      * service instance holds Cereebro metadata populated on the client side.
      * 
      * @param discoveryClient
+     *            Service registry client.
      * @param mapper
+     *            JSON object mapper.
      */
     public DiscoveryClientSnitchRegistry(DiscoveryClient discoveryClient, ObjectMapper mapper) {
         this.discoveryClient = Objects.requireNonNull(discoveryClient, "Eureka discovery client required");

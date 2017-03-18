@@ -55,6 +55,7 @@ public class ServiceInstanceSnitch implements Snitch {
      *            JSON object mapper.
      * @param instance
      *            Service instance from a registry like Consul or Eureka.
+     * @return new ServiceInstanceSnitch instance.
      */
     public static Snitch of(ObjectMapper mapper, ServiceInstance instance) {
         return new ServiceInstanceSnitch(mapper, instance);
@@ -64,6 +65,7 @@ public class ServiceInstanceSnitch implements Snitch {
      * Determine if a service instance contains enough Cereebro metadata.
      * 
      * @param instance
+     *            Service instance.
      * @return {@code true} if the {@link ServiceInstance} contains Cereebro
      *         metadata, {@code false} otherwise.
      */
@@ -75,6 +77,7 @@ public class ServiceInstanceSnitch implements Snitch {
      * Extract the Cereebro Snitch URI from metadata.
      * 
      * @param instance
+     *            Service instance.
      * @return Optional URI.
      */
     private static Optional<URI> extractSnitchURI(ServiceInstance instance) {

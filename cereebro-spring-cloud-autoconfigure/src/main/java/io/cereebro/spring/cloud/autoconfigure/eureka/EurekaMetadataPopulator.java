@@ -92,6 +92,7 @@ public class EurekaMetadataPopulator {
      * Relative path of the endpoint location (ex: "/cereebro").
      * 
      * @param urlPath
+     *            Relative path.
      */
     public void setUrlPath(String urlPath) {
         this.urlPath = urlPath;
@@ -101,8 +102,10 @@ public class EurekaMetadataPopulator {
      * Get the endpoint location of the current cereebro instance.
      * 
      * @param snitch
+     *            Cereebro snitch, most probably the snitch endpoint.
      * @param config
-     * @return uri string
+     *            Eureka instance configuration.
+     * @return Absolute Snitch URI.
      */
     protected URI getEndpointUri(Snitch snitch, CloudEurekaInstanceConfig config) {
         if (!StringUtils.isEmpty(url)) {

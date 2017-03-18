@@ -29,6 +29,7 @@ import lombok.extern.slf4j.Slf4j;
  * @author lwarrot
  *
  * @param <T>
+ *            Annotation to detect.
  */
 @Slf4j
 public abstract class AnnotationRelationshipDetector<T extends Annotation>
@@ -135,6 +136,7 @@ public abstract class AnnotationRelationshipDetector<T extends Annotation>
      * is set on a class.
      * 
      * @param annotation
+     *            Target annotation.
      * @return Relationship
      */
     protected abstract Set<Relationship> extractFromAnnotation(T annotation);
@@ -145,6 +147,7 @@ public abstract class AnnotationRelationshipDetector<T extends Annotation>
      * class.
      * 
      * @param annotationAttributes
+     *            Target annotation attributes map.
      * @return Relationship
      */
     protected abstract Set<Relationship> extractFromAnnotationAttributes(Map<String, Object> annotationAttributes);
@@ -153,7 +156,8 @@ public abstract class AnnotationRelationshipDetector<T extends Annotation>
      * Get the annotation from the class instead of the {@link Bean} method.
      * 
      * @param metadata
-     * @return
+     *            Method metadata.
+     * @return An optional target annotation.
      */
     protected Optional<T> getAnnotation(MethodMetadata metadata) {
         try {

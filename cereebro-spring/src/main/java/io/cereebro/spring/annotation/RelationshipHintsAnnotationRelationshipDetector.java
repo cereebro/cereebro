@@ -64,7 +64,8 @@ public class RelationshipHintsAnnotationRelationshipDetector extends AnnotationR
      * Create a {@link Component} from an {@link AnnotationAttributes}
      * 
      * @param annotationAttributes
-     * @return
+     *            Annotation attributes to extract metadata from.
+     * @return Component
      */
     protected Component component(AnnotationAttributes annotationAttributes) {
         return Component.of((String) annotationAttributes.get("name"), (String) annotationAttributes.get("type"));
