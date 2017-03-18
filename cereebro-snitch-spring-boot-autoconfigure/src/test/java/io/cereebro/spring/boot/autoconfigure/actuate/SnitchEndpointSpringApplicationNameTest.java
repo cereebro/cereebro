@@ -14,13 +14,13 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import io.cereebro.core.ComponentType;
-import io.cereebro.spring.boot.autoconfigure.CereebroAutoConfiguration;
+import io.cereebro.spring.boot.autoconfigure.CereebroRelationshipDetectorsAutoConfiguration;
 import io.cereebro.spring.boot.autoconfigure.actuate.SnitchEndpointSpringApplicationNameTest.SnitchEndpointSpringApplicationNameTestApplication;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = { SnitchEndpointSpringApplicationNameTestApplication.class, CereebroAutoConfiguration.class,
+@SpringBootTest(classes = { SnitchEndpointSpringApplicationNameTestApplication.class, CereebroRelationshipDetectorsAutoConfiguration.class,
         CereebroWebMvcEndpointConfiguration.class }, webEnvironment = WebEnvironment.RANDOM_PORT, value = {
                 "spring.application.name=springappname" })
 public class SnitchEndpointSpringApplicationNameTest {

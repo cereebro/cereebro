@@ -12,14 +12,14 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import io.cereebro.spring.boot.autoconfigure.CereebroAutoConfiguration;
+import io.cereebro.spring.boot.autoconfigure.CereebroRelationshipDetectorsAutoConfiguration;
 import io.cereebro.spring.boot.autoconfigure.actuate.SnitchEndpointConfigurationPropertiesDetectorTest.SnitchEndpointConfigurationPropertiesDetectorTestApplication;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = { SnitchEndpointConfigurationPropertiesDetectorTestApplication.class,
-        CereebroAutoConfiguration.class,
+        CereebroRelationshipDetectorsAutoConfiguration.class,
         CereebroWebMvcEndpointConfiguration.class }, webEnvironment = WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("props-detector")
 public class SnitchEndpointConfigurationPropertiesDetectorTest {

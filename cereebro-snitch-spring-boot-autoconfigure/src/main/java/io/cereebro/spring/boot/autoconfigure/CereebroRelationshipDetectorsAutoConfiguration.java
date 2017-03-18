@@ -21,7 +21,7 @@ import io.cereebro.spring.boot.autoconfigure.jdbc.DataSourceRelationshipDetector
 @Configuration
 @EnableConfigurationProperties({ CereebroProperties.class })
 @Import({ CassandraRelationshipDetectorAutoConfiguration.class, DataSourceRelationshipDetectorAutoConfiguration.class })
-public class CereebroAutoConfiguration {
+public class CereebroRelationshipDetectorsAutoConfiguration {
 
     @Autowired
     private CereebroProperties cereebroProperties;

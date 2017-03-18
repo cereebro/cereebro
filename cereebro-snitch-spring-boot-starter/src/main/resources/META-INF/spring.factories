@@ -1,2 +1,2 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=io.cereebro.spring.boot.autoconfigure.CereebroAutoConfiguration
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=io.cereebro.spring.boot.autoconfigure.CereebroRelationshipDetectorsAutoConfiguration
 org.springframework.boot.actuate.autoconfigure.ManagementContextConfiguration=io.cereebro.spring.boot.autoconfigure.actuate.CereebroWebMvcEndpointConfiguration

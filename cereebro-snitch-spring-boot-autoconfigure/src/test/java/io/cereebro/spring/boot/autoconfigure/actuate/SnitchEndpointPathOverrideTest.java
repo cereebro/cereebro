@@ -14,13 +14,13 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import io.cereebro.core.Snitch;
-import io.cereebro.spring.boot.autoconfigure.CereebroAutoConfiguration;
+import io.cereebro.spring.boot.autoconfigure.CereebroRelationshipDetectorsAutoConfiguration;
 import io.cereebro.spring.boot.autoconfigure.actuate.SnitchEndpointPathOverrideTest.SnitchEndpointPathOverrideTestApplication;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = { SnitchEndpointPathOverrideTestApplication.class, CereebroAutoConfiguration.class,
+@SpringBootTest(classes = { SnitchEndpointPathOverrideTestApplication.class, CereebroRelationshipDetectorsAutoConfiguration.class,
         CereebroWebMvcEndpointConfiguration.class }, webEnvironment = WebEnvironment.RANDOM_PORT, value = {
                 "spring.application.name=spring-app-name", "endpoints.cereebro.path=/cereebro/snitch/test" })
 public class SnitchEndpointPathOverrideTest {
