@@ -11,7 +11,7 @@
     <name>${project.groupId}:${project.artifactId}</name>
     <description>Cereebro Parent POM</description>
     <url>http://cereebro.io</url>
-    <inceptionYear>2009</inceptionYear>
+    <inceptionYear>2017</inceptionYear>
 
     <licenses>
         <license>
