@@ -21,6 +21,10 @@ We named it cere**e**bro because :
  * no legal issues with Marvel comics
  * [that's the way americans pronounce cerebro anyway](https://www.youtube.com/watch?v=EFyYvdvUEqo)
  
+## Getting Started
+
+See the [project documentation](https://github.com/cereebro/cereebro/wiki)
+ 
 ## Continuous Integration
 
  * [Travis CI](https://travis-ci.org/cereebro/cereebro)
