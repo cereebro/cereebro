@@ -11,6 +11,7 @@
     <name>${project.groupId}:${project.artifactId}</name>
     <description>Cereebro Parent POM</description>
     <url>http://cereebro.io</url>
+    <inceptionYear>2009</inceptionYear>
 
     <licenses>
         <license>
@@ -80,6 +81,7 @@
         <appassembler-maven-plugin.version>1.10</appassembler-maven-plugin.version>
         <sonar-maven-plugin.version>3.2</sonar-maven-plugin.version>
         <jacoco-maven-plugin.version>0.7.9</jacoco-maven-plugin.version>
+        <license-maven-plugin.version>3.0</license-maven-plugin.version>
         <!-- In multi-module projects, install and deploy artifacts only if every module builds -->
         <installAtEnd>true</installAtEnd>
         <deployAtEnd>true</deployAtEnd>
@@ -308,6 +310,12 @@
                     <artifactId>maven-project-info-reports-plugin</artifactId>
                     <version>${maven-project-info-reports-plugin.version}</version>
                 </plugin>
+                <!-- License -->
+                <plugin>
+                    <groupId>com.mycila</groupId>
+                    <artifactId>license-maven-plugin</artifactId>
+                    <version>${license-maven-plugin.version}</version>
+                </plugin>
                 <!-- Code Quality -->
                 <plugin>
                     <groupId>org.sonarsource.scanner.maven</groupId>
@@ -342,6 +350,34 @@
                 </plugin>
             </plugins>
         </pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>com.mycila</groupId>
+                <artifactId>license-maven-plugin</artifactId>
+                <configuration>
+                    <header>com/mycila/maven/plugin/license/templates/APACHE-2.txt</header>
+                    <includes>
+                        <include>**/*.java</include>
+                        <include>**/*.js</include>
+                        <include>**/*.html</include>
+                    </includes>
+                    <properties>
+                        <owner>the original authors</owner>
+                        <email>http://cereebro.io</email>
+                    </properties>
+                    <mapping>
+                        <java>SLASHSTAR_STYLE</java>
+                    </mapping>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
     </build>
 
     <profiles>
