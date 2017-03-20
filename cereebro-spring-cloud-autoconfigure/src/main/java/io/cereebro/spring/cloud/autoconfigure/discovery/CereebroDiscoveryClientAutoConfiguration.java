@@ -33,7 +33,7 @@ import io.cereebro.core.SnitchRegistry;
  * @author michaeltecourt
  */
 @Configuration
-@ConditionalOnClass(value = { DiscoveryClient.class })
+@ConditionalOnClass(DiscoveryClient.class)
 public class CereebroDiscoveryClientAutoConfiguration {
 
     @Bean

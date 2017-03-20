@@ -31,7 +31,7 @@ import io.cereebro.core.RelationshipDetector;
 import io.cereebro.spring.boot.autoconfigure.CereebroProperties;
 
 @ManagementContextConfiguration
-@EnableConfigurationProperties({ CereebroProperties.class })
+@EnableConfigurationProperties(CereebroProperties.class)
 @ConditionalOnClass(MvcEndpoint.class)
 public class CereebroWebMvcEndpointConfiguration {
 
