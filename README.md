@@ -1,8 +1,8 @@
 ![Build status](https://travis-ci.org/cereebro/cereebro.svg?branch=master)
 
-# cereebro
+# Cereebro
 
-The goal of Cereebro is to automate the documentation of components' dependencies in a distributed system.
+The goal of Cereebro is to automate the documentation of relationships between components in a distributed system.
 
 ## Why
 
