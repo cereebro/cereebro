@@ -60,8 +60,6 @@
         <spring-boot.version>1.4.5.RELEASE</spring-boot.version>
         <spring-cloud.version>Camden.SR6</spring-cloud.version>
         <equalsverifier.version>2.2.1</equalsverifier.version>
-        <bootstrap-webjar.version>3.3.7-1</bootstrap-webjar.version>
-        <jquery.version>3.1.1-1</jquery.version>
         <linkurious.version>1.5.1</linkurious.version>
         <rest-assured.version>3.0.2</rest-assured.version>
         <!-- PLugin versions -->
