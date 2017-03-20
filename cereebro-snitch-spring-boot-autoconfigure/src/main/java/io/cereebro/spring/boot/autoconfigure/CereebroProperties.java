@@ -24,9 +24,11 @@ import org.springframework.core.env.Environment;
 import org.springframework.util.StringUtils;
 
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 
 @ConfigurationProperties(prefix = "cereebro", ignoreUnknownFields = true)
 @Data
+@Slf4j
 public final class CereebroProperties implements EnvironmentAware {
 
     private ComponentRelationshipsProperties application = new ComponentRelationshipsProperties();
@@ -39,8 +41,13 @@ public final class CereebroProperties implements EnvironmentAware {
             // (shamelessly copied from Spring Boot)
             RelaxedPropertyResolver springPropertyResolver = new RelaxedPropertyResolver(env, "spring.application.");
             String appName = springPropertyResolver.getProperty("name");
-            application.getComponent().setName(StringUtils.hasText(appName) ? appName : UUID.randomUUID().toString());
+            application.getComponent().setName(StringUtils.hasText(appName) ? appName : generateName());
         }
+    }
+
+    private String generateName() {
+        LOGGER.warn("Generating random name for this application -- please set spring.application.name property !");
+        return UUID.randomUUID().toString();
     }
 
 }
