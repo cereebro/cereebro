@@ -33,12 +33,13 @@ import io.cereebro.core.Snitch;
  *
  */
 @Configuration
-@ConditionalOnClass(value = CloudEurekaInstanceConfig.class)
+@ConditionalOnClass(CloudEurekaInstanceConfig.class)
+@ConditionalOnBean(CloudEurekaInstanceConfig.class)
 public class CereebroEurekaInstanceAutoConfiguration {
 
     @Bean
-    @ConditionalOnBean({ Snitch.class, CloudEurekaInstanceConfig.class })
-    public EurekaMetadataPopulator eurekaPopulator(Snitch snitch, CloudEurekaInstanceConfig config,
+    @ConditionalOnBean(Snitch.class)
+    public EurekaMetadataPopulator eurekaMetadataPopulator(Snitch snitch, CloudEurekaInstanceConfig config,
             ObjectMapper mapper) {
         EurekaMetadataPopulator eurekaMetadataPopulator = new EurekaMetadataPopulator(snitch, config, mapper);
         eurekaMetadataPopulator.populate();
