@@ -15,6 +15,7 @@
  */
 package io.cereebro.spring.cloud.autoconfigure.eureka;
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -35,10 +36,11 @@ import io.cereebro.core.SnitchRegistry;
  * @author michaeltecourt
  */
 @Configuration
+@ConditionalOnClass(EurekaServerContext.class)
 public class CereebroEurekaServerAddOnAutoConfiguration {
 
     @Bean
-    @ConditionalOnClass(EurekaServerContext.class)
+    @ConditionalOnBean(EurekaServerContext.class)
     public SnitchRegistry eurekaServerSnitchRegistry(EurekaServerContext eurekaServerContext,
             ObjectMapper objectMapper) {
         return new EurekaServerSnitchRegistry(eurekaServerContext, objectMapper);
