@@ -23,7 +23,9 @@ We named it cere**e**bro because :
  
 ## Getting Started
 
-See the [project documentation](https://github.com/cereebro/cereebro/wiki)
+Get started with [Cereebro, Spring Cloud Netflix and the Eureka Server](https://github.com/cereebro/cereebro/wiki/Using-Cereebro-with-Spring-Cloud-Netflix-and-the-Eureka-Server).
+
+Learn more in the [project documentation](https://github.com/cereebro/cereebro/wiki)
  
 ## Continuous Integration
 
