@@ -15,6 +15,9 @@
  */
 package io.cereebro.server;
 
+import java.util.Arrays;
+
+import org.assertj.core.api.Assertions;
 import org.junit.Test;
 
 import nl.jqno.equalsverifier.EqualsVerifier;
@@ -30,6 +33,19 @@ public class CereebroServerPropertiesTest {
     @Test
     public void verifyEqualsAndHashcode() {
         EqualsVerifier.forClass(CereebroServerProperties.class).suppress(Warning.NONFINAL_FIELDS).verify();
+    }
+
+    @Test
+    public void testToString() {
+        CereebroServerProperties server = new CereebroServerProperties();
+        SystemProperties system = new SystemProperties();
+        system.setName("alpha");
+        system.setPath("/nope");
+        SnitchProperties snitch = new SnitchProperties();
+        snitch.setResources(Arrays.asList());
+        system.setSnitch(snitch);
+        server.setSystem(system);
+        Assertions.assertThat(server.toString()).isNotEmpty();
     }
 
 }
