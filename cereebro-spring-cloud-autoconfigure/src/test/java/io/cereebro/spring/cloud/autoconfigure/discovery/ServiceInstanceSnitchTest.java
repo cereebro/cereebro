@@ -77,7 +77,7 @@ public class ServiceInstanceSnitchTest {
 
     @Test
     public void hasCereebroMetadata() {
-        metadata.put(CereebroDiscoveryClientConstants.METADATA_KEY_SNITCH_URI, "http://cereebro.io");
+        metadata.put(CereebroMetadata.KEY_SNITCH_URI, "http://cereebro.io");
         Assertions.assertThat(ServiceInstanceSnitch.hasCereebroMetadata(serviceInstanceMock)).isTrue();
     }
 
@@ -85,8 +85,8 @@ public class ServiceInstanceSnitchTest {
     public void snitchShouldReadSystemFragmentJson() throws IOException {
         String uri = "http://cereebro.io";
         String json = "{}";
-        metadata.put(CereebroDiscoveryClientConstants.METADATA_KEY_SNITCH_URI, uri);
-        metadata.put(CereebroDiscoveryClientConstants.METADATA_KEY_SNITCH_SYSTEM_FRAGMENT_JSON, json);
+        metadata.put(CereebroMetadata.KEY_SNITCH_URI, uri);
+        metadata.put(CereebroMetadata.KEY_SNITCH_SYSTEM_FRAGMENT_JSON, json);
         Mockito.when(objectMapperMock.readValue(json, SystemFragment.class)).thenReturn(SystemFragment.empty());
         ServiceInstanceSnitch snitch = new ServiceInstanceSnitch(objectMapperMock, serviceInstanceMock);
         Assertions.assertThat(snitch.getUri()).isEqualTo(URI.create(uri));
@@ -105,7 +105,7 @@ public class ServiceInstanceSnitchTest {
     @SuppressWarnings("unchecked")
     public void snitchWithoutFragmentJsonShouldConsumeResourceByUri() throws IOException {
         String uri = "file://" + new ClassPathResource("snitch-test.json").getFile().getAbsolutePath();
-        metadata.put(CereebroDiscoveryClientConstants.METADATA_KEY_SNITCH_URI, uri);
+        metadata.put(CereebroMetadata.KEY_SNITCH_URI, uri);
         Mockito.when(objectMapperMock.readValue(Mockito.any(InputStream.class), Mockito.any(Class.class)))
                 .thenReturn(SystemFragment.empty());
         Snitch snitch = ServiceInstanceSnitch.of(objectMapperMock, serviceInstanceMock);
@@ -117,8 +117,8 @@ public class ServiceInstanceSnitchTest {
     public void snitchErrorShouldThrowSnitchingException() throws IOException {
         String uri = "http://cereebro.io";
         String json = "{ \"error\" : true }";
-        metadata.put(CereebroDiscoveryClientConstants.METADATA_KEY_SNITCH_URI, uri);
-        metadata.put(CereebroDiscoveryClientConstants.METADATA_KEY_SNITCH_SYSTEM_FRAGMENT_JSON, json);
+        metadata.put(CereebroMetadata.KEY_SNITCH_URI, uri);
+        metadata.put(CereebroMetadata.KEY_SNITCH_SYSTEM_FRAGMENT_JSON, json);
         Mockito.when(objectMapperMock.readValue(json, SystemFragment.class)).thenThrow(new IOException("unit test"));
         ServiceInstanceSnitch snitch = new ServiceInstanceSnitch(objectMapperMock, serviceInstanceMock);
         try {

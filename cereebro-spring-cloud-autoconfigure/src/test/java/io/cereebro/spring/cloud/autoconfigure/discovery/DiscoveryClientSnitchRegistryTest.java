@@ -69,8 +69,8 @@ public class DiscoveryClientSnitchRegistryTest {
         Map<String, String> metadata = new HashMap<>();
         final String fakeJsonThatWorks = "{ \"valid\" : true }";
         final String url = "http://fake";
-        metadata.put(CereebroDiscoveryClientConstants.METADATA_KEY_SNITCH_SYSTEM_FRAGMENT_JSON, fakeJsonThatWorks);
-        metadata.put(CereebroDiscoveryClientConstants.METADATA_KEY_SNITCH_URI, url);
+        metadata.put(CereebroMetadata.KEY_SNITCH_SYSTEM_FRAGMENT_JSON, fakeJsonThatWorks);
+        metadata.put(CereebroMetadata.KEY_SNITCH_URI, url);
         Mockito.when(serviceInstanceMock.getMetadata()).thenReturn(metadata);
         Mockito.when(serviceInstanceMock.getInstanceInfo()).thenReturn(instanceInfoMock);
         Mockito.when(objectMapperMock.readValue(fakeJsonThatWorks, SystemFragment.class))

@@ -96,7 +96,7 @@ public class ServiceInstanceSnitch implements Snitch {
      * @return Optional URI.
      */
     private static Optional<URI> extractSnitchURI(ServiceInstance instance) {
-        String uri = instance.getMetadata().get(CereebroDiscoveryClientConstants.METADATA_KEY_SNITCH_URI);
+        String uri = instance.getMetadata().get(CereebroMetadata.KEY_SNITCH_URI);
         if (StringUtils.hasText(uri)) {
             return Optional.of(URI.create(uri));
         }
@@ -136,8 +136,7 @@ public class ServiceInstanceSnitch implements Snitch {
      * @return SystemFragment as a JSON String.
      */
     private String getSystemFragmentJsonString() {
-        return serviceInstance.getMetadata()
-                .get(CereebroDiscoveryClientConstants.METADATA_KEY_SNITCH_SYSTEM_FRAGMENT_JSON);
+        return serviceInstance.getMetadata().get(CereebroMetadata.KEY_SNITCH_SYSTEM_FRAGMENT_JSON);
     }
 
 }

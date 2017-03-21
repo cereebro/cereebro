@@ -28,7 +28,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.cereebro.core.Snitch;
 import io.cereebro.core.SnitchingException;
-import io.cereebro.spring.cloud.autoconfigure.discovery.CereebroDiscoveryClientConstants;
+import io.cereebro.spring.cloud.autoconfigure.discovery.CereebroMetadata;
 
 /**
  * Populate metadata of the eureka instance with the snitch url.
@@ -62,11 +62,9 @@ public class EurekaMetadataPopulator {
 
     public void populate() {
         try {
-            this.config.getMetadataMap().put(CereebroDiscoveryClientConstants.METADATA_KEY_SNITCH_URI,
-                    getEndpointUri(this.snitch, this.config).toString());
-            String report = objectMapper.writeValueAsString(snitch.snitch());
-            this.config.getMetadataMap().put(CereebroDiscoveryClientConstants.METADATA_KEY_SNITCH_SYSTEM_FRAGMENT_JSON,
-                    report);
+            this.config.getMetadataMap().put(CereebroMetadata.KEY_SNITCH_URI, getEndpointUri().toString());
+            String frag = objectMapper.writeValueAsString(snitch.snitch());
+            this.config.getMetadataMap().put(CereebroMetadata.KEY_SNITCH_SYSTEM_FRAGMENT_JSON, frag);
         } catch (IOException e) {
             throw new SnitchingException(snitch.getUri(), "Error while serializing fragment", e);
         }
@@ -122,7 +120,7 @@ public class EurekaMetadataPopulator {
      *            Eureka instance configuration.
      * @return Absolute Snitch URI.
      */
-    protected URI getEndpointUri(Snitch snitch, CloudEurekaInstanceConfig config) {
+    protected URI getEndpointUri() {
         if (!StringUtils.isEmpty(url)) {
             return URI.create(url);
         }

@@ -15,19 +15,19 @@
  */
 package io.cereebro.core;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
-
 /**
- * Not an enum.
+ * Default component types.
  * 
  * @author michaeltecourt
  */
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ComponentType {
 
     public static final String HTTP_APPLICATION = "application/http";
     public static final String RELATIONAL_DATABASE = "database/relational";
     public static final String CASSANDRA = "database/cassandra";
+
+    private ComponentType() {
+
+    }
 
 }

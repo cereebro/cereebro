@@ -36,7 +36,7 @@ import com.netflix.eureka.EurekaServerContext;
 import com.netflix.eureka.registry.PeerAwareInstanceRegistry;
 
 import io.cereebro.core.Snitch;
-import io.cereebro.spring.cloud.autoconfigure.discovery.CereebroDiscoveryClientConstants;
+import io.cereebro.spring.cloud.autoconfigure.discovery.CereebroMetadata;
 
 @RunWith(MockitoJUnitRunner.class)
 public class EurekaServerSnitchRegistryTest {
@@ -58,7 +58,7 @@ public class EurekaServerSnitchRegistryTest {
         Mockito.when(eurekaServerContextMock.getRegistry()).thenReturn(instanceRegistryMock);
         Map<String, String> metadata = new HashMap<>();
         String uri = "http://cereebro.io";
-        metadata.put(CereebroDiscoveryClientConstants.METADATA_KEY_SNITCH_URI, uri);
+        metadata.put(CereebroMetadata.KEY_SNITCH_URI, uri);
         // @formatter:off
         InstanceInfo instanceInfo = InstanceInfo.Builder.newBuilder()
                 .setInstanceId("id")

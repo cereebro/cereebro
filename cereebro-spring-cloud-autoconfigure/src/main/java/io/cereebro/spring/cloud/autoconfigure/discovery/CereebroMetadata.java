@@ -15,13 +15,18 @@
  */
 package io.cereebro.spring.cloud.autoconfigure.discovery;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
+/**
+ * Service registry meta-data constants.
+ * 
+ * @author michaeltecourt
+ */
+public final class CereebroMetadata {
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
-public final class CereebroDiscoveryClientConstants {
+    public static final String KEY_SNITCH_URI = "io.cereebro.snitch.uri";
+    public static final String KEY_SNITCH_SYSTEM_FRAGMENT_JSON = "io.cereebro.snitch.system-fragment-json";
 
-    public static final String METADATA_KEY_SNITCH_URI = "io.cereebro.snitch.uri";
-    public static final String METADATA_KEY_SNITCH_SYSTEM_FRAGMENT_JSON = "io.cereebro.snitch.system-fragment-json";
+    private CereebroMetadata() {
+
+    }
 
 }
