@@ -18,7 +18,6 @@ package io.cereebro.server.eureka.addon;
 import java.net.URI;
 
 import org.hamcrest.Matchers;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Value;
@@ -35,8 +34,8 @@ import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 
 /**
- * Unfortunately some of the following tests fail when launched on an unpackaged
- * application (i.e. from IDE or maven CLI).
+ * Unfortunately some of the following tests fail when launched from an IDE
+ * (eclipse at least).
  * <p>
  * The problems come from Thymeleaf and FreeMarker templates contained in other
  * jars in the classpath (technically just adding a folder named "templates" on
@@ -64,11 +63,6 @@ public class EurekaServerAddOnTest {
     @Value("http://localhost:${local.server.port}/lastn")
     URI eurekaDashboardLastNURI;
 
-    /**
-     * FIXME Test ignored because of template classpath issue.
-     */
-    @Test
-    @Ignore("These tests work on a packaged application only")
     public void cereebroSystemPageShouldBeHtml() {
         // @formatter:off
         RestAssured
@@ -82,11 +76,6 @@ public class EurekaServerAddOnTest {
         // @formatter:on
     }
 
-    /**
-     * FIXME Test ignored because of template classpath issue.
-     */
-    @Test
-    @Ignore("These tests work on a packaged application only")
     public void cereebroSystemResourceShouldBeJson() {
         // @formatter:off
         RestAssured
@@ -101,6 +90,9 @@ public class EurekaServerAddOnTest {
         // @formatter:on
     }
 
+    /**
+     * <strong>This test does not pass when launched from an IDE !</strong>
+     */
     @Test
     public void eurekaDashboardPageShouldBeHtml() {
         // @formatter:off
@@ -115,6 +107,9 @@ public class EurekaServerAddOnTest {
         // @formatter:on
     }
 
+    /**
+     * <strong>This test does not pass when launched from an IDE !</strong>
+     */
     @Test
     public void eurekaDashboardLastNPageShouldBeHtml() {
         // @formatter:off
