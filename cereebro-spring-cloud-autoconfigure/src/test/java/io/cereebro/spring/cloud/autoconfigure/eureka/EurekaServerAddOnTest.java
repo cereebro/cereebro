@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.cereebro.server.eureka.addon;
+package io.cereebro.spring.cloud.autoconfigure.eureka;
 
 import java.net.URI;
 
@@ -29,26 +29,10 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import io.cereebro.server.EnableCereebroServer;
-import io.cereebro.server.eureka.addon.EurekaServerAddOnTest.EurekaServerAddOnTestApplication;
+import io.cereebro.spring.cloud.autoconfigure.eureka.EurekaServerAddOnTest.EurekaServerAddOnTestApplication;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 
-/**
- * Unfortunately some of the following tests fail when launched from an IDE
- * (eclipse at least).
- * <p>
- * The problems come from Thymeleaf and FreeMarker templates contained in other
- * jars in the classpath (technically just adding a folder named "templates" on
- * the classpath is sufficient to bug the eureka server). Spring Boot's uber jar
- * structure must solve the issue somehow.
- * </p>
- * <p>
- * Replacing local server URLs with a running sample like
- * {@literal cereebro-sample-server-eureka-addon} shows tests pass.
- * </p>
- * 
- * @author michaeltecourt
- */
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = EurekaServerAddOnTestApplication.class, webEnvironment = WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("eureka-addon")
@@ -63,6 +47,7 @@ public class EurekaServerAddOnTest {
     @Value("http://localhost:${local.server.port}/lastn")
     URI eurekaDashboardLastNURI;
 
+    @Test
     public void cereebroSystemPageShouldBeHtml() {
         // @formatter:off
         RestAssured
@@ -76,6 +61,7 @@ public class EurekaServerAddOnTest {
         // @formatter:on
     }
 
+    @Test
     public void cereebroSystemResourceShouldBeJson() {
         // @formatter:off
         RestAssured

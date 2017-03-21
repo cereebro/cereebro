@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.cereebro.snitch.eureka;
+package io.cereebro.spring.cloud.autoconfigure.eureka;
 
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
@@ -22,32 +22,32 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.cloud.netflix.eureka.CloudEurekaInstanceConfig;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import io.cereebro.snitch.eureka.EurekaClientMockTest.EurekaClientMockTestApplication;
-import io.cereebro.spring.cloud.autoconfigure.eureka.EurekaMetadataPopulator;
+import io.cereebro.spring.cloud.autoconfigure.eureka.EurekaClientDisabledTest.EurekaClientDisabledTestApplication;
 
+/**
+ * Make sure that Eureka client features are not auto-configured when eureka
+ * client is disabled.
+ * 
+ * @author michaeltecourt
+ */
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = EurekaClientMockTestApplication.class, webEnvironment = WebEnvironment.RANDOM_PORT)
-@ActiveProfiles("eureka-client-mock")
-public class EurekaClientMockTest {
+@SpringBootTest(classes = EurekaClientDisabledTestApplication.class, webEnvironment = WebEnvironment.NONE, value = {
+        "eureka.client.enabled=false" })
+public class EurekaClientDisabledTest {
 
-    @Autowired
+    @Autowired(required = false)
     EurekaMetadataPopulator populator;
 
     @Test
-    public void test() {
-        Assertions.assertThat(populator).isNotNull();
+    public void noMetadataPopulatorAutoConfigured() {
+        Assertions.assertThat(populator).isNull();
     }
 
     @SpringBootApplication
-    static class EurekaClientMockTestApplication {
-
-        @MockBean
-        CloudEurekaInstanceConfig cloudEurekaInstanceConfig;
+    static class EurekaClientDisabledTestApplication {
 
     }
+
 }

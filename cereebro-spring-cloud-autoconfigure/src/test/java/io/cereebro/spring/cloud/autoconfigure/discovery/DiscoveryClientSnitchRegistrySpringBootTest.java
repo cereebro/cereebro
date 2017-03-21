@@ -13,26 +13,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.cereebro.discovery;
+package io.cereebro.spring.cloud.autoconfigure.discovery;
 
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import io.cereebro.core.SnitchRegistry;
-import io.cereebro.discovery.DiscoveryClientSnitchRegistryTest.DiscoveryClientSnitchRegistryTestApplication;
+import io.cereebro.spring.cloud.autoconfigure.discovery.CereebroDiscoveryClientAutoConfiguration;
 import io.cereebro.spring.cloud.autoconfigure.discovery.DiscoveryClientSnitchRegistry;
+import io.cereebro.spring.cloud.autoconfigure.discovery.DiscoveryClientSnitchRegistrySpringBootTest.DiscoveryClientSnitchRegistryTestConfig;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = DiscoveryClientSnitchRegistryTestApplication.class, webEnvironment = WebEnvironment.RANDOM_PORT)
-public class DiscoveryClientSnitchRegistryTest {
+@SpringBootTest(classes = { DiscoveryClientSnitchRegistryTestConfig.class,
+        CereebroDiscoveryClientAutoConfiguration.class }, webEnvironment = WebEnvironment.NONE)
+public class DiscoveryClientSnitchRegistrySpringBootTest {
 
     @Autowired
     private SnitchRegistry registry;
@@ -42,11 +49,23 @@ public class DiscoveryClientSnitchRegistryTest {
         Assertions.assertThat(registry).isInstanceOf(DiscoveryClientSnitchRegistry.class);
     }
 
-    @SpringBootApplication
-    static class DiscoveryClientSnitchRegistryTestApplication {
+    @Configuration
+    static class DiscoveryClientSnitchRegistryTestConfig {
+
+        /**
+         * Go figure why {@link MockBean} works for {@link ObjectMapper}, but
+         * not DiscoveryClient. Maybe because of the {@link ConditionalOnBean}
+         * annotation ?
+         * 
+         * @return DiscoveryClient mock
+         */
+        @Bean
+        public DiscoveryClient discoveryClientMock() {
+            return Mockito.mock(DiscoveryClient.class);
+        }
 
         @MockBean
-        DiscoveryClient discoveryClient;
+        ObjectMapper objectMapper;
 
     }
 
