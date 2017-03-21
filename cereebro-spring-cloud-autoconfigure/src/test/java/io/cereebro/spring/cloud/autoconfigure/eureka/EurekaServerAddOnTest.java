@@ -16,25 +16,32 @@
 package io.cereebro.spring.cloud.autoconfigure.eureka;
 
 import java.net.URI;
+import java.util.List;
 
+import org.assertj.core.api.Assertions;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
+import org.springframework.cloud.netflix.eureka.server.EurekaServerConfiguration;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import io.cereebro.core.SnitchRegistry;
 import io.cereebro.server.EnableCereebroServer;
 import io.cereebro.spring.cloud.autoconfigure.eureka.EurekaServerAddOnTest.EurekaServerAddOnTestApplication;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = EurekaServerAddOnTestApplication.class, webEnvironment = WebEnvironment.RANDOM_PORT)
+@SpringBootTest(classes = { EurekaServerConfiguration.class,
+        EurekaServerAddOnTestApplication.class }, webEnvironment = WebEnvironment.RANDOM_PORT)
+
 @ActiveProfiles("eureka-addon")
 public class EurekaServerAddOnTest {
 
@@ -46,6 +53,20 @@ public class EurekaServerAddOnTest {
 
     @Value("http://localhost:${local.server.port}/lastn")
     URI eurekaDashboardLastNURI;
+
+    @Autowired
+    List<SnitchRegistry> registries;
+
+    @Test
+    public void eurekaServerSnitchRegistryShouldBeConfigured() {
+        // @formatter:off
+        boolean eurekaServerSnitchRegistryConfigured = registries.stream()
+                .filter(r -> r instanceof EurekaServerSnitchRegistry)
+                .findFirst()
+                .isPresent();
+        // @formatter:on
+        Assertions.assertThat(eurekaServerSnitchRegistryConfigured).isTrue();
+    }
 
     @Test
     public void cereebroSystemPageShouldBeHtml() {

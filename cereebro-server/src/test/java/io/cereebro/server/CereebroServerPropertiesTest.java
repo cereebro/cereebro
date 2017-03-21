@@ -13,21 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.cereebro.core;
+package io.cereebro.server;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
+import org.junit.Test;
+
+import nl.jqno.equalsverifier.EqualsVerifier;
+import nl.jqno.equalsverifier.Warning;
 
 /**
- * Not an enum.
+ * {@link CereebroServerProperties} unit tests.
  * 
  * @author michaeltecourt
  */
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class ComponentType {
+public class CereebroServerPropertiesTest {
 
-    public static final String HTTP_APPLICATION = "application/http";
-    public static final String RELATIONAL_DATABASE = "database/relational";
-    public static final String CASSANDRA = "database/cassandra";
+    @Test
+    public void verifyEqualsAndHashcode() {
+        EqualsVerifier.forClass(CereebroServerProperties.class).suppress(Warning.NONFINAL_FIELDS).verify();
+    }
 
 }
