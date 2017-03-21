@@ -114,10 +114,6 @@ public class EurekaMetadataPopulator {
     /**
      * Get the endpoint location of the current cereebro instance.
      * 
-     * @param snitch
-     *            Cereebro snitch, most probably the snitch endpoint.
-     * @param config
-     *            Eureka instance configuration.
      * @return Absolute Snitch URI.
      */
     protected URI getEndpointUri() {
