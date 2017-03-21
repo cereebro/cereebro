@@ -17,6 +17,7 @@ package io.cereebro.server.eureka.addon;
 
 import java.net.URI;
 
+import org.hamcrest.Matchers;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -34,7 +35,7 @@ import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 
 /**
- * Unfortunately the following tests fail when launched on an unpackaged
+ * Unfortunately some of the following tests fail when launched on an unpackaged
  * application (i.e. from IDE or maven CLI).
  * <p>
  * The problems come from Thymeleaf and FreeMarker templates contained in other
@@ -52,7 +53,6 @@ import io.restassured.http.ContentType;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = EurekaServerAddOnTestApplication.class, webEnvironment = WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("eureka-addon")
-@Ignore("These tests work on a packaged application only")
 public class EurekaServerAddOnTest {
 
     @Value("http://localhost:${local.server.port}/cereebro/system")
@@ -64,7 +64,11 @@ public class EurekaServerAddOnTest {
     @Value("http://localhost:${local.server.port}/lastn")
     URI eurekaDashboardLastNURI;
 
+    /**
+     * FIXME Test ignored because of template classpath issue.
+     */
     @Test
+    @Ignore("These tests work on a packaged application only")
     public void cereebroSystemPageShouldBeHtml() {
         // @formatter:off
         RestAssured
@@ -78,7 +82,11 @@ public class EurekaServerAddOnTest {
         // @formatter:on
     }
 
+    /**
+     * FIXME Test ignored because of template classpath issue.
+     */
     @Test
+    @Ignore("These tests work on a packaged application only")
     public void cereebroSystemResourceShouldBeJson() {
         // @formatter:off
         RestAssured
@@ -88,7 +96,8 @@ public class EurekaServerAddOnTest {
                 .get(cereebroSystemURI)
             .then()
                 .statusCode(200)
-                .contentType(ContentType.JSON);
+                .contentType(ContentType.JSON)
+                .body("name", Matchers.is("eureka-server-addon"));
         // @formatter:on
     }
 

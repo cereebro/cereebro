@@ -1,6 +1,6 @@
 spring:
   application:
-    name: cereebro-server-eureka-addon 
+    name: cereebro-server-eureka-addon
 
 eureka:
   client:
