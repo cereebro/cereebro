@@ -21,7 +21,7 @@ import lombok.Data;
 
 @Data
 @ConfigurationProperties("cereebro.eureka.instance.snitch")
-public class EurekaInstanceSnitchProperties {
+final class EurekaInstanceSnitchProperties {
 
     /**
      * Absolute URL of the endpoint (ex: "http://localhost:8080/cereebro"). <br>
