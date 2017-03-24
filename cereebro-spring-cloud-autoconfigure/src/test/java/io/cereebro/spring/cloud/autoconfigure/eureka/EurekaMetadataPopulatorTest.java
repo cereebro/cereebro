@@ -43,6 +43,7 @@ public class EurekaMetadataPopulatorTest {
     private static final URI TEST_URI = URI.create("/cereebro");
     private static final String DEFAULT_URL = "http://localhost:8080/cereebro";
 
+    private EurekaInstanceSnitchProperties props;
     private CloudEurekaInstanceConfig cloudEurekaInstanceConfig;
     private Map<String, String> metadata;
     private Snitch snitch;
@@ -57,36 +58,38 @@ public class EurekaMetadataPopulatorTest {
         Mockito.when(cloudEurekaInstanceConfig.getNonSecurePort()).thenReturn(8080);
         snitch = Mockito.mock(Snitch.class);
         Mockito.when(snitch.getUri()).thenReturn(TEST_URI);
-        populator = new EurekaMetadataPopulator(snitch, cloudEurekaInstanceConfig, new ObjectMapper());
+        props = new EurekaInstanceSnitchProperties();
+        populator = new EurekaMetadataPopulator(snitch, cloudEurekaInstanceConfig, props, new ObjectMapper());
     }
 
     @Test
     public void populateEurekaMetadaFromSnitch() {
         populator.populate();
         Assertions.assertThat(metadata).isNotEmpty();
-        Assertions.assertThat(metadata).containsEntry(CereebroMetadata.KEY_SNITCH_URI,
-                DEFAULT_URL);
+        Assertions.assertThat(metadata).containsEntry(CereebroMetadata.KEY_SNITCH_URI, DEFAULT_URL);
     }
 
     @Test
     public void populateEurekaMetadaFromAbsolutePath() {
-        populator.setUrl(DEFAULT_URL);
+        props.setUrl(DEFAULT_URL);
         populator.populate();
-        Assertions.assertThat(populator.getUrl()).isEqualTo(DEFAULT_URL);
-        Assertions.assertThat(metadata).isNotEmpty();
-        Assertions.assertThat(metadata).containsEntry(CereebroMetadata.KEY_SNITCH_URI,
-                DEFAULT_URL);
+        Assertions.assertThat(metadata).containsEntry(CereebroMetadata.KEY_SNITCH_URI, DEFAULT_URL);
     }
 
     @Test
     public void populateEurekaMetadaFromRelativePath() {
         final String urlPath = "/cereebro";
-        populator.setUrlPath(urlPath);
+        props.setUrlPath(urlPath);
         populator.populate();
-        Assertions.assertThat(populator.getUrlPath()).isEqualTo(urlPath);
-        Assertions.assertThat(metadata).isNotEmpty();
-        Assertions.assertThat(metadata).containsEntry(CereebroMetadata.KEY_SNITCH_URI,
-                DEFAULT_URL);
+        Assertions.assertThat(metadata).containsEntry(CereebroMetadata.KEY_SNITCH_URI, DEFAULT_URL);
+    }
+
+    @Test
+    public void populateWhenBothPathsShouldPreferAbsoluteUrl() {
+        props.setUrl(DEFAULT_URL);
+        props.setUrlPath("/whatever");
+        populator.populate();
+        Assertions.assertThat(metadata).containsEntry(CereebroMetadata.KEY_SNITCH_URI, DEFAULT_URL);
     }
 
     @Test
@@ -94,7 +97,8 @@ public class EurekaMetadataPopulatorTest {
         ObjectMapper objectMapperMock = Mockito.mock(ObjectMapper.class);
         SystemFragment frag = SystemFragment.empty();
         Mockito.when(snitch.snitch()).thenReturn(frag);
-        EurekaMetadataPopulator pop = new EurekaMetadataPopulator(snitch, cloudEurekaInstanceConfig, objectMapperMock);
+        EurekaMetadataPopulator pop = new EurekaMetadataPopulator(snitch, cloudEurekaInstanceConfig, props,
+                objectMapperMock);
         Mockito.when(objectMapperMock.writeValueAsString(frag))
                 .thenThrow(new JsonEOFException(null, null, "unit test"));
         try {
@@ -107,18 +111,25 @@ public class EurekaMetadataPopulatorTest {
 
     @Test(expected = NullPointerException.class)
     public void snitchRequired() {
-        new EurekaMetadataPopulator(null, Mockito.mock(CloudEurekaInstanceConfig.class),
+        new EurekaMetadataPopulator(null, Mockito.mock(CloudEurekaInstanceConfig.class), props,
                 Mockito.mock(ObjectMapper.class));
     }
 
     @Test(expected = NullPointerException.class)
     public void configRequired() {
-        new EurekaMetadataPopulator(Mockito.mock(Snitch.class), null, Mockito.mock(ObjectMapper.class));
+        new EurekaMetadataPopulator(Mockito.mock(Snitch.class), null, props, Mockito.mock(ObjectMapper.class));
     }
 
     @Test(expected = NullPointerException.class)
     public void objectMpaperRequired() {
-        new EurekaMetadataPopulator(Mockito.mock(Snitch.class), Mockito.mock(CloudEurekaInstanceConfig.class), null);
+        new EurekaMetadataPopulator(Mockito.mock(Snitch.class), Mockito.mock(CloudEurekaInstanceConfig.class), props,
+                null);
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void propertiesRequired() {
+        new EurekaMetadataPopulator(Mockito.mock(Snitch.class), Mockito.mock(CloudEurekaInstanceConfig.class), null,
+                Mockito.mock(ObjectMapper.class));
     }
 
 }

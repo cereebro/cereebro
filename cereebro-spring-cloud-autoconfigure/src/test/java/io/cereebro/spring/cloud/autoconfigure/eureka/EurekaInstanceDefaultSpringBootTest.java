@@ -28,7 +28,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.cloud.netflix.eureka.CloudEurekaInstanceConfig;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -36,33 +35,35 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.cereebro.core.Snitch;
 import io.cereebro.core.StaticSnitch;
 import io.cereebro.core.SystemFragment;
-import io.cereebro.spring.cloud.autoconfigure.eureka.EurekaClientMockTest.EurekaClientMockTestConfiguration;
+import io.cereebro.spring.cloud.autoconfigure.eureka.EurekaInstanceDefaultSpringBootTest.EurekaInstanceDefaultSpringBootTestConfiguration;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = { EurekaClientMockTestConfiguration.class,
+@SpringBootTest(classes = { EurekaInstanceDefaultSpringBootTestConfiguration.class,
         CereebroEurekaInstanceAutoConfiguration.class }, webEnvironment = WebEnvironment.NONE)
-@ActiveProfiles("eureka-client-mock")
-public class EurekaClientMockTest {
+public class EurekaInstanceDefaultSpringBootTest {
 
     @Autowired
     EurekaMetadataPopulator populator;
 
     @Test
-    public void test() {
-        Assertions.assertThat(populator).isNotNull();
+    public void testSnitchUri() {
+        Assertions.assertThat(populator.getEndpointUri()).isEqualTo(URI.create("http://localhost:1337/nope"));
     }
 
     @Configuration
-    static class EurekaClientMockTestConfiguration {
+    static class EurekaInstanceDefaultSpringBootTestConfiguration {
 
         @Bean
         public CloudEurekaInstanceConfig cloudEurekaInstanceConfig() {
-            return Mockito.mock(CloudEurekaInstanceConfig.class);
+            CloudEurekaInstanceConfig mock = Mockito.mock(CloudEurekaInstanceConfig.class);
+            Mockito.when(mock.getHostName(true)).thenReturn("localhost");
+            Mockito.when(mock.getNonSecurePort()).thenReturn(1337);
+            return mock;
         }
 
         @Bean
         public Snitch snitchMock() {
-            return StaticSnitch.of(URI.create("nope://nope"), SystemFragment.empty());
+            return StaticSnitch.of(URI.create("/nope"), SystemFragment.empty());
         }
 
         @MockBean
