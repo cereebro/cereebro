@@ -67,4 +67,15 @@ public class NodeTest {
         Assert.assertTrue(toString.contains("37"));
         Assert.assertTrue(toString.contains("99"));
     }
+
+    @Test(expected = NullPointerException.class)
+    public void nullIdShouldThrowNpe() {
+        Node.create(null, "label", 1, 2, 3);
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void nullLabelShouldThrowNpe() {
+        Node.create("id", null, 1, 2, 3);
+    }
+
 }

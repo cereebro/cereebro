@@ -19,6 +19,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.assertj.core.api.Assertions;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -28,7 +29,6 @@ import io.cereebro.core.Consumer;
 import io.cereebro.core.Dependency;
 import io.cereebro.core.System;
 import nl.jqno.equalsverifier.EqualsVerifier;
-import nl.jqno.equalsverifier.Warning;
 
 /**
  * {@link Graph} unit tests.
@@ -70,12 +70,22 @@ public class GraphTest {
 
     @Test
     public void verifyEqualsAndHashCode() {
-        EqualsVerifier.forClass(Graph.class).suppress(Warning.STRICT_INHERITANCE).verify();
+        EqualsVerifier.forClass(Graph.class).verify();
     }
 
     @Test
     public void testToString() {
-        Assert.assertNotNull(Graph.create(new HashSet<>(), new HashSet<>()));
+        Assertions.assertThat(Graph.create(new HashSet<>(), new HashSet<>()).toString()).isNotEmpty();
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void nullNodesShouldThrowNpe() {
+        Graph.create(null, new HashSet<>());
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void nullEdgesShouldThrowNpe() {
+        Graph.create(new HashSet<>(), null);
     }
 
 }

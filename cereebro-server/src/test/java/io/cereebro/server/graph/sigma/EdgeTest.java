@@ -22,7 +22,6 @@ import io.cereebro.core.Component;
 import io.cereebro.core.Consumer;
 import io.cereebro.core.Dependency;
 import nl.jqno.equalsverifier.EqualsVerifier;
-import nl.jqno.equalsverifier.Warning;
 
 /**
  * {@link Edge} unit tests.
@@ -33,7 +32,7 @@ public class EdgeTest {
 
     @Test
     public void verifyHashCodeEquals() {
-        EqualsVerifier.forClass(Edge.class).suppress(Warning.STRICT_INHERITANCE).verify();
+        EqualsVerifier.forClass(Edge.class).verify();
     }
 
     @Test
@@ -56,6 +55,21 @@ public class EdgeTest {
     public void testToString() {
         Edge edge = Edge.create("phoenix-to-xavier", "phoenix", "xavier", Edge.TYPE_ARROW);
         Assert.assertTrue(edge.toString().contains("phoenix-to-xavier"));
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void nullIdShouldThrowNpe() {
+        Edge.create(null, "source", "target", "arrow");
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void nullSourceShouldThrowNpe() {
+        Edge.create("id", null, "target", "arrow");
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void nullTargetShouldThrowNpe() {
+        Edge.create("id", "source", null, "arrow");
     }
 
 }
