@@ -27,7 +27,7 @@ import lombok.NonNull;
 @Data
 @AllArgsConstructor(staticName = "create")
 @Builder
-public class Node {
+public final class Node {
 
     @NonNull
     private final String id;

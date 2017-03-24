@@ -24,7 +24,7 @@ import lombok.NonNull;
 
 @Data
 @AllArgsConstructor(staticName = "create")
-public class Edge {
+public final class Edge {
 
     public static final String TYPE_ARROW = "arrow";
 

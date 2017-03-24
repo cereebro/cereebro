@@ -32,7 +32,7 @@ import lombok.NonNull;
  */
 @Data
 @AllArgsConstructor(staticName = "create")
-public class Graph {
+public final class Graph {
 
     @NonNull
     private final Set<Node> nodes;
