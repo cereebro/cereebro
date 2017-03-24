@@ -119,8 +119,6 @@ public abstract class AnnotationRelationshipDetector<T extends Annotation>
     protected Optional<MethodMetadata> getMethodMetadata(BeanDefinition beanDefinition) {
         if (beanDefinition instanceof AnnotatedBeanDefinition) {
             return Optional.of(AnnotatedBeanDefinition.class.cast(beanDefinition).getFactoryMethodMetadata());
-        } else if (beanDefinition.getSource() instanceof MethodMetadata) {
-            return Optional.of(MethodMetadata.class.cast(beanDefinition.getSource()));
         }
         return Optional.empty();
     }

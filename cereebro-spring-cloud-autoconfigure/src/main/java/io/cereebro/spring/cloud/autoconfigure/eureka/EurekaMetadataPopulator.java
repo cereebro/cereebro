@@ -19,7 +19,6 @@ import java.io.IOException;
 import java.net.URI;
 import java.util.Objects;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.cloud.netflix.eureka.CloudEurekaInstanceConfig;
 import org.springframework.util.StringUtils;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -36,28 +35,20 @@ import io.cereebro.spring.cloud.autoconfigure.discovery.CereebroMetadata;
  * @author lucwarrot
  *
  */
-@ConfigurationProperties(prefix = "cereebro.eureka.instance.snitch")
 public class EurekaMetadataPopulator {
 
-    /**
-     * Absolute URL of the endpoint (ex: "http://localhost:8080/cereebro"). <br>
-     * Will take precedence over the {@link #urlPath} if both are set.
-     */
-    private String url;
-
-    /**
-     * Relative path of the endpoint location (ex: "/cereebro").
-     */
-    private String urlPath;
+    private final EurekaInstanceSnitchProperties properties;
 
     private final Snitch snitch;
     private final CloudEurekaInstanceConfig config;
     private final ObjectMapper objectMapper;
 
-    public EurekaMetadataPopulator(Snitch snitch, CloudEurekaInstanceConfig config, ObjectMapper mapper) {
+    public EurekaMetadataPopulator(Snitch snitch, CloudEurekaInstanceConfig config,
+            EurekaInstanceSnitchProperties props, ObjectMapper mapper) {
         this.snitch = Objects.requireNonNull(snitch, "Snitch required");
         this.config = Objects.requireNonNull(config, "Cloud eureka instance config required");
         this.objectMapper = Objects.requireNonNull(mapper, "ObjectMapper required");
+        this.properties = Objects.requireNonNull(props, "Configuration properties required");
     }
 
     public void populate() {
@@ -72,60 +63,20 @@ public class EurekaMetadataPopulator {
     }
 
     /**
-     * Absolute URL of the endpoint (ex: "http://localhost:8080/cereebro"). <br>
-     * Will take precedence over the {@link #urlPath} if both are set.
-     * 
-     * @return url
-     */
-    public String getUrl() {
-        return url;
-    }
-
-    /**
-     * Absolute URL of the endpoint (ex: "http://localhost:8080/cereebro"). <br>
-     * Will take precedence over the {@link #urlPath} if both are set.
-     * 
-     * @param url
-     *            absolute URL.
-     */
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    /**
-     * Relative path of the endpoint location (ex: "/cereebro").
-     * 
-     * @return urlPath
-     */
-    public String getUrlPath() {
-        return urlPath;
-    }
-
-    /**
-     * Relative path of the endpoint location (ex: "/cereebro").
-     * 
-     * @param urlPath
-     *            Relative path.
-     */
-    public void setUrlPath(String urlPath) {
-        this.urlPath = urlPath;
-    }
-
-    /**
      * Get the endpoint location of the current cereebro instance.
      * 
      * @return Absolute Snitch URI.
      */
     protected URI getEndpointUri() {
-        if (!StringUtils.isEmpty(url)) {
-            return URI.create(url);
+        if (!StringUtils.isEmpty(properties.getUrl())) {
+            return URI.create(properties.getUrl());
         }
         // @formatter:off
         return UriComponentsBuilder.newInstance()
                 .scheme("http")
                 .host(config.getHostName(true))
                 .port(config.getNonSecurePort())
-                .path(StringUtils.isEmpty(urlPath) ? snitch.getUri().toString() : urlPath)
+                .path(StringUtils.isEmpty(properties.getUrlPath()) ? snitch.getUri().toString() : properties.getUrlPath())
                 .build()
                 .toUri();
         // @formatter:on
