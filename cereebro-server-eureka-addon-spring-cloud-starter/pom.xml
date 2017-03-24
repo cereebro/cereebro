@@ -4,7 +4,7 @@
     <parent>
         <groupId>io.cereebro</groupId>
         <artifactId>cereebro</artifactId>
-        <version>0.0.2</version>
+        <version>0.0.3-SNAPSHOT</version>
     </parent>
 
     <artifactId>cereebro-server-eureka-addon-spring-cloud-starter</artifactId>
