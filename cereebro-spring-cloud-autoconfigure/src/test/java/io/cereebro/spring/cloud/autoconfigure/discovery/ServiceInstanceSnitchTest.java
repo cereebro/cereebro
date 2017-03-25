@@ -104,7 +104,7 @@ public class ServiceInstanceSnitchTest {
     @Test
     @SuppressWarnings("unchecked")
     public void snitchWithoutFragmentJsonShouldConsumeResourceByUri() throws IOException {
-        String uri = "file://" + new ClassPathResource("snitch-test.json").getFile().getAbsolutePath();
+        String uri = new ClassPathResource("snitch-test.json").getFile().toURI().toString();
         metadata.put(CereebroMetadata.KEY_SNITCH_URI, uri);
         Mockito.when(objectMapperMock.readValue(Mockito.any(InputStream.class), Mockito.any(Class.class)))
                 .thenReturn(SystemFragment.empty());
