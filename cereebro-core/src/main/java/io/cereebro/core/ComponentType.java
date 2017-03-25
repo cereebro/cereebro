@@ -25,6 +25,7 @@ public class ComponentType {
     public static final String HTTP_APPLICATION = "application/http";
     public static final String RELATIONAL_DATABASE = "database/relational";
     public static final String CASSANDRA = "database/cassandra";
+    public static final String ELASTIC_SEARCH = "index/elasticsearch";
 
     private ComponentType() {
 
