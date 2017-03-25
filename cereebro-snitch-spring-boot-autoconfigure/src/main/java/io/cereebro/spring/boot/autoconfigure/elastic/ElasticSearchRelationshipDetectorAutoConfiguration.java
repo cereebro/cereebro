@@ -23,6 +23,13 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * Elastic Search detector auto configuration, depending on Elastic Search
+ * classes being available on the classpath. Requires a separate configuration
+ * class to prevent issues with optional classes.
+ * 
+ * @author lwarrot
+ */
 @Configuration
 @ConditionalOnClass(Client.class)
 public class ElasticSearchRelationshipDetectorAutoConfiguration {
