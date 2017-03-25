@@ -28,6 +28,7 @@ import io.cereebro.spring.annotation.RelationshipHintsAnnotationRelationshipDete
 import io.cereebro.spring.boot.autoconfigure.cassandra.CassandraRelationshipDetectorAutoConfiguration;
 import io.cereebro.spring.boot.autoconfigure.elastic.ElasticSearchRelationshipDetectorAutoConfiguration;
 import io.cereebro.spring.boot.autoconfigure.jdbc.DataSourceRelationshipDetectorAutoConfiguration;
+import io.cereebro.spring.boot.autoconfigure.mongo.MongoDbRelationshipDetector;
 
 /**
  * Configures various {@link RelationshipDetector}s.
@@ -37,7 +38,7 @@ import io.cereebro.spring.boot.autoconfigure.jdbc.DataSourceRelationshipDetector
 @Configuration
 @EnableConfigurationProperties({ CereebroProperties.class })
 @Import({ CassandraRelationshipDetectorAutoConfiguration.class, DataSourceRelationshipDetectorAutoConfiguration.class,
-        ElasticSearchRelationshipDetectorAutoConfiguration.class })
+        ElasticSearchRelationshipDetectorAutoConfiguration.class, MongoDbRelationshipDetector.class })
 public class CereebroRelationshipDetectorsAutoConfiguration {
 
     @Autowired
