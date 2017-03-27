@@ -83,8 +83,6 @@
         // We do the same for the edges, and we only keep
         // edges that have both extremities colored.
         s.bind('clickNode', function(e) {
-          // enlarge clicked node
-          e.data.node.size = 50;
           var nodeId = e.data.node.id,
               toKeep = s.graph.neighbors(nodeId);
           toKeep[nodeId] = e.data.node;

@@ -50,7 +50,7 @@ public class Graph {
         Set<Node> nodes = new HashSet<>();
         Set<Edge> edges = new HashSet<>();
         for (ComponentRelationships rel : system.getComponentRelationships()) {
-            nodes.add(Node.of(rel.getComponent(), rel.getRelationships().size() + 30));
+            nodes.add(Node.of(rel.getComponent(), rel.getRelationships().size() + 3));
             // @formatter:off
 	    // Transform dependency relationships to graph edges
 	    Set<Edge> dependencies = rel.getDependencies().stream().map(d -> Edge.to(rel.getComponent(), d))
