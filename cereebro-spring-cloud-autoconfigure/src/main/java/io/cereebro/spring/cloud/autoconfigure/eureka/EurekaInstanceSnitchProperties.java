@@ -19,8 +19,17 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import lombok.Data;
 
+/**
+ * Fine tune the Snitch URI declared in Eureka metadata with these properties.
+ * <p>
+ * Note that this class is not used as Spring Boot
+ * {@link ConfigurationProperties} because relaxed binding is needed to resolve
+ * management properties.
+ * </p>
+ * 
+ * @author michaeltecourt
+ */
 @Data
-@ConfigurationProperties("cereebro.eureka.instance.snitch")
 final class EurekaInstanceSnitchProperties {
 
     /**
