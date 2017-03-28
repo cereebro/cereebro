@@ -24,6 +24,7 @@ import java.util.Set;
 import org.springframework.util.CollectionUtils;
 
 import com.datastax.driver.core.Session;
+import com.google.common.base.Optional;
 
 import io.cereebro.core.Component;
 import io.cereebro.core.ComponentType;
@@ -54,7 +55,7 @@ public class CassandraRelationshipDetector implements RelationshipDetector {
     public Set<Relationship> detect() {
         final Set<Relationship> result = new HashSet<>();
         for (Session s : sessions) {
-            result.add(Dependency.on(Component.of(s.getLoggedKeyspace(), ComponentType.CASSANDRA)));
+            result.add(Dependency.on(Component.of(Optional.fromNullable(s.getLoggedKeyspace()).or("no_keyspace"), ComponentType.CASSANDRA)));
         }
         return result;
     }
