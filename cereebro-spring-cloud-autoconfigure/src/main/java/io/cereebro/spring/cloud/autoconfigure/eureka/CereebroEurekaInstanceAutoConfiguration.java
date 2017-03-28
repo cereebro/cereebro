@@ -18,10 +18,11 @@ package io.cereebro.spring.cloud.autoconfigure.eureka;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.boot.bind.RelaxedPropertyResolver;
 import org.springframework.cloud.netflix.eureka.CloudEurekaInstanceConfig;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -37,16 +38,20 @@ import io.cereebro.core.Snitch;
 @Configuration
 @ConditionalOnClass(CloudEurekaInstanceConfig.class)
 @ConditionalOnBean(CloudEurekaInstanceConfig.class)
-@EnableConfigurationProperties(EurekaInstanceSnitchProperties.class)
 public class CereebroEurekaInstanceAutoConfiguration {
 
     @Autowired
-    private EurekaInstanceSnitchProperties props;
+    private Environment env;
 
     @Bean
     @ConditionalOnBean(Snitch.class)
     public EurekaMetadataPopulator eurekaMetadataPopulator(Snitch snitch, CloudEurekaInstanceConfig config,
             ObjectMapper mapper) {
+        RelaxedPropertyResolver relaxedPropertyResolver = new RelaxedPropertyResolver(env,
+                "cereebro.eureka.instance.snitch.");
+        EurekaInstanceSnitchProperties props = new EurekaInstanceSnitchProperties();
+        props.setUrl(relaxedPropertyResolver.getProperty("url"));
+        props.setUrlPath(relaxedPropertyResolver.getProperty("urlPath"));
         EurekaMetadataPopulator metadataPopulator = new EurekaMetadataPopulator(snitch, config, props, mapper);
         metadataPopulator.populate();
         return metadataPopulator;
