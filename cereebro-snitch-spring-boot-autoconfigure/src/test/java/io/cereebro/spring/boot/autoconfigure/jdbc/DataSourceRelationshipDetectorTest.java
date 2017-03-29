@@ -17,8 +17,6 @@ package io.cereebro.spring.boot.autoconfigure.jdbc;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.Arrays;
-import java.util.Set;
 
 import javax.sql.DataSource;
 
@@ -35,7 +33,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import io.cereebro.core.Component;
 import io.cereebro.core.ComponentType;
 import io.cereebro.core.Dependency;
-import io.cereebro.core.Relationship;
 import io.cereebro.spring.boot.autoconfigure.jdbc.DataSourceRelationshipDetectorTest.DataSourceTestApplication;
 
 @RunWith(SpringRunner.class)
@@ -50,14 +47,6 @@ public class DataSourceRelationshipDetectorTest {
 
         Assertions.assertThat(detector.detect())
                 .contains(Dependency.on(Component.of("catalog", ComponentType.RELATIONAL_DATABASE)));
-    }
-
-    @Test
-    public void failureShouldReturnEmptySet() throws SQLException {
-        DataSource dataSourceMock = Mockito.mock(DataSource.class);
-        Mockito.when(dataSourceMock.getConnection()).thenThrow(new SQLException("unit test"));
-        Set<Relationship> result = new DataSourceRelationshipDetector(Arrays.asList(dataSourceMock)).detect();
-        Assertions.assertThat(result).isEmpty();
     }
 
     @SpringBootApplication
