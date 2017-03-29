@@ -30,6 +30,7 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.type.MethodMetadata;
+import org.springframework.util.CollectionUtils;
 
 import io.cereebro.core.Relationship;
 import io.cereebro.core.RelationshipDetector;
@@ -135,7 +136,7 @@ public abstract class AnnotationRelationshipDetector<T extends Annotation>
          */
         Optional<T> methodAnnotation = getAnnotation(metadata);
         Set<Relationship> rel = new HashSet<>();
-        if (hintData != null && !hintData.isEmpty()) {
+        if (!CollectionUtils.isEmpty(hintData)) {
             rel.addAll(extractFromAnnotationAttributes(hintData));
         } else if (methodAnnotation.isPresent()) {
             rel.addAll(extractFromAnnotation(methodAnnotation.get()));
