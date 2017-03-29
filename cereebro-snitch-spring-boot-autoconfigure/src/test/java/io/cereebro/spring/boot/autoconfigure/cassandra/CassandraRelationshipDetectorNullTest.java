@@ -25,6 +25,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.datastax.driver.core.Cluster;
 import com.datastax.driver.core.Session;
 
 import io.cereebro.core.Component;
@@ -42,7 +43,7 @@ public class CassandraRelationshipDetectorNullTest {
     @Test
     public void cassandraRelationshipWithSessionAvailable() {
         Assertions.assertThat(detector.detect())
-                .contains(Dependency.on(Component.of("no_keyspace", ComponentType.CASSANDRA)));
+                .contains(Dependency.on(Component.of("default_cluster", ComponentType.CASSANDRA)));
     }
 
     @SpringBootApplication
@@ -52,6 +53,9 @@ public class CassandraRelationshipDetectorNullTest {
         public Session session() {
             Session s = Mockito.mock(Session.class);
             Mockito.when(s.getLoggedKeyspace()).thenReturn(null);
+            Cluster c = Mockito.mock(Cluster.class);
+            Mockito.when(s.getCluster()).thenReturn(c);
+            Mockito.when(c.getClusterName()).thenReturn(null);
             return s;
         }
 
