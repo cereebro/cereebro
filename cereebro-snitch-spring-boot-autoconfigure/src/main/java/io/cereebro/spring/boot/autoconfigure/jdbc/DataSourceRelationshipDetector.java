@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import javax.annotation.PostConstruct;
@@ -45,6 +46,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class DataSourceRelationshipDetector implements RelationshipDetector {
 
+    private static final String DEFAULT_NAME = "default_db";
+
     private final List<DataSource> dataSources;
 
     private Set<Relationship> relationsCache;
@@ -67,8 +70,7 @@ public class DataSourceRelationshipDetector implements RelationshipDetector {
             final Set<Relationship> result = new HashSet<>();
             for (DataSource ds : dataSources) {
                 try {
-                    result.add(Dependency
-                            .on(Component.of(ds.getConnection().getCatalog(), ComponentType.RELATIONAL_DATABASE)));
+                    result.add(Dependency.on(Component.of(extractName(ds), ComponentType.RELATIONAL_DATABASE)));
                 } catch (SQLException e) {
                     LOGGER.error("Could not fetch the default catalog of the database connection", e);
                 }
@@ -76,6 +78,21 @@ public class DataSourceRelationshipDetector implements RelationshipDetector {
             relationsCache = result;
         }
         return new HashSet<>(relationsCache);
+    }
+
+    /**
+     * Extract a DataSource name, using a default one if necessary.
+     * 
+     * @param dataSource
+     * @return a non-null DataSource name.
+     * @throws SQLException
+     */
+    protected String extractName(DataSource dataSource) throws SQLException {
+        String name = dataSource.getConnection().getSchema();
+        if (name == null) {
+            name = dataSource.getConnection().getCatalog();
+        }
+        return Optional.ofNullable(name).orElse(DEFAULT_NAME);
     }
 
 }
