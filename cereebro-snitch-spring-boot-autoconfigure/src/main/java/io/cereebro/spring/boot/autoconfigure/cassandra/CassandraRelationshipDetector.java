@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.util.CollectionUtils;
@@ -54,9 +55,25 @@ public class CassandraRelationshipDetector implements RelationshipDetector {
     public Set<Relationship> detect() {
         final Set<Relationship> result = new HashSet<>();
         for (Session s : sessions) {
-            result.add(Dependency.on(Component.of(s.getLoggedKeyspace(), ComponentType.CASSANDRA)));
+            result.add(Dependency.on(Component.of(extractName(s), ComponentType.CASSANDRA)));
         }
         return result;
+    }
+
+    /**
+     * Extract a Cassandra Keyspace or Cluster name, using a default name when
+     * none available.
+     * 
+     * @param session
+     *            Cassandra Session.
+     * @return a non-null Cassandra Component name.
+     */
+    protected String extractName(Session session) {
+        String name = session.getLoggedKeyspace();
+        if (name == null) {
+            name = session.getCluster().getClusterName();
+        }
+        return Optional.ofNullable(name).orElse("default_cluster");
     }
 
 }

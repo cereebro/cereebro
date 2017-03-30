@@ -13,12 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.cereebro.spring.boot.autoconfigure.jdbc;
-
-import java.sql.Connection;
-import java.sql.SQLException;
-
-import javax.sql.DataSource;
+package io.cereebro.spring.boot.autoconfigure.cassandra;
 
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
@@ -30,35 +25,38 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.datastax.driver.core.Cluster;
+import com.datastax.driver.core.Session;
+
 import io.cereebro.core.Component;
 import io.cereebro.core.ComponentType;
 import io.cereebro.core.Dependency;
-import io.cereebro.spring.boot.autoconfigure.jdbc.DataSourceRelationshipDetectorTest.DataSourceTestApplication;
+import io.cereebro.spring.boot.autoconfigure.cassandra.CassandraRelationshipDetectorNullTest.CassandraTestApplication;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = DataSourceTestApplication.class)
-public class DataSourceRelationshipDetectorTest {
+@SpringBootTest(classes = CassandraTestApplication.class)
+public class CassandraRelationshipDetectorNullTest {
 
     @Autowired
-    private DataSourceRelationshipDetector detector;
+    private CassandraRelationshipDetector detector;
 
     @Test
-    public void dataSourceRelationshipWithDataSourceAvailable() throws SQLException {
-
+    public void cassandraRelationshipWithSessionAvailable() {
         Assertions.assertThat(detector.detect())
-                .contains(Dependency.on(Component.of("catalog", ComponentType.RELATIONAL_DATABASE)));
+                .contains(Dependency.on(Component.of("default_cluster", ComponentType.CASSANDRA)));
     }
 
     @SpringBootApplication
-    static class DataSourceTestApplication {
+    static class CassandraTestApplication {
 
         @Bean
-        public DataSource dataSource() throws Exception {
-            DataSource ds = Mockito.mock(DataSource.class);
-            Connection c = Mockito.mock(Connection.class);
-            Mockito.when(ds.getConnection()).thenReturn(c);
-            Mockito.when(c.getCatalog()).thenReturn("catalog");
-            return ds;
+        public Session session() {
+            Session s = Mockito.mock(Session.class);
+            Mockito.when(s.getLoggedKeyspace()).thenReturn(null);
+            Cluster c = Mockito.mock(Cluster.class);
+            Mockito.when(s.getCluster()).thenReturn(c);
+            Mockito.when(c.getClusterName()).thenReturn(null);
+            return s;
         }
 
     }
