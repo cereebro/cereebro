@@ -37,12 +37,16 @@ public interface SystemResolver {
 
     /**
      * Resolve a complete System out of system fragments.
+     * <p>
+     * Note that this method cannot return resolution errors, because the
+     * fragments are provided.
+     * </p>
      * 
      * @param systemName
      *            Name of the system.
      * @param fragments
      *            Sum of system fragments to be assembled.
-     * @return resolved System
+     * @return an error-free, resolved System
      */
     System resolve(String systemName, Collection<SystemFragment> fragments);
 

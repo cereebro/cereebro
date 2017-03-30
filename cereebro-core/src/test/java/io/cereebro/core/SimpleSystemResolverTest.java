@@ -16,10 +16,13 @@
 package io.cereebro.core;
 
 import java.net.URI;
+import java.util.Arrays;
+import java.util.HashSet;
 
-import org.junit.Assert;
+import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 /**
  * {@link SimpleSystemResolver} unit tests.
@@ -47,7 +50,7 @@ public class SimpleSystemResolverTest {
     @Test
     public void resolvingEmptySnitchRegistryShouldReturnEmptySystem() {
         System actual = resolver.resolve(SYSTEM_NAME, StaticSnitchRegistry.of());
-        Assert.assertEquals(System.empty(SYSTEM_NAME), actual);
+        Assertions.assertThat(actual).isEqualTo(System.empty(SYSTEM_NAME));
     }
 
     /**
@@ -92,7 +95,7 @@ public class SimpleSystemResolverTest {
         // @formatter:on
         System expected = System.of(SYSTEM_NAME, wolverineResolved, phoenixResolved, sabretoothResolved);
 
-        Assert.assertEquals(expected, actual);
+        Assertions.assertThat(actual).isEqualTo(expected);
     }
 
     @Test
@@ -140,7 +143,7 @@ public class SimpleSystemResolverTest {
         // @formatter:on
         System expected = System.of(SYSTEM_NAME, cyclopResolved, phoenixResolved, xavierResolved);
 
-        Assert.assertEquals(expected, actual);
+        Assertions.assertThat(actual).isEqualTo(expected);
     }
 
     /**
@@ -167,7 +170,39 @@ public class SimpleSystemResolverTest {
         System actual = resolver.resolve(SYSTEM_NAME, StaticSnitchRegistry.of(snitch1));
         System expected = System.of(SYSTEM_NAME, cableResolved);
 
-        Assert.assertEquals(expected, actual);
+        Assertions.assertThat(actual).isEqualTo(expected);
+    }
+
+    @Test
+    public void snitchingExceptionShouldBeTranslatedToError() {
+        Snitch snitchMock = Mockito.mock(Snitch.class);
+        URI uri = URI.create("http://nope");
+        String message = "nope";
+        Mockito.when(snitchMock.getUri()).thenReturn(uri);
+        Mockito.when(snitchMock.snitch()).thenThrow(new SnitchingException(uri, message));
+        System actual = resolver.resolve(SYSTEM_NAME, StaticSnitchRegistry.of(snitchMock));
+        ResolutionError error = ResolutionError.of(uri, message);
+        System expected = System.of(SYSTEM_NAME, new HashSet<>(), new HashSet<>(Arrays.asList(error)));
+        Assertions.assertThat(actual).isEqualTo(expected);
+    }
+
+    @Test
+    public void runtimeExceptionShouldBeTranslatedToError() {
+        Snitch snitchMock = Mockito.mock(Snitch.class);
+        URI uri = URI.create("http://nope");
+        String message = "nope";
+        Mockito.when(snitchMock.getUri()).thenReturn(uri);
+        Mockito.when(snitchMock.snitch()).thenThrow(new RuntimeException(message));
+        System actual = resolver.resolve(SYSTEM_NAME, StaticSnitchRegistry.of(snitchMock));
+        ResolutionError error = ResolutionError.of(uri, "Could not access or process Snitch");
+        System expected = System.of(SYSTEM_NAME, new HashSet<>(), new HashSet<>(Arrays.asList(error)));
+        Assertions.assertThat(actual).isEqualTo(expected);
+    }
+
+    @Test
+    public void resolutionUsingFragmentsShouldNotReturnErrors() {
+        System system = resolver.resolve(SYSTEM_NAME, new HashSet<>());
+        Assertions.assertThat(system).isEqualTo(System.empty(SYSTEM_NAME));
     }
 
 }

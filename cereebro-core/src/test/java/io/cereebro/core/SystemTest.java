@@ -15,11 +15,12 @@
  */
 package io.cereebro.core;
 
+import java.net.URI;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.junit.Assert;
+import org.assertj.core.api.Assertions;
 import org.junit.Test;
 
 import nl.jqno.equalsverifier.EqualsVerifier;
@@ -28,6 +29,8 @@ import nl.jqno.equalsverifier.EqualsVerifier;
  * {@link System} unit tests.
  */
 public class SystemTest {
+
+    private static final String NAME = "name";
 
     @Test(expected = NullPointerException.class)
     public void constructorWithNullNameShouldThrowNullPointerException() {
@@ -38,7 +41,7 @@ public class SystemTest {
 
     @Test(expected = NullPointerException.class)
     public void constructorWithNullRelsShouldThrowNullPointerException() {
-        new System("name", null);
+        new System(NAME, null);
     }
 
     @Test
@@ -47,8 +50,8 @@ public class SystemTest {
                 TestHelper.relationshipSetOfDependencyBAndConsumerC());
         Set<ComponentRelationships> rels = new HashSet<>(Arrays.asList(c));
         System system = System.of("system", rels);
-        Assert.assertEquals("system", system.getName());
-        Assert.assertEquals(rels, system.getComponentRelationships());
+        Assertions.assertThat(system.getName()).isEqualTo("system");
+        Assertions.assertThat(system.getComponentRelationships()).isEqualTo(rels);
     }
 
     @Test
@@ -59,7 +62,27 @@ public class SystemTest {
     @Test
     public void testToString() {
         String toString = System.empty("xmen").toString();
-        Assert.assertTrue(toString.contains("xmen"));
+        Assertions.assertThat(toString).contains("xmen");
+    }
+
+    @Test
+    public void builderTest() {
+        System actual = System.builder().name(NAME).componentRelationships(new HashSet<>()).errors(new HashSet<>())
+                .build();
+        Assertions.assertThat(System.empty(NAME)).isEqualTo(actual);
+    }
+
+    @Test
+    public void hasErrorsShouldBeFalseForEmptySystem() {
+        Assertions.assertThat(System.empty("xmen").hasErrors()).isFalse();
+    }
+
+    @Test
+    public void hasErrorsShouldBeTrueWhenSystemContainsErrors() {
+        ResolutionError error = ResolutionError.of(URI.create("/nope"), "message");
+        System system = System.builder().name(NAME).componentRelationships(new HashSet<>())
+                .errors(new HashSet<>(Arrays.asList(error))).build();
+        Assertions.assertThat(system.hasErrors()).isTrue();
     }
 
 }

@@ -40,7 +40,7 @@ import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = TestApplication.class, webEnvironment = WebEnvironment.RANDOM_PORT, properties = "eureka.client.enabled=false")
+@SpringBootTest(classes = TestApplication.class, webEnvironment = WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("it-static")
 public class CereebroServerApplicationTest {
 
@@ -78,7 +78,8 @@ public class CereebroServerApplicationTest {
             .then()
                 .statusCode(200)
                 .contentType(ContentType.JSON)
-                .body("name", Matchers.is("cereebro-system"));
+                .body("name", Matchers.is("cereebro-system"))
+                .body("errors.size()", Matchers.is(0));
         // @formatter:on
     }
 
