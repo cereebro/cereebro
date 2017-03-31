@@ -16,6 +16,7 @@
 package io.cereebro.spring.boot.autoconfigure.jdbc;
 
 import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.SQLException;
 
 import javax.sql.DataSource;
@@ -56,8 +57,11 @@ public class DataSourceRelationshipDetectorTest {
         public DataSource dataSource() throws Exception {
             DataSource ds = Mockito.mock(DataSource.class);
             Connection c = Mockito.mock(Connection.class);
+            DatabaseMetaData metadata = Mockito.mock(DatabaseMetaData.class);
             Mockito.when(ds.getConnection()).thenReturn(c);
             Mockito.when(c.getCatalog()).thenReturn("catalog");
+            Mockito.when(c.getMetaData()).thenReturn(metadata);
+            Mockito.when(metadata.getDatabaseProductName()).thenReturn("relational");
             return ds;
         }
 

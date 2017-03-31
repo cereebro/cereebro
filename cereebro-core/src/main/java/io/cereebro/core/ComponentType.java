@@ -23,7 +23,16 @@ package io.cereebro.core;
 public class ComponentType {
 
     public static final String HTTP_APPLICATION = "application/http";
+    
+    // Relational databases
     public static final String RELATIONAL_DATABASE = "database/relational";
+    public static final String DB2_DATABASE = "database/db2";
+    public static final String HSQL_DATABASE = "database/hsql";
+    public static final String MYSQL_DATABASE = "database/mysql";
+    public static final String POSTGRESQL_DATABASE = "database/postgresql";
+    public static final String ORACLE_DATABASE = "database/oracle";
+    public static final String MSSQL_DATABASE = "database/mssql";
+    
     public static final String CASSANDRA = "database/cassandra";
     public static final String MONGODB = "database/mongodb";
     public static final String ELASTIC_SEARCH = "index/elasticsearch";

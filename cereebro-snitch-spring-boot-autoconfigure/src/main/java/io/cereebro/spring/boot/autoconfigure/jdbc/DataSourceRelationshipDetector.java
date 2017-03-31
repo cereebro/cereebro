@@ -27,6 +27,7 @@ import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import io.cereebro.core.Component;
 import io.cereebro.core.ComponentType;
@@ -70,7 +71,7 @@ public class DataSourceRelationshipDetector implements RelationshipDetector {
             final Set<Relationship> result = new HashSet<>();
             for (DataSource ds : dataSources) {
                 try {
-                    result.add(Dependency.on(Component.of(extractName(ds), ComponentType.RELATIONAL_DATABASE)));
+                    result.add(Dependency.on(Component.of(extractName(ds), extractDatabaseType(ds))));
                 } catch (SQLException e) {
                     LOGGER.error("Could not fetch the default catalog of the database connection", e);
                 }
@@ -93,6 +94,45 @@ public class DataSourceRelationshipDetector implements RelationshipDetector {
             name = dataSource.getConnection().getCatalog();
         }
         return Optional.ofNullable(name).orElse(DEFAULT_NAME);
+    }
+
+    /**
+     * Extract the Database type from the metadata of the connection.
+     * 
+     * @param dataSource
+     * @return a non-null Datasource type.
+     * @throws SQLException
+     */
+    protected String extractDatabaseType(DataSource dataSource) throws SQLException {
+        return DbType
+                .findByProductName(dataSource.getConnection().getMetaData().getDatabaseProductName()).componentType;
+    }
+
+    private static enum DbType {
+        RELATIONAL(ComponentType.RELATIONAL_DATABASE, "unmatchable_-_string"), MYSQL(ComponentType.MYSQL_DATABASE,
+                "mysql"), MSSQL(ComponentType.MSSQL_DATABASE, "mssql"), ORACLE(ComponentType.ORACLE_DATABASE,
+                        "oracle"), POSTGRESQL(ComponentType.POSTGRESQL_DATABASE, "postgre"), HSQL(
+                                ComponentType.HSQL_DATABASE, "hsql"), DB2(ComponentType.DB2_DATABASE, "db2");
+
+        String componentType;
+        String productName;
+
+        private DbType(String componentType, String productName) {
+            this.componentType = componentType;
+            this.productName = productName;
+        }
+
+        private static DbType findByProductName(String productName) {
+            if (StringUtils.hasText(productName)) {
+                String lowerCase = productName.toLowerCase();
+                for (DbType db : values()) {
+                    if (lowerCase.contains(db.productName)) {
+                        return db;
+                    }
+                }
+            }
+            return RELATIONAL;
+        }
     }
 
 }
