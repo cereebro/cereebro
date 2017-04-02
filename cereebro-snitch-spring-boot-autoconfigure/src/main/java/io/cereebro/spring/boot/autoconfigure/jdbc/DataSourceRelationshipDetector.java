@@ -27,10 +27,8 @@ import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 
 import org.springframework.util.CollectionUtils;
-import org.springframework.util.StringUtils;
 
 import io.cereebro.core.Component;
-import io.cereebro.core.ComponentType;
 import io.cereebro.core.Dependency;
 import io.cereebro.core.Relationship;
 import io.cereebro.core.RelationshipDetector;
@@ -106,33 +104,6 @@ public class DataSourceRelationshipDetector implements RelationshipDetector {
     protected String extractDatabaseType(DataSource dataSource) throws SQLException {
         return DbType
                 .findByProductName(dataSource.getConnection().getMetaData().getDatabaseProductName()).componentType;
-    }
-
-    private static enum DbType {
-        RELATIONAL(ComponentType.RELATIONAL_DATABASE, "unmatchable_-_string"), MYSQL(ComponentType.MYSQL_DATABASE,
-                "mysql"), MSSQL(ComponentType.MSSQL_DATABASE, "mssql"), ORACLE(ComponentType.ORACLE_DATABASE,
-                        "oracle"), POSTGRESQL(ComponentType.POSTGRESQL_DATABASE, "postgre"), HSQL(
-                                ComponentType.HSQL_DATABASE, "hsql"), DB2(ComponentType.DB2_DATABASE, "db2");
-
-        String componentType;
-        String productName;
-
-        private DbType(String componentType, String productName) {
-            this.componentType = componentType;
-            this.productName = productName;
-        }
-
-        private static DbType findByProductName(String productName) {
-            if (StringUtils.hasText(productName)) {
-                String lowerCase = productName.toLowerCase();
-                for (DbType db : values()) {
-                    if (lowerCase.contains(db.productName)) {
-                        return db;
-                    }
-                }
-            }
-            return RELATIONAL;
-        }
     }
 
 }
