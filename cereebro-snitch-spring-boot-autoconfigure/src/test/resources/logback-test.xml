@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/base.xml"/>
+    <!-- Shut up Mongo -->
+    <logger name="org.mongodb.driver.cluster" level="WARN" />
+</configuration>
