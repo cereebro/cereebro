@@ -22,17 +22,22 @@ import org.springframework.boot.actuate.autoconfigure.ManagementContextConfigura
 import org.springframework.boot.actuate.condition.ConditionalOnEnabledEndpoint;
 import org.springframework.boot.actuate.endpoint.mvc.MvcEndpoint;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Import;
 
 import io.cereebro.core.Component;
 import io.cereebro.core.CompositeRelationshipDetector;
 import io.cereebro.core.RelationshipDetector;
 import io.cereebro.spring.boot.autoconfigure.CereebroProperties;
+import io.cereebro.spring.boot.autoconfigure.log.LogSnitchAutoConfiguration;
 
 @ManagementContextConfiguration
 @EnableConfigurationProperties(CereebroProperties.class)
 @ConditionalOnClass(MvcEndpoint.class)
+@ConditionalOnWebApplication
+@Import(LogSnitchAutoConfiguration.class)
 public class CereebroWebMvcEndpointConfiguration {
 
     @Autowired
