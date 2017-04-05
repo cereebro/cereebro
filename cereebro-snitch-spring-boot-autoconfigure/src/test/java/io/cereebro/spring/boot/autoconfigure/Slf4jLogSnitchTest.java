@@ -13,45 +13,48 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.cereebro.spring.boot.autoconfigure.log;
+package io.cereebro.spring.boot.autoconfigure;
 
 import java.io.IOException;
 
+import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.runners.MockitoJUnitRunner;
 import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import ch.qos.logback.classic.Level;
-import io.cereebro.core.Snitch;
+import io.cereebro.core.ApplicationAnalyzer;
 import io.cereebro.core.SystemFragment;
 
-@RunWith(MockitoJUnitRunner.class)
+/**
+ * {@link Slf4jLogSnitch} unit tests.
+ * 
+ * @author michaeltecourt
+ */
 public class Slf4jLogSnitchTest {
 
-    @Mock
     ObjectMapper objectMapperMock;
-
-    @Mock
-    Snitch snitchMock;
-
-    @InjectMocks
+    ApplicationAnalyzer analyzerMock;
     Slf4jLogSnitch logSnitch;
+
+    @Before
+    public void setUp() {
+        objectMapperMock = Mockito.mock(ObjectMapper.class);
+        analyzerMock = Mockito.mock(ApplicationAnalyzer.class);
+        logSnitch = new Slf4jLogSnitch(analyzerMock, objectMapperMock);
+    }
 
     @Test
     public void log() throws IOException {
         Level previousLogLevel = setLogLevel(Slf4jLogSnitch.class, Level.INFO);
 
         SystemFragment frag = SystemFragment.empty();
-        Mockito.when(snitchMock.snitch()).thenReturn(frag);
+        Mockito.when(analyzerMock.analyzeSystem()).thenReturn(frag);
         Mockito.when(objectMapperMock.writeValueAsString(frag)).thenReturn("");
         logSnitch.log();
-        Mockito.verify(snitchMock).snitch();
+        Mockito.verify(analyzerMock).analyzeSystem();
         Mockito.verify(objectMapperMock).writeValueAsString(frag);
 
         setLogLevel(Slf4jLogSnitch.class, previousLogLevel);
@@ -62,7 +65,7 @@ public class Slf4jLogSnitchTest {
         Level previousLogLevel = setLogLevel(Slf4jLogSnitch.class, Level.ERROR);
 
         logSnitch.log();
-        Mockito.verify(snitchMock, Mockito.never()).snitch();
+        Mockito.verify(analyzerMock, Mockito.never()).analyzeSystem();
         Mockito.verify(objectMapperMock, Mockito.never()).writeValueAsString(Mockito.any());
 
         setLogLevel(Slf4jLogSnitch.class, previousLogLevel);

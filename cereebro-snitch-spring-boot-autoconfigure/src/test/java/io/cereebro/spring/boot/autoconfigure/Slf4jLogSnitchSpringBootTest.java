@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.cereebro.spring.boot.autoconfigure.log;
+package io.cereebro.spring.boot.autoconfigure;
 
 import java.io.IOException;
 import java.net.URI;
@@ -22,17 +22,13 @@ import org.assertj.core.api.Assertions;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.rule.OutputCapture;
-import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import io.cereebro.core.Snitch;
-import io.cereebro.core.SystemFragment;
-import io.cereebro.spring.boot.autoconfigure.log.Slf4jLogSnitchSpringBootTest.LogSnitchSpringBootTestApplication;
+import io.cereebro.spring.boot.autoconfigure.Slf4jLogSnitchSpringBootTest.LogSnitchSpringBootTestApplication;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = LogSnitchSpringBootTestApplication.class, value = "cereebro.snitch.logOnStartup=true")
@@ -56,19 +52,11 @@ public class Slf4jLogSnitchSpringBootTest {
     @Test
     public void logsShouldContainStatementAndFragment() throws IOException {
         logSnitch.log();
-        Assertions.assertThat(capture.toString()).contains(SNITCH_URI.toString());
+        Assertions.assertThat(capture.toString()).contains(Slf4jLogSnitch.class.getSimpleName());
     }
 
     @SpringBootApplication
     static class LogSnitchSpringBootTestApplication {
-
-        @Bean
-        public Snitch snitchMock() {
-            Snitch snitchMock = Mockito.mock(Snitch.class);
-            Mockito.when(snitchMock.snitch()).thenReturn(SystemFragment.empty());
-            Mockito.when(snitchMock.getUri()).thenReturn(SNITCH_URI);
-            return snitchMock;
-        }
 
     }
 

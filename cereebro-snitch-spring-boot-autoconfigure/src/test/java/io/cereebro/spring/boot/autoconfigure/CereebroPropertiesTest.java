@@ -19,7 +19,6 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.mock.env.MockEnvironment;
 
-import io.cereebro.spring.boot.autoconfigure.CereebroProperties;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import nl.jqno.equalsverifier.Warning;
 

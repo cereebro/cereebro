@@ -179,7 +179,10 @@ public class SimpleSystemResolverTest {
         URI uri = URI.create("http://nope");
         String message = "nope";
         Mockito.when(snitchMock.getUri()).thenReturn(uri);
-        Mockito.when(snitchMock.snitch()).thenThrow(new SnitchingException(uri, message));
+        SnitchingException snitchingExceptionMock = Mockito.mock(SnitchingException.class);
+        Mockito.when(snitchingExceptionMock.getMessage()).thenReturn(message);
+        Mockito.when(snitchingExceptionMock.getSnitchUri()).thenReturn(uri);
+        Mockito.when(snitchMock.snitch()).thenThrow(snitchingExceptionMock);
         System actual = resolver.resolve(SYSTEM_NAME, StaticSnitchRegistry.of(snitchMock));
         ResolutionError error = ResolutionError.of(uri, message);
         System expected = System.of(SYSTEM_NAME, new HashSet<>(), new HashSet<>(Arrays.asList(error)));
@@ -192,7 +195,9 @@ public class SimpleSystemResolverTest {
         URI uri = URI.create("http://nope");
         String message = "nope";
         Mockito.when(snitchMock.getUri()).thenReturn(uri);
-        Mockito.when(snitchMock.snitch()).thenThrow(new RuntimeException(message));
+        RuntimeException exceptionMock = Mockito.mock(RuntimeException.class);
+        Mockito.when(exceptionMock.getMessage()).thenReturn(message);
+        Mockito.when(snitchMock.snitch()).thenThrow(exceptionMock);
         System actual = resolver.resolve(SYSTEM_NAME, StaticSnitchRegistry.of(snitchMock));
         ResolutionError error = ResolutionError.of(uri, "Could not access or process Snitch");
         System expected = System.of(SYSTEM_NAME, new HashSet<>(), new HashSet<>(Arrays.asList(error)));

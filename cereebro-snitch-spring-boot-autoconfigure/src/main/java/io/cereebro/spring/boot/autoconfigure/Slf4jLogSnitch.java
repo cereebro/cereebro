@@ -13,14 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.cereebro.spring.boot.autoconfigure.log;
+package io.cereebro.spring.boot.autoconfigure;
 
 import java.io.IOException;
 import java.util.Objects;
 
+import org.springframework.boot.CommandLineRunner;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import io.cereebro.core.Snitch;
+import io.cereebro.core.ApplicationAnalyzer;
 import io.cereebro.core.SystemFragment;
 import lombok.extern.slf4j.Slf4j;
 
@@ -30,34 +32,42 @@ import lombok.extern.slf4j.Slf4j;
  * @author michaeltecourt
  */
 @Slf4j
-public class Slf4jLogSnitch {
+public class Slf4jLogSnitch implements CommandLineRunner {
 
-    private final Snitch snitch;
+    private final ApplicationAnalyzer analyzer;
     private final ObjectMapper objectMapper;
 
     /**
      * Writes Snitch data in the logs.
      * 
-     * @param snitch
+     * @param analyzer
      * @param objectMapper
      */
-    public Slf4jLogSnitch(Snitch snitch, ObjectMapper objectMapper) {
-        this.snitch = Objects.requireNonNull(snitch, "Snitch required");
+    public Slf4jLogSnitch(ApplicationAnalyzer analyzer, ObjectMapper objectMapper) {
+        this.analyzer = Objects.requireNonNull(analyzer, "Application analyzer required");
         this.objectMapper = Objects.requireNonNull(objectMapper, "Object mapper required");
     }
 
     /**
      * Write the SystemFragment in the logs.
-     * 
-     * @throws IOException
-     *             when something wrong happens.
      */
-    public void log() throws IOException {
+    public void log() {
         if (LOGGER.isInfoEnabled()) {
-            SystemFragment frag = snitch.snitch();
-            String fragString = objectMapper.writeValueAsString(frag);
-            LOGGER.info("Snitch URI : {} - System fragment : {}", snitch.getUri(), fragString);
+            try {
+                SystemFragment frag = analyzer.analyzeSystem();
+                String fragString = objectMapper.writeValueAsString(frag);
+                LOGGER.info("System fragment : {}", fragString);
+            } catch (IOException | RuntimeException e) {
+                // Swallow the exception, we don't want to prevent
+                // the app from starting
+                LOGGER.error("Error while logging system fragment", e);
+            }
         }
+    }
+
+    @Override
+    public void run(String... args) throws Exception {
+        log();
     }
 
 }

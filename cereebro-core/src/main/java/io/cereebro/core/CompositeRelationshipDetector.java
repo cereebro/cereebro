@@ -22,14 +22,24 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+/**
+ * Aggregates the results of multiple relationship detectors.
+ * 
+ * @author michaeltecourt
+ */
 public class CompositeRelationshipDetector implements RelationshipDetector {
 
     private final List<RelationshipDetector> detectors;
 
+    /**
+     * Aggregates the results of multiple relationship detectors.
+     * 
+     * @param detectors
+     *            Relationship detectors to aggregate.
+     */
     public CompositeRelationshipDetector(Collection<RelationshipDetector> detectors) {
         this.detectors = new ArrayList<>();
-        Objects.requireNonNull(detectors, "detectors required");
-        this.detectors.addAll(detectors);
+        this.detectors.addAll(Objects.requireNonNull(detectors, "detectors required"));
     }
 
     @Override
