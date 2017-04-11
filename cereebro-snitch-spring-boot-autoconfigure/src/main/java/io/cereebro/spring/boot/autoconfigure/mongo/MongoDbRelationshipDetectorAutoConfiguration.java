@@ -35,7 +35,7 @@ import com.mongodb.MongoClient;
 @ConditionalOnClass(MongoClient.class)
 public class MongoDbRelationshipDetectorAutoConfiguration {
 
-    @Autowired
+    @Autowired(required = false)
     private List<MongoClient> clients;
 
     @Bean
