@@ -15,6 +15,11 @@
  */
 package io.cereebro.core;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
+import org.assertj.core.api.Assertions;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -57,5 +62,12 @@ public class DependencyTest {
         Dependency expected = new Dependency(b);
         Dependency actual = Dependency.on(b);
         Assert.assertEquals(expected, actual);
+    }
+
+    @Test
+    public void asRelationshipSet() {
+        Dependency dependency = Dependency.on(Component.of("x", "y"));
+        Set<Relationship> rels = dependency.asRelationshipSet();
+        Assertions.assertThat(rels).isEqualTo(new HashSet<>(Arrays.asList(dependency)));
     }
 }

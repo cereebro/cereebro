@@ -16,7 +16,6 @@
 package io.cereebro.spring.boot.autoconfigure.redis;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -71,7 +70,7 @@ public class RedisRelationshipDetector implements RelationshipDetector {
         }
         String sentinelMaster = getRedisSentinelMasterName();
         String name = StringUtils.hasText(sentinelMaster) ? sentinelMaster : DEFAULT_NAME;
-        return new HashSet<>(Arrays.asList(Dependency.on(Component.of(name, ComponentType.REDIS))));
+        return Dependency.on(Component.of(name, ComponentType.REDIS)).asRelationshipSet();
     }
 
     /**
