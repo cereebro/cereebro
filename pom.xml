@@ -36,8 +36,8 @@
         <connection>scm:git:git://github.com/cereebro/cereebro.git</connection>
         <developerConnection>scm:git:ssh://git@github.com/cereebro/cereebro.git</developerConnection>
         <url>http://github.com/cereebro/cereebro/tree/master</url>
-      <tag>HEAD</tag>
-  </scm>
+        <tag>HEAD</tag>
+    </scm>
 
     <distributionManagement>
         <snapshotRepository>
