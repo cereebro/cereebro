@@ -43,8 +43,8 @@ public class RedisRelationshipDetector implements RelationshipDetector {
 
     static final String DEFAULT_NAME = "default";
 
-    private RedisProperties redisProperties;
-    private List<RedisConnectionFactory> connectionFactories;
+    private final RedisProperties redisProperties;
+    private final List<RedisConnectionFactory> connectionFactories;
 
     /**
      * Redis RelationshipDetector.

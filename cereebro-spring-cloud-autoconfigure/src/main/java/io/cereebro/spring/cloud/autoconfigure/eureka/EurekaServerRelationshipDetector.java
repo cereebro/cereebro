@@ -42,7 +42,7 @@ public class EurekaServerRelationshipDetector implements RelationshipDetector {
 
     static final String DEFAULT_NAME = "eureka-server";
 
-    private List<EurekaClient> eurekaClients;
+    private final List<EurekaClient> eurekaClients;
 
     /**
      * Eureka Server relationship detector.
