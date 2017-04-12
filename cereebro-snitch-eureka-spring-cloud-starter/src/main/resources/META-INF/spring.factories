@@ -1,1 +1,2 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=io.cereebro.spring.cloud.autoconfigure.eureka.CereebroEurekaInstanceAutoConfiguration
+ org.springframework.boot.autoconfigure.EnableAutoConfiguration=io.cereebro.spring.cloud.autoconfigure.eureka.CereebroEurekaInstanceAutoConfiguration, \
+ 																io.cereebro.spring.cloud.autoconfigure.eureka.EurekaServerRelationshipDetectorAutoConfiguration

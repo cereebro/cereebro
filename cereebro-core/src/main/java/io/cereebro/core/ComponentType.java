@@ -23,6 +23,7 @@ package io.cereebro.core;
 public class ComponentType {
 
     public static final String HTTP_APPLICATION = "application/http";
+    public static final String HTTP_APPLICATION_REGISTRY = "application/http/registry";
 
     // Relational databases
     public static final String RELATIONAL_DATABASE = "database/relational";
