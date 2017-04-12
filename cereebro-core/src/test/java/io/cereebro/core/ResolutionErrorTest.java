@@ -83,7 +83,7 @@ public class ResolutionErrorTest {
     @Test
     public void close() throws IOException {
         Closeable closeableMock = Mockito.mock(Closeable.class);
-        Mockito.doThrow(new IOException("unit test")).when(closeableMock).close();
+        Mockito.doThrow(Mockito.mock(IOException.class)).when(closeableMock).close();
         ResolutionError.closeQuietly(closeableMock);
     }
 
