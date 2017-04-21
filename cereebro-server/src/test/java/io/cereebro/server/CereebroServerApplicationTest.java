@@ -61,7 +61,7 @@ public class CereebroServerApplicationTest {
             .then()
                 .statusCode(200)
                 .contentType(ContentType.HTML)
-                .body("html.body.div.h1", Matchers.is("cereebro-system"));
+                .body("html.body.div.div.h1", Matchers.is("cereebro-system"));
                 // The expression works, but can't guess the order when using sets
                 // .body("html.body.div.table.tbody.tr[0].td[0]", Matchers.is("gambit"))
         // @formatter:on
