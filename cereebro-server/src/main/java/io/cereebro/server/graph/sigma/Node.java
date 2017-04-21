@@ -19,6 +19,7 @@ import java.util.Objects;
 import java.util.Random;
 
 import io.cereebro.core.Component;
+import io.cereebro.core.ComponentRelationships;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -78,9 +79,20 @@ public final class Node {
 	        .x(randomCoordinate())
 	        .y(randomCoordinate())
 	        .size(size)
-		// .image(Image.of(component))
 		.build();
 	// @formatter:on
+    }
+
+    /**
+     * Create a graph Node base on a Cereebro Component and its relationships
+     * (to find the right node size).
+     * 
+     * @param rel
+     *            Component and its relationship
+     * @return Node
+     */
+    public static Node of(ComponentRelationships rel) {
+        return of(rel.getComponent(), rel.getRelationships().size() + 1);
     }
 
     /**

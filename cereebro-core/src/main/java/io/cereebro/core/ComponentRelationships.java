@@ -129,6 +129,16 @@ public class ComponentRelationships {
         // @formatter:on
     }
 
+    /**
+     * Tells if this component has some kind of relationship.
+     * 
+     * @return {@code true} if consumers or dependencies are available,
+     *         {@code false} otherwise.
+     */
+    public boolean hasRelationships() {
+        return !getRelationships().isEmpty();
+    }
+
     @Override
     public int hashCode() {
         return Objects.hash(getClass(), component, dependencies, consumers);

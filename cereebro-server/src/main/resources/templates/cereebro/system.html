@@ -38,14 +38,34 @@
 
 <style type="text/css">
 #graph-container {
-	max-width: 840px;
-	height: 480px;
-	margin: 32px auto;
-	border: 1px solid #ddd;
+    width: 100%;
+    height: 360px;
+    border: 1px solid #ddd;
 }
 
 .popover {
-	max-width: 80%;
+    max-width: 80%;
+}
+
+div.cereebro-components>div:nth-of-type(odd) {
+    background: #f9f9f9;
+}
+
+.cereebro-component-block {
+    padding: 12px;
+}
+
+.cereebro-navbar-static-bottom {
+    position: relative;
+}
+
+.cereebro-navbar-footer {
+    margin: 16px auto 16px auto;
+}
+
+.cereebro-navbar-footer p {
+    color: #777;
+    text-align: center;
 }
 </style>
 <script type="text/javascript" data-th-inline="javascript">
@@ -146,24 +166,38 @@
 </script>
 </head>
 <body>
+  <div class="navbar navbar-inverse navbar-static-top" role="navigation">
+    <div class="container">
+      <div class="navbar-header">
+        <span class="navbar-brand">Cereebro dashboard</span>
+      </div>
+    </div>
+  </div>
   <div class="container">
     <h1 data-th-text="${system.name}">System name</h1>
-    <div id="graph-container"></div>
+    <div id="visual">
+      <ul class="nav nav-tabs">
+        <li role="presentation" class="active"><a href="#">Graph</a></li>
+        <!-- <li role="presentation"><a href="#">Diagram</a></li>  -->
+      </ul>
+      <div id="graph-container"></div>
+    </div>
     <div class="alert alert-danger alert-dismissible fade in" role="alert" data-th-if="${system.hasErrors()}">
       <button type="button" class="close" data-dismiss="alert" aria-label="Close">
         <span aria-hidden="true">×</span>
       </button>
       <h4>Errors were caught during system resolution :</h4>
       <ul data-th-each="error: ${system.errors}">
-        <li>
-         <span data-th-text="${error.snitchUri}"></span> : <span data-th-text="${error.message}"> </span> <a
+        <li><span data-th-text="${error.snitchUri}"></span> : <span data-th-text="${error.message}"> </span> <a
           id="error-button" tabindex="0" class="btn btn-xs btn-danger" role="button" data-toggle="popover"
-          data-placement="auto" title="Stacktrace" data-th-if="${error.hasCause()}" data-html="true" data-trigger="click"
+          data-placement="auto" title="Stacktrace" data-th-if="${error.hasCause()}" data-html="true"
+          data-trigger="click"
           data-th-attr="data-content='&lt;pre&gt;' + ${error.getCauseStackTraceString().get()} + '&lt;/pre&gt;'">Stacktrace</a>
-          </li>
+        </li>
       </ul>
     </div>
-    <table class="table table-striped table-bordered">
+    <h3>Components</h3>
+    <table class="table table-striped table-bordered hidden-xs hidden-sm">
       <thead>
         <tr>
           <th>name</th>
@@ -189,6 +223,40 @@
         </tr>
       </tbody>
     </table>
+
+    <div class="cereebro-components hidden-md hidden-lg">
+      <div class="cereebro-component-block" data-th-each="rel: ${system.componentRelationships}">
+        <h4 data-th-text="${rel.component.name}">name</h4>
+        <div>
+          <label>Type :&nbsp;</label><span data-th-text="${rel.component.type}">type</span><br />
+        </div>
+        <div>
+          <label>Dependencies :&nbsp;</label>
+          <ul data-th-if="${!rel.dependencies.empty}" data-th-each="dependency : ${rel.dependencies}">
+            <li data-th-text="${dependency.component.asString()}"></li>
+          </ul>
+          <em data-th-if="${rel.dependencies.empty}">--</em>
+        </div>
+        <div>
+          <label>Consumers :&nbsp;</label>
+          <ul data-th-if="${!rel.consumers.empty}" data-th-each="consumer : ${rel.consumers}">
+            <li data-th-text="${consumer.component.asString()}"></li>
+          </ul>
+          <em data-th-if="${rel.consumers.empty}">--</em>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div id="footer" class="navbar navbar-inverse navbar-fixed-bottom cereebro-navbar-static-bottom" role="footer">
+    <div class="container">
+      <div class="cereebro-navbar-footer">
+        <p>
+          Powered by <a href="http://cereebro.io">Cereebro.io</a><br /> Cereebro is Open Source software released under
+          the <a href="http://www.apache.org/licenses/LICENSE-2.0.html">Apache 2.0 license</a>
+        </p>
+      </div>
+    </div>
   </div>
 </body>
 </html>
