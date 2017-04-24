@@ -18,10 +18,17 @@ package io.cereebro.spring.boot.autoconfigure.mongo;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import com.mongodb.MongoClient;
+import com.mongodb.client.MongoCursor;
+import com.mongodb.client.MongoIterable;
 
 import io.cereebro.core.Component;
 import io.cereebro.core.ComponentType;
@@ -40,8 +47,21 @@ public class MongoDbRelationshipDetectorTest {
         Assertions.assertThat(detector.detect()).contains(Dependency.on(Component.of("local", ComponentType.MONGODB)));
     }
 
-    @SpringBootApplication
+    @SpringBootApplication(exclude = MongoAutoConfiguration.class)
     public static class MongoDbTestApplication {
+
+        @Bean
+        @SuppressWarnings("unchecked")
+        public MongoClient mongoClient() {
+            MongoClient result = Mockito.mock(MongoClient.class);
+            MongoIterable<String> iterableMock = Mockito.mock(MongoIterable.class);
+            MongoCursor<String> iteratorMock = Mockito.mock(MongoCursor.class);
+            Mockito.when(iterableMock.iterator()).thenReturn(iteratorMock);
+            Mockito.when(iteratorMock.hasNext()).thenReturn(true).thenReturn(false);
+            Mockito.when(iteratorMock.next()).thenReturn("local");
+            Mockito.when(result.listDatabaseNames()).thenReturn(iterableMock);
+            return result;
+        }
 
     }
 
