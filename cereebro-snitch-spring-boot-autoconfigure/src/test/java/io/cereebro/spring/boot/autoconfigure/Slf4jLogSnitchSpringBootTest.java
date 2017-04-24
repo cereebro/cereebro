@@ -24,6 +24,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration;
+import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.rule.OutputCapture;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -55,7 +57,7 @@ public class Slf4jLogSnitchSpringBootTest {
         Assertions.assertThat(capture.toString()).contains(Slf4jLogSnitch.class.getSimpleName());
     }
 
-    @SpringBootApplication
+    @SpringBootApplication(exclude = { MongoAutoConfiguration.class, RabbitAutoConfiguration.class })
     static class LogSnitchSpringBootTestApplication {
 
     }

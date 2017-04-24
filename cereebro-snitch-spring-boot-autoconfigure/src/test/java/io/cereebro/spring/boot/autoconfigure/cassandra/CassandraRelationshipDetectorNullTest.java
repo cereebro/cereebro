@@ -21,6 +21,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -46,7 +47,7 @@ public class CassandraRelationshipDetectorNullTest {
                 .contains(Dependency.on(Component.of("default_cluster", ComponentType.CASSANDRA)));
     }
 
-    @SpringBootApplication
+    @SpringBootApplication(exclude = { MongoAutoConfiguration.class })
     static class CassandraTestApplication {
 
         @Bean

@@ -24,6 +24,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -50,7 +51,7 @@ public class RedisRelationshipDetectorBasicTest {
         Assertions.assertThat(detector.detect()).isEqualTo(rels);
     }
 
-    @SpringBootApplication
+    @SpringBootApplication(exclude = { MongoAutoConfiguration.class })
     static class RedisRelationshipDetectorBasicTestApplication {
 
         @MockBean

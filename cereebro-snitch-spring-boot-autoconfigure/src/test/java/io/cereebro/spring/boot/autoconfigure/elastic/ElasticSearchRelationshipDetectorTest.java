@@ -23,6 +23,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -45,7 +46,7 @@ public class ElasticSearchRelationshipDetectorTest {
                 .contains(Dependency.on(Component.of("mycluster", ComponentType.ELASTIC_SEARCH)));
     }
 
-    @SpringBootApplication
+    @SpringBootApplication(exclude = { MongoAutoConfiguration.class })
     public static class ESTestApplication {
 
         @Bean
