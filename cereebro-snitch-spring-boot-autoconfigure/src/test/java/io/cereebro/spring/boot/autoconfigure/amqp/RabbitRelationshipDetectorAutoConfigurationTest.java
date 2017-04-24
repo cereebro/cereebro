@@ -25,6 +25,7 @@ import org.mockito.Mockito;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -52,7 +53,7 @@ public class RabbitRelationshipDetectorAutoConfigurationTest {
         Assertions.assertThat(detector.detect()).isEqualTo(new HashSet<>(Arrays.asList(dependency)));
     }
 
-    @SpringBootApplication
+    @SpringBootApplication(exclude = { MongoAutoConfiguration.class })
     static class RabbitRelationshipDetectorAutoConfigurationApplication {
 
         @Bean
