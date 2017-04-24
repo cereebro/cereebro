@@ -15,22 +15,13 @@
  */
 package io.cereebro.spring.boot.autoconfigure.mongo;
 
-import static org.mockito.Mockito.when;
-
-import java.util.Arrays;
-
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import com.mongodb.DB;
-import com.mongodb.MongoClient;
 
 import io.cereebro.core.Component;
 import io.cereebro.core.ComponentType;
@@ -46,21 +37,12 @@ public class MongoDbRelationshipDetectorTest {
 
     @Test
     public void mongoRelationshipWithSessionAvailable() {
-        Assertions.assertThat(detector.detect())
-                .contains(Dependency.on(Component.of("mymongo", ComponentType.MONGODB)));
+        Assertions.assertThat(detector.detect()).contains(Dependency.on(Component.of("local", ComponentType.MONGODB)));
     }
 
     @SpringBootApplication
     public static class MongoDbTestApplication {
 
-        @Bean
-        public MongoClient mongoClient() {
-            MongoClient result = Mockito.mock(MongoClient.class);
-            DB mockDB = Mockito.mock(DB.class);
-            when(mockDB.getName()).thenReturn("mymongo");
-            Mockito.when(result.getUsedDatabases()).thenReturn(Arrays.asList(mockDB));
-            return result;
-        }
     }
 
 }

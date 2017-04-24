@@ -23,7 +23,6 @@ import java.util.Set;
 
 import org.springframework.util.CollectionUtils;
 
-import com.mongodb.DB;
 import com.mongodb.MongoClient;
 
 import io.cereebro.core.Component;
@@ -55,8 +54,8 @@ public class MongoDbRelationshipDetector implements RelationshipDetector {
     public Set<Relationship> detect() {
         Set<Relationship> result = new HashSet<>();
         for (MongoClient client : clients) {
-            for (DB db : client.getUsedDatabases()) {
-                result.add(Dependency.on(Component.of(db.getName(), ComponentType.MONGODB)));
+            for (String db : client.listDatabaseNames()) {
+                result.add(Dependency.on(Component.of(db, ComponentType.MONGODB)));
             }
         }
         return result;
