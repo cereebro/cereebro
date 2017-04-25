@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.neo4j.ogm.session.Session;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.data.neo4j.Neo4jProperties;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
@@ -21,12 +21,11 @@ import io.cereebro.core.RelationshipDetector;
 
 public class Neo4jRelationshipDetector implements RelationshipDetector {
 
-    @Value("spring.data.neo4j.uri:")
-    private String url;
+    private Neo4jProperties properties;
 
     private final List<Session> sessions;
 
-    public Neo4jRelationshipDetector(Collection<Session> sessions) {
+    public Neo4jRelationshipDetector(Collection<Session> sessions, Neo4jProperties properties) {
         this.sessions = new ArrayList<>();
         if (!CollectionUtils.isEmpty(sessions)) {
             this.sessions.addAll(sessions);
@@ -35,13 +34,12 @@ public class Neo4jRelationshipDetector implements RelationshipDetector {
 
     @Override
     public Set<Relationship> detect() {
-        if (sessions.size() == 1 && !StringUtils.isEmpty(url)) {
-            return Sets.newHashSet(Dependency.on(Component.of(url, ComponentType.NEO4J)));
+        if (sessions.size() == 1 && !StringUtils.isEmpty(properties.getUri())) {
+            return Sets.newHashSet(Dependency.on(Component.of(properties.getUri(), ComponentType.NEO4J)));
         }
-        int idx = 0;
-        Set<Relationship> result = new HashSet<>(sessions.size());
-        for (Session s : sessions) {
-            result.add(Dependency.on(Component.of("default_" + idx, ComponentType.NEO4J)));
+        final Set<Relationship> result = new HashSet<>(sessions.size());
+        for (int i = 0; i < sessions.size(); i++) {
+            result.add(Dependency.on(Component.of("default_" + i, ComponentType.NEO4J)));
         }
         return result;
     }
