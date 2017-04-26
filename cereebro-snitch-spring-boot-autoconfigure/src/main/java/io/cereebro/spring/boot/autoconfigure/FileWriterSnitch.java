@@ -73,12 +73,12 @@ public class FileWriterSnitch implements CommandLineRunner {
      *             SystemFragment or writing the file.
      */
     public void write(File file) throws IOException {
-        SystemFragment frag = analyzer.analyzeSystem();
-        String fragString = objectMapper.writeValueAsString(frag);
-        LOGGER.info("Writing system fragment to file : {}", file);
-        FileWriter writer = new FileWriter(file);
-        writer.write(fragString);
-        writer.close();
+        try (FileWriter writer = new FileWriter(file)) {
+            SystemFragment frag = analyzer.analyzeSystem();
+            String fragString = objectMapper.writeValueAsString(frag);
+            LOGGER.info("Writing system fragment to file : {}", file);
+            writer.write(fragString);
+        }
     }
 
 }
