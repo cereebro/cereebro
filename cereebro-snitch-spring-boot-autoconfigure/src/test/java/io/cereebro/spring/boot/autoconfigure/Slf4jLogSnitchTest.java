@@ -22,6 +22,8 @@ import org.junit.Test;
 import org.mockito.Mockito;
 import org.slf4j.LoggerFactory;
 
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import ch.qos.logback.classic.Level;
@@ -69,6 +71,17 @@ public class Slf4jLogSnitchTest {
         Mockito.verify(objectMapperMock, Mockito.never()).writeValueAsString(Mockito.any());
 
         setLogLevel(Slf4jLogSnitch.class, previousLogLevel);
+    }
+
+    @Test
+    public void logShouldSwallowExceptions() throws JsonProcessingException {
+        SystemFragment frag = SystemFragment.empty();
+        Mockito.when(analyzerMock.analyzeSystem()).thenReturn(frag);
+        Mockito.when(objectMapperMock.writeValueAsString(frag)).thenThrow(Mockito.mock(JsonGenerationException.class));
+        logSnitch.log();
+        Mockito.verify(analyzerMock).analyzeSystem();
+        Mockito.verify(objectMapperMock).writeValueAsString(frag);
+
     }
 
     /**

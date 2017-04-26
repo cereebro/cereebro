@@ -102,8 +102,8 @@ public class DataSourceRelationshipDetector implements RelationshipDetector {
      * @throws SQLException
      */
     protected String extractDatabaseType(DataSource dataSource) throws SQLException {
-        return DbType
-                .findByProductName(dataSource.getConnection().getMetaData().getDatabaseProductName()).componentType;
+        return DbType.findByProductName(dataSource.getConnection().getMetaData().getDatabaseProductName())
+                .componentType();
     }
 
 }

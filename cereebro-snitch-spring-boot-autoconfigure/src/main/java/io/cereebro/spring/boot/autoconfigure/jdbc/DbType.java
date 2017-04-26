@@ -39,12 +39,20 @@ public enum DbType {
     DB2(ComponentType.DB2_DATABASE, "db2");
     // @formatter:on
 
-    String componentType;
-    String productName;
+    private String componentType;
+    private String productName;
 
     private DbType(String componentType, String productName) {
         this.componentType = componentType;
         this.productName = productName;
+    }
+
+    public String componentType() {
+        return componentType;
+    }
+
+    public String productName() {
+        return productName;
     }
 
     public static DbType findByProductName(String productName) {
@@ -58,4 +66,5 @@ public enum DbType {
         }
         return RELATIONAL;
     }
+
 }
