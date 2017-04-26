@@ -5,6 +5,5 @@ script:
  - mvn clean jacoco:prepare-agent install sonar:sonar -P quality
 addons:
   sonarqube:
-    organization: cereebro
     branches: 
       - master
