@@ -76,7 +76,7 @@ public class DataSourceRelationshipDetectorUnitTest {
     @Test
     public void failureShouldReturnEmptySet() throws SQLException {
         DataSource dataSourceMock = Mockito.mock(DataSource.class);
-        Mockito.when(dataSourceMock.getConnection()).thenThrow(new SQLException("unit test"));
+        Mockito.when(dataSourceMock.getConnection()).thenThrow(Mockito.mock(SQLException.class));
         Set<Relationship> result = new DataSourceRelationshipDetector(Arrays.asList(dataSourceMock)).detect();
         Assertions.assertThat(result).isEmpty();
     }

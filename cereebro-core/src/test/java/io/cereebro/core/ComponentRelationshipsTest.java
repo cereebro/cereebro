@@ -20,6 +20,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.assertj.core.api.Assertions;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -209,6 +210,25 @@ public class ComponentRelationshipsTest {
     public void builderHashcodeEquals() {
         EqualsVerifier.forClass(ComponentRelationshipsBuilder.class).suppress(Warning.NONFINAL_FIELDS).usingGetClass()
                 .verify();
+    }
+
+    @Test
+    public void hasRelationshipsShouldReturnTrueWhenConsumerIsPresent() {
+        ComponentRelationships c = ComponentRelationships.builder().component(component).consumers(consumers).build();
+        Assertions.assertThat(c.hasRelationships()).isTrue();
+    }
+
+    @Test
+    public void hasRelationshipsShouldReturnTrueWhenDependencyIsPresent() {
+        ComponentRelationships c = ComponentRelationships.builder().component(component).dependencies(dependencies)
+                .build();
+        Assertions.assertThat(c.hasRelationships()).isTrue();
+    }
+
+    @Test
+    public void hasRelationshipsShouldReturnFalseWithoutRelationships() {
+        ComponentRelationships c = ComponentRelationships.builder().component(component).build();
+        Assertions.assertThat(c.hasRelationships()).isFalse();
     }
 
 }

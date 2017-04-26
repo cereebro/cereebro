@@ -33,7 +33,6 @@ import io.cereebro.core.Snitch;
  * application).
  * 
  * @author michaeltecourt
- *
  */
 @Configuration
 @ConditionalOnClass(CloudEurekaInstanceConfig.class)

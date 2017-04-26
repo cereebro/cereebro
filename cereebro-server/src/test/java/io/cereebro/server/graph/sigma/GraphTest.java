@@ -60,10 +60,8 @@ public class GraphTest {
         System system = System.of("xmen", gambit, angel, rogue);
         Graph graph = Graph.of(system);
         Assert.assertEquals(3, graph.getNodes().size());
-        Edge gambitToRogue = Edge.create("superhero:gambit-to-superhero:rogue", "superhero:gambit", "superhero:rogue",
-                Edge.TYPE_ARROW);
-        Edge angelToGambit = Edge.create("superhero:angel-to-superhero:gambit", "superhero:angel", "superhero:gambit",
-                Edge.TYPE_ARROW);
+        Edge gambitToRogue = Edge.create("superhero:gambit-to-superhero:rogue", "superhero:gambit", "superhero:rogue");
+        Edge angelToGambit = Edge.create("superhero:angel-to-superhero:gambit", "superhero:angel", "superhero:gambit");
         Set<Edge> expectedEdges = new HashSet<>(Arrays.asList(gambitToRogue, angelToGambit));
         Assert.assertEquals(expectedEdges, graph.getEdges());
     }

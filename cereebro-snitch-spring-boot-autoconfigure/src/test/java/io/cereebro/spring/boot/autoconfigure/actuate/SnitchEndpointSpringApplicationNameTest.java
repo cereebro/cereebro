@@ -24,19 +24,20 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import io.cereebro.core.ComponentType;
-import io.cereebro.spring.boot.autoconfigure.CereebroRelationshipDetectorsAutoConfiguration;
+import io.cereebro.spring.boot.autoconfigure.CereebroSnitchAutoConfiguration;
 import io.cereebro.spring.boot.autoconfigure.actuate.SnitchEndpointSpringApplicationNameTest.SnitchEndpointSpringApplicationNameTestApplication;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = { SnitchEndpointSpringApplicationNameTestApplication.class, CereebroRelationshipDetectorsAutoConfiguration.class,
-        CereebroWebMvcEndpointConfiguration.class }, webEnvironment = WebEnvironment.RANDOM_PORT, value = {
+@SpringBootTest(classes = { SnitchEndpointSpringApplicationNameTestApplication.class,
+        CereebroSnitchAutoConfiguration.class }, webEnvironment = WebEnvironment.RANDOM_PORT, value = {
                 "spring.application.name=springappname" })
 public class SnitchEndpointSpringApplicationNameTest {
 
@@ -80,7 +81,7 @@ public class SnitchEndpointSpringApplicationNameTest {
         Assertions.assertThat(endpoint.isEnabled()).isTrue();
     }
 
-    @SpringBootApplication
+    @SpringBootApplication(exclude = MongoAutoConfiguration.class)
     static class SnitchEndpointSpringApplicationNameTestApplication {
 
     }

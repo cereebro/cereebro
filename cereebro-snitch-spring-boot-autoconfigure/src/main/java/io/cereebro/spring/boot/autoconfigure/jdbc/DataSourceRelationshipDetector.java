@@ -29,7 +29,6 @@ import javax.sql.DataSource;
 import org.springframework.util.CollectionUtils;
 
 import io.cereebro.core.Component;
-import io.cereebro.core.ComponentType;
 import io.cereebro.core.Dependency;
 import io.cereebro.core.Relationship;
 import io.cereebro.core.RelationshipDetector;
@@ -70,7 +69,7 @@ public class DataSourceRelationshipDetector implements RelationshipDetector {
             final Set<Relationship> result = new HashSet<>();
             for (DataSource ds : dataSources) {
                 try {
-                    result.add(Dependency.on(Component.of(extractName(ds), ComponentType.RELATIONAL_DATABASE)));
+                    result.add(Dependency.on(Component.of(extractName(ds), extractDatabaseType(ds))));
                 } catch (SQLException e) {
                     LOGGER.error("Could not fetch the default catalog of the database connection", e);
                 }
@@ -93,6 +92,18 @@ public class DataSourceRelationshipDetector implements RelationshipDetector {
             name = dataSource.getConnection().getCatalog();
         }
         return Optional.ofNullable(name).orElse(DEFAULT_NAME);
+    }
+
+    /**
+     * Extract the Database type from the metadata of the connection.
+     * 
+     * @param dataSource
+     * @return a non-null Datasource type.
+     * @throws SQLException
+     */
+    protected String extractDatabaseType(DataSource dataSource) throws SQLException {
+        return DbType.findByProductName(dataSource.getConnection().getMetaData().getDatabaseProductName())
+                .componentType();
     }
 
 }

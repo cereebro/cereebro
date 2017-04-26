@@ -22,27 +22,24 @@ import org.springframework.boot.actuate.autoconfigure.ManagementContextConfigura
 import org.springframework.boot.actuate.condition.ConditionalOnEnabledEndpoint;
 import org.springframework.boot.actuate.endpoint.mvc.MvcEndpoint;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.context.annotation.Bean;
 
-import io.cereebro.core.Component;
-import io.cereebro.core.CompositeRelationshipDetector;
+import io.cereebro.core.ApplicationAnalyzer;
 import io.cereebro.core.RelationshipDetector;
-import io.cereebro.spring.boot.autoconfigure.CereebroProperties;
 
 @ManagementContextConfiguration
-@EnableConfigurationProperties(CereebroProperties.class)
 @ConditionalOnClass(MvcEndpoint.class)
+@ConditionalOnWebApplication
 public class CereebroWebMvcEndpointConfiguration {
 
     @Autowired
-    private CereebroProperties cereebroProperties;
+    private ApplicationAnalyzer analyzer;
 
     @Bean
     @ConditionalOnEnabledEndpoint("cereebro")
     public CereebroSnitchMvcEndpoint snitchMvcEndpoint(List<RelationshipDetector> detectors) {
-        Component applicationComponent = cereebroProperties.getApplication().getComponent().toComponent();
-        return new CereebroSnitchMvcEndpoint(applicationComponent, new CompositeRelationshipDetector(detectors));
+        return new CereebroSnitchMvcEndpoint(analyzer);
     }
 
 }

@@ -23,14 +23,17 @@ import java.util.Set;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.runners.MockitoJUnitRunner;
 
+import io.cereebro.core.ApplicationAnalyzer;
 import io.cereebro.core.Component;
 import io.cereebro.core.ComponentRelationships;
 import io.cereebro.core.Consumer;
 import io.cereebro.core.Dependency;
-import io.cereebro.core.Relationship;
-import io.cereebro.core.RelationshipDetector;
 import io.cereebro.core.SystemFragment;
 
 /**
@@ -38,27 +41,22 @@ import io.cereebro.core.SystemFragment;
  * 
  * @author michaeltecourt
  */
+@RunWith(MockitoJUnitRunner.class)
 public class CereebroSnitchMvcEndpointTest {
 
-    private RelationshipDetector relationshipDetectorMock;
-    private Component application;
+    @Mock
+    private ApplicationAnalyzer analyzer;
+    @InjectMocks
     private CereebroSnitchMvcEndpoint endpoint;
 
     @Before
     public void setUp() {
-        application = Component.of("gambit", "superhero");
-        relationshipDetectorMock = Mockito.mock(RelationshipDetector.class);
-        endpoint = new CereebroSnitchMvcEndpoint(application, relationshipDetectorMock);
+        endpoint = new CereebroSnitchMvcEndpoint(analyzer);
     }
 
     @Test(expected = NullPointerException.class)
-    public void constructorWithNullApplicationComponentShouldThrowNullPointerException() {
-        new CereebroSnitchMvcEndpoint(null, relationshipDetectorMock);
-    }
-
-    @Test(expected = NullPointerException.class)
-    public void constructorWithNullRelationshipDetectorShouldThrowNullPointerException() {
-        new CereebroSnitchMvcEndpoint(application, null);
+    public void constructorWithNullAnalyzerShouldThrowNullPointerException() {
+        new CereebroSnitchMvcEndpoint(null);
     }
 
     @Test
@@ -84,15 +82,16 @@ public class CereebroSnitchMvcEndpointTest {
     @Test
     public void snitch() {
         Dependency d1 = Dependency.on(Component.of("cards", "game"));
-        Dependency d2 = Dependency.on(Component.of("rogue", "superhero"));
-        Consumer consumer = Consumer.by(Component.of("angel", "superhero"));
-        Set<Relationship> rels = new HashSet<>(Arrays.asList(d1, d2, consumer));
-        Mockito.when(relationshipDetectorMock.detect()).thenReturn(rels);
+        Consumer c1 = Consumer.by(Component.of("angel", "superhero"));
+        ComponentRelationships rels = ComponentRelationships.builder().component(Component.of("gambit", "xmen"))
+                .addDependency(d1).addConsumer(c1).build();
+
+        Mockito.when(analyzer.analyzeSystem()).thenReturn(SystemFragment.of(rels));
         SystemFragment actual = endpoint.snitch();
 
-        Set<Dependency> dependencies = new HashSet<>(Arrays.asList(d1, d2));
-        Set<Consumer> consumers = new HashSet<>(Arrays.asList(consumer));
-        ComponentRelationships r = ComponentRelationships.of(application, dependencies, consumers);
+        Set<Dependency> dependencies = new HashSet<>(Arrays.asList(d1));
+        Set<Consumer> consumers = new HashSet<>(Arrays.asList(c1));
+        ComponentRelationships r = ComponentRelationships.of(Component.of("gambit", "xmen"), dependencies, consumers);
         SystemFragment expected = SystemFragment.of(r);
 
         Assert.assertEquals(expected, actual);

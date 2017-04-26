@@ -32,6 +32,7 @@ import lombok.extern.slf4j.Slf4j;
 public final class CereebroProperties implements EnvironmentAware {
 
     private ComponentRelationshipsProperties application = new ComponentRelationshipsProperties();
+    private SnitchProperties snitch = new SnitchProperties();
 
     @Override
     public void setEnvironment(Environment env) {

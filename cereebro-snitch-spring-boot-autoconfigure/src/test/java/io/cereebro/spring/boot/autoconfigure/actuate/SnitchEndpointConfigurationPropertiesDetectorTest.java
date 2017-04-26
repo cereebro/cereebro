@@ -22,20 +22,21 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration;
+import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import io.cereebro.spring.boot.autoconfigure.CereebroRelationshipDetectorsAutoConfiguration;
+import io.cereebro.spring.boot.autoconfigure.CereebroSnitchAutoConfiguration;
 import io.cereebro.spring.boot.autoconfigure.actuate.SnitchEndpointConfigurationPropertiesDetectorTest.SnitchEndpointConfigurationPropertiesDetectorTestApplication;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = { SnitchEndpointConfigurationPropertiesDetectorTestApplication.class,
-        CereebroRelationshipDetectorsAutoConfiguration.class,
-        CereebroWebMvcEndpointConfiguration.class }, webEnvironment = WebEnvironment.RANDOM_PORT)
+        CereebroSnitchAutoConfiguration.class }, webEnvironment = WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("props-detector")
 public class SnitchEndpointConfigurationPropertiesDetectorTest {
 
@@ -61,7 +62,7 @@ public class SnitchEndpointConfigurationPropertiesDetectorTest {
         // @formatter:on
     }
 
-    @SpringBootApplication
+    @SpringBootApplication(exclude = { RabbitAutoConfiguration.class, MongoAutoConfiguration.class })
     static class SnitchEndpointConfigurationPropertiesDetectorTestApplication {
 
     }

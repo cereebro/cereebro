@@ -15,7 +15,10 @@
  */
 package io.cereebro.core;
 
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -41,6 +44,15 @@ public class Dependency extends Relationship {
 
     public static Dependency on(Component component) {
         return new Dependency(component);
+    }
+
+    /**
+     * Relationship set containing only this dependency.
+     * 
+     * @return Set containing this dependency.
+     */
+    public Set<Relationship> asRelationshipSet() {
+        return new HashSet<>(Arrays.asList(this));
     }
 
     @Override

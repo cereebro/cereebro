@@ -17,11 +17,14 @@ package io.cereebro.core;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import io.cereebro.core.ComponentRelationships.ComponentRelationshipsBuilder;
+import io.cereebro.core.System.SystemBuilder;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Simple system resolver, adding up all the relationships discovered while
@@ -29,16 +32,44 @@ import io.cereebro.core.ComponentRelationships.ComponentRelationshipsBuilder;
  * 
  * @author michaeltecourt
  */
+@Slf4j
 public class SimpleSystemResolver implements SystemResolver {
+
+    private static final String DEFAULT_ERROR_MESSAGE = "Could not access or process Snitch";
 
     @Override
     public System resolve(String systemName, SnitchRegistry snitchRegistry) {
-        Set<SystemFragment> frags = snitchRegistry.getAll().stream().map(Snitch::snitch).collect(Collectors.toSet());
-        return resolve(systemName, frags);
+        Set<SystemFragment> frags = new HashSet<>();
+        Set<ResolutionError> errors = new HashSet<>();
+        for (Snitch snitch : snitchRegistry.getAll()) {
+            try {
+                frags.add(snitch.snitch());
+            } catch (SnitchingException e) {
+                LOGGER.error("Snitch error caught while resolving system at URI : " + e.getSnitchUri(), e);
+                errors.add(ResolutionError.translate(e));
+            } catch (RuntimeException e) {
+                LOGGER.error("Technical error caught while resolving system at URI : " + snitch.getUri(), e);
+                errors.add(ResolutionError.of(snitch.getUri(), DEFAULT_ERROR_MESSAGE));
+            }
+        }
+        return resolveBuilder(systemName, frags).errors(errors).build();
     }
 
     @Override
     public System resolve(String systemName, Collection<SystemFragment> fragments) {
+        return resolveBuilder(systemName, fragments).build();
+    }
+
+    /**
+     * Resolves the system and returns a mutable {@link SystemBuilder} instance.
+     * 
+     * @param systemName
+     *            System name.
+     * @param fragments
+     *            System fragments.
+     * @return mutable SystemBuilder ready to be built into the real System.
+     */
+    private SystemBuilder resolveBuilder(String systemName, Collection<SystemFragment> fragments) {
         // Flatten all fragments into a single relationship set
         Set<ComponentRelationships> relationships = fragments.stream().map(SystemFragment::getComponentRelationships)
                 .flatMap(Collection::stream).collect(Collectors.toSet());
@@ -71,7 +102,7 @@ public class SimpleSystemResolver implements SystemResolver {
                 .map(ComponentRelationshipsBuilder::build)
                 .collect(Collectors.toSet());
         // @formatter:on
-        return System.of(systemName, bigPicture);
+        return System.builder().name(systemName).componentRelationships(bigPicture);
     }
 
     /**

@@ -26,40 +26,82 @@
   data-th-src="@{/webjars/jquery/2.1.1/jquery.min.js}"></script>
 <link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.2.0/css/bootstrap.min.css"
   data-th-href="@{/webjars/bootstrap/3.2.0/css/bootstrap.min.css}" rel="stylesheet" />
-  
+
+<script data-th-src="@{/webjars/bootstrap/3.2.0/js/bootstrap.min.js}" src="/js/bootstrap.min.js"></script>
 <script data-th-src="@{/webjars/linkurious.js/1.5.1/sigma.min.js}" src="/js/sigma.js/sigma.min.js"></script>
-<script data-th-src="@{/webjars/linkurious.js/1.5.1/plugins/sigma.parsers.json.min.js}" src="/js/sigma.js/plugins/sigma.parsers.json.min.js"></script>
-<script data-th-src="@{/webjars/linkurious.js/1.5.1/plugins/sigma.layouts.forceAtlas2.min.js}" src="/js/sigma.js/plugins/sigma.layouts.forceAtlas2.min.js"></script>
-<script data-th-src="@{/webjars/linkurious.js/1.5.1/plugins/sigma.renderers.linkurious.min.js}" src="/js/sigma.js/plugins/sigma.renderers.linkurious.min.js"></script>
+<script data-th-src="@{/webjars/linkurious.js/1.5.1/plugins/sigma.parsers.json.min.js}"
+  src="/js/sigma.js/plugins/sigma.parsers.json.min.js"></script>
+<script data-th-src="@{/webjars/linkurious.js/1.5.1/plugins/sigma.layouts.forceAtlas2.min.js}"
+  src="/js/sigma.js/plugins/sigma.layouts.forceAtlas2.min.js"></script>
+<script data-th-src="@{/webjars/linkurious.js/1.5.1/plugins/sigma.renderers.linkurious.min.js}"
+  src="/js/sigma.js/plugins/sigma.renderers.linkurious.min.js"></script>
 
 <style type="text/css">
+html, body {
+    height: 100%;
+}
+
 #graph-container {
-	max-width: 840px;
-	height: 480px;
-	margin: 32px auto;
+    width: 100%;
+    height: 360px;
     border: 1px solid #ddd;
+}
+
+.popover {
+    max-width: 80%;
+}
+
+div.cereebro-components>div:nth-of-type(odd) {
+    background: #f9f9f9;
+}
+
+.cereebro-component-block {
+    padding: 12px;
+}
+
+.cereebro-navbar-static-bottom {
+    position: relative;
+    margin-top: -96px; /* negative value of footer height */
+    height: 96px;
+    clear: both;
+}
+
+.cereebro-navbar-footer {
+    margin: 16px auto 16px auto;
+}
+
+.cereebro-navbar-footer p {
+    color: #777;
+    text-align: center;
+}
+
+.cereebro-container {
+    min-height: 100%;
+    padding-bottom: 120px;
 }
 </style>
 <script type="text/javascript" data-th-inline="javascript">
     /*<![CDATA[*/
     $(document).ready(function() {
 
+        $(function() {
+            $('[data-toggle="popover"]').popover()
+        })
+
         // Add a method to the graph model that returns an
         // object with every neighbors of a node inside:
         sigma.classes.graph.addMethod('neighbors', function(nodeId) {
-          var k,
-              neighbors = {},
-              //index = this.allNeighborsIndex[nodeId] || {};
-              index = this.allNeighborsIndex.get(nodeId).valueList();
+            var k, neighbors = {},
+            //index = this.allNeighborsIndex[nodeId] || {};
+            index = this.allNeighborsIndex.get(nodeId).valueList();
 
-          for (k in index){
-        	neighbors[index[k].valueList()[0].source] = index[k].valueList()[0];
-        	neighbors[index[k].valueList()[0].target] = index[k].valueList()[0];
-            //neighbors[k] = this.nodesIndex[k];
-          }
-          return neighbors;
+            for (k in index) {
+                neighbors[index[k].valueList()[0].source] = index[k].valueList()[0];
+                neighbors[index[k].valueList()[0].target] = index[k].valueList()[0];
+                //neighbors[k] = this.nodesIndex[k];
+            }
+            return neighbors;
         });
-        
 
         var graph = /*[[${graph}]]*/{};
         s = new sigma({
@@ -69,11 +111,11 @@
         // We first need to save the original colors of our
         // nodes and edges, like this:
         s.graph.nodes().forEach(function(n) {
-          n.originalColor = n.color;
-          n.originalSize = n.size;
+            n.originalColor = n.color;
+            n.originalSize = n.size;
         });
         s.graph.edges().forEach(function(e) {
-          e.originalColor = e.color;
+            e.originalColor = e.color;
         });
 
         // When a node is clicked, we check for each node
@@ -83,48 +125,47 @@
         // We do the same for the edges, and we only keep
         // edges that have both extremities colored.
         s.bind('clickNode', function(e) {
-          var nodeId = e.data.node.id,
-              toKeep = s.graph.neighbors(nodeId);
-          toKeep[nodeId] = e.data.node;
+            var nodeId = e.data.node.id, toKeep = s.graph.neighbors(nodeId);
+            toKeep[nodeId] = e.data.node;
 
-          s.graph.nodes().forEach(function(n) {
-            if (toKeep[n.id])
-              n.color = n.originalColor;
-            else 
-              n.color = '#eee';
-            
-            // size back to original for other nodes
-            if (n.id != e.data.node.id)
-              n.size = n.originalSize;
-          });
+            s.graph.nodes().forEach(function(n) {
+                if (toKeep[n.id])
+                    n.color = n.originalColor;
+                else
+                    n.color = '#eee';
 
-          s.graph.edges().forEach(function(e) {
-            if (toKeep[e.source] && toKeep[e.target])
-              e.color = e.originalColor;
-            else
-              e.color = '#eee';
-          });
+                // size back to original for other nodes
+                if (n.id != e.data.node.id)
+                    n.size = n.originalSize;
+            });
 
-          // Since the data has been modified, we need to
-          // call the refresh method to make the colors
-          // update effective.
-          s.refresh();
+            s.graph.edges().forEach(function(e) {
+                if (toKeep[e.source] && toKeep[e.target])
+                    e.color = e.originalColor;
+                else
+                    e.color = '#eee';
+            });
+
+            // Since the data has been modified, we need to
+            // call the refresh method to make the colors
+            // update effective.
+            s.refresh();
         });
 
         // When the stage is clicked, we just color each
         // node and edge with its original color.
         s.bind('clickStage', function(e) {
-          s.graph.nodes().forEach(function(n) {
-            n.color = n.originalColor;
-            n.size = n.originalSize;
-          });
+            s.graph.nodes().forEach(function(n) {
+                n.color = n.originalColor;
+                n.size = n.originalSize;
+            });
 
-          s.graph.edges().forEach(function(e) {
-            e.color = e.originalColor;
-          });
+            s.graph.edges().forEach(function(e) {
+                e.color = e.originalColor;
+            });
 
-          // Same as in the previous event:
-          s.refresh();
+            // Same as in the previous event:
+            s.refresh();
         });
 
         s.startForceAtlas2();
@@ -137,35 +178,101 @@
 </script>
 </head>
 <body>
-  <div class="container">
-    <h1 data-th-text="${system.name}">System name</h1>
-    <div id="graph-container"></div>
-    <table class="table table-striped table-bordered">
-      <thead>
-        <tr>
-          <th>name</th>
-          <th>type</th>
-          <th>dependencies</th>
-          <th>consumers</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr data-th-each="rel: ${system.componentRelationships}">
-          <td data-th-text="${rel.component.name}"></td>
-          <td data-th-text="${rel.component.type}"></td>
-          <td>
-            <ul data-th-each="dependency : ${rel.dependencies}">
+  <div class="cereebro-container">
+    <div class="navbar navbar-inverse navbar-static-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <span class="navbar-brand">Cereebro dashboard</span>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <h1 data-th-text="${system.name}">System name</h1>
+      <div id="visual">
+        <ul class="nav nav-tabs">
+          <li role="presentation" class="active"><a href="#">Graph</a></li>
+          <!-- <li role="presentation"><a href="#">Diagram</a></li>  -->
+        </ul>
+        <div id="graph-container"></div>
+      </div>
+      <div class="alert alert-danger alert-dismissible fade in" role="alert" data-th-if="${system.hasErrors()}">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+        <h4>Errors were caught during system resolution :</h4>
+        <ul data-th-each="error: ${system.errors}">
+          <li><span data-th-text="${error.snitchUri}"></span> : <span data-th-text="${error.message}"> </span> <a
+            id="error-button" tabindex="0" class="btn btn-xs btn-danger" role="button" data-toggle="popover"
+            data-placement="auto" title="Stacktrace" data-th-if="${error.hasCause()}" data-html="true"
+            data-trigger="click"
+            data-th-attr="data-content='&lt;pre&gt;' + ${error.getCauseStackTraceString().get()} + '&lt;/pre&gt;'">Stacktrace</a>
+          </li>
+        </ul>
+      </div>
+      <h3>Components</h3>
+      <table class="table table-striped table-bordered hidden-xs hidden-sm">
+        <thead>
+          <tr>
+            <th>name</th>
+            <th>type</th>
+            <th>dependencies</th>
+            <th>consumers</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr data-th-each="rel: ${system.componentRelationships}">
+            <td data-th-text="${rel.component.name}"></td>
+            <td data-th-text="${rel.component.type}"></td>
+            <td>
+              <ul data-th-each="dependency : ${rel.dependencies}">
+                <li data-th-text="${dependency.component.asString()}"></li>
+              </ul>
+            </td>
+            <td>
+              <ul data-th-each="consumer : ${rel.consumers}">
+                <li data-th-text="${consumer.component.asString()}"></li>
+              </ul>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="cereebro-components hidden-md hidden-lg">
+        <div class="cereebro-component-block" data-th-each="rel: ${system.componentRelationships}">
+          <h4 data-th-text="${rel.component.name}">name</h4>
+          <div>
+            <label>Type :&nbsp;</label><span data-th-text="${rel.component.type}">type</span><br />
+          </div>
+          <div>
+            <label>Dependencies :&nbsp;</label>
+            <ul data-th-if="${!rel.dependencies.empty}" data-th-each="dependency : ${rel.dependencies}">
               <li data-th-text="${dependency.component.asString()}"></li>
             </ul>
-          </td>
-          <td>
-            <ul data-th-each="consumer : ${rel.consumers}">
+            <em data-th-if="${rel.dependencies.empty}">--</em>
+          </div>
+          <div>
+            <label>Consumers :&nbsp;</label>
+            <ul data-th-if="${!rel.consumers.empty}" data-th-each="consumer : ${rel.consumers}">
               <li data-th-text="${consumer.component.asString()}"></li>
             </ul>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+            <em data-th-if="${rel.consumers.empty}">--</em>
+          </div>
+        </div>
+      </div>
+
+    </div>
   </div>
+
+  <div id="footer" class="navbar navbar-inverse navbar-fixed-bottom cereebro-navbar-static-bottom" role="footer">
+    <div class="container">
+      <div class="cereebro-navbar-footer">
+        <p>
+          Powered by <a href="http://cereebro.io">Cereebro.io</a><br /> Cereebro is Open Source software released under
+          the <a href="http://www.apache.org/licenses/LICENSE-2.0.html">Apache 2.0 license</a>
+        </p>
+      </div>
+    </div>
+  </div>
+
 </body>
 </html>
