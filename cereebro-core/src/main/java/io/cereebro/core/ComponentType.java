@@ -37,6 +37,7 @@ public class ComponentType {
     public static final String CASSANDRA = "database/cassandra";
     public static final String MONGODB = "database/mongodb";
     public static final String REDIS = "database/redis";
+    public static final String NEO4J = "database/neo4j";
     public static final String ELASTIC_SEARCH = "index/elasticsearch";
     public static final String RABBITMQ = "message-broker/rabbitmq";
 
