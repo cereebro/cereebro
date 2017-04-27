@@ -8,7 +8,7 @@
     </parent>
 
     <artifactId>cereebro-server-spring-boot-starter</artifactId>
-    <name>${project.groupId}:${project.artifactId}</name>
+    <name>Cereebro Server Spring Boot Starter</name>
     <description>Cereebro Server Spring Boot Starter</description>
     <url>http://cereebro.io</url>
 

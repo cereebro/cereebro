@@ -34,7 +34,6 @@ import io.cereebro.core.SnitchRegistry;
 import io.cereebro.core.StaticSnitchRegistry;
 import io.cereebro.core.SystemResolver;
 import io.cereebro.core.SystemService;
-import io.cereebro.spring.ResourceSnitch;
 
 @Configuration
 @EnableConfigurationProperties(CereebroServerProperties.class)

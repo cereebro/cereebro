@@ -8,14 +8,14 @@
     </parent>
 
     <artifactId>cereebro-snitch-spring-boot-starter</artifactId>
-    <name>${project.groupId}:${project.artifactId}</name>
+    <name>Cereebro Snitch Spring Boot Starter</name>
     <description>Cereebro Snitch Spring Boot Starter</description>
     <url>http://cereebro.io</url>
 
     <dependencies>
         <dependency>
             <groupId>io.cereebro</groupId>
-            <artifactId>cereebro-snitch-spring-boot-autoconfigure</artifactId>
+            <artifactId>cereebro-snitch</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
