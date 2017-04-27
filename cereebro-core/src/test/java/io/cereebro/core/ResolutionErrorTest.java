@@ -37,7 +37,7 @@ public class ResolutionErrorTest {
 
     @Test
     public void verifyHashcodeEquals() {
-        EqualsVerifier.forClass(ResolutionError.class).usingGetClass().verify();
+        EqualsVerifier.forClass(ResolutionError.class).usingGetClass().withIgnoredFields("cause").verify();
     }
 
     @Test

@@ -38,7 +38,7 @@ public class ElasticSearchRelationshipDetectorAutoConfiguration {
     private List<Client> clients;
 
     @Bean
-    public ElasticSearchRelationshipDetector ElasticSearchRelationshipDetector() {
+    public ElasticSearchRelationshipDetector elasticSearchRelationshipDetector() {
         return new ElasticSearchRelationshipDetector(clients);
     }
 
