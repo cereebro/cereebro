@@ -30,32 +30,33 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.rule.OutputCapture;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import io.cereebro.snitch.Slf4jLogSnitch;
-import io.cereebro.snitch.Slf4jLogSnitchSpringBootTest.LogSnitchSpringBootTestApplication;
+import io.cereebro.snitch.Slf4jSnitchLoggerSpringBootTest.LogSnitchSpringBootTestApplication;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = LogSnitchSpringBootTestApplication.class, value = "cereebro.snitch.logOnStartup=true")
-public class Slf4jLogSnitchSpringBootTest {
+@SpringBootTest(classes = LogSnitchSpringBootTestApplication.class, value = { "cereebro.snitch.logOnStartup=true",
+        "spring.jackson.serialization.indent_output=true" })
+public class Slf4jSnitchLoggerSpringBootTest {
 
     static final URI SNITCH_URI = URI.create("http://cereebro.io/nope");
 
     @Autowired
-    private Slf4jLogSnitch logSnitch;
+    private Slf4jSnitchLogger logSnitch;
 
     @Rule
     public OutputCapture capture = new OutputCapture();
 
     /**
      * Cannot capture what happens when context is loading, so we have to fire
-     * the log method again. The fact that a {@link Slf4jLogSnitch} instance is
-     * available will be enough evidence that auto-configuration has gone well.
+     * the log method again. The fact that a {@link Slf4jSnitchLogger} instance
+     * is available will be enough evidence that auto-configuration has gone
+     * well.
      * 
      * @throws IOException
      */
     @Test
     public void logsShouldContainStatementAndFragment() throws IOException {
         logSnitch.log();
-        Assertions.assertThat(capture.toString()).contains(Slf4jLogSnitch.class.getSimpleName());
+        Assertions.assertThat(capture.toString()).contains(Slf4jSnitchLogger.class.getSimpleName());
     }
 
     @SpringBootApplication(exclude = { MongoAutoConfiguration.class, RabbitAutoConfiguration.class })

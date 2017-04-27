@@ -25,7 +25,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 
 import io.cereebro.core.ApplicationAnalyzer;
 import io.cereebro.core.RelationshipDetector;
@@ -55,8 +57,21 @@ public class CereebroSnitchAutoConfiguration {
 
     @Bean
     @ConditionalOnProperty(prefix = "cereebro.snitch", name = "log-on-startup", havingValue = "true", matchIfMissing = false)
-    public Slf4jLogSnitch logSnitch(ApplicationAnalyzer analyzer) {
-        return new Slf4jLogSnitch(analyzer, objectMapper);
+    public Slf4jSnitchLogger snitchLogger(ApplicationAnalyzer analyzer) throws JsonProcessingException {
+        return new Slf4jSnitchLogger(analyzer, copyObjectMapperWithoutIndentation());
+    }
+
+    /**
+     * Copy the object auto-configure ObjectMapper settings, but force the JSON
+     * output on single line to be logged.
+     * 
+     * @return ObjectMapper with indent_output serialization feature set to
+     *         {@code false}.
+     */
+    private ObjectMapper copyObjectMapperWithoutIndentation() {
+        ObjectMapper noIdentationMapper = new ObjectMapper(objectMapper.getFactory());
+        noIdentationMapper.configure(SerializationFeature.INDENT_OUTPUT, false);
+        return noIdentationMapper;
     }
 
     @Bean

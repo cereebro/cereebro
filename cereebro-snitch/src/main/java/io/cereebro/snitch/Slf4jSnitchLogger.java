@@ -32,7 +32,7 @@ import lombok.extern.slf4j.Slf4j;
  * @author michaeltecourt
  */
 @Slf4j
-public class Slf4jLogSnitch implements CommandLineRunner {
+public class Slf4jSnitchLogger implements CommandLineRunner {
 
     private final ApplicationAnalyzer analyzer;
     private final ObjectMapper objectMapper;
@@ -43,7 +43,7 @@ public class Slf4jLogSnitch implements CommandLineRunner {
      * @param analyzer
      * @param objectMapper
      */
-    public Slf4jLogSnitch(ApplicationAnalyzer analyzer, ObjectMapper objectMapper) {
+    public Slf4jSnitchLogger(ApplicationAnalyzer analyzer, ObjectMapper objectMapper) {
         this.analyzer = Objects.requireNonNull(analyzer, "Application analyzer required");
         this.objectMapper = Objects.requireNonNull(objectMapper, "Object mapper required");
     }

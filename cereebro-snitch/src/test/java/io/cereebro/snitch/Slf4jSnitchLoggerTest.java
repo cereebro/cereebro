@@ -29,29 +29,28 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import ch.qos.logback.classic.Level;
 import io.cereebro.core.ApplicationAnalyzer;
 import io.cereebro.core.SystemFragment;
-import io.cereebro.snitch.Slf4jLogSnitch;
 
 /**
- * {@link Slf4jLogSnitch} unit tests.
+ * {@link Slf4jSnitchLogger} unit tests.
  * 
  * @author michaeltecourt
  */
-public class Slf4jLogSnitchTest {
+public class Slf4jSnitchLoggerTest {
 
     ObjectMapper objectMapperMock;
     ApplicationAnalyzer analyzerMock;
-    Slf4jLogSnitch logSnitch;
+    Slf4jSnitchLogger logSnitch;
 
     @Before
     public void setUp() {
         objectMapperMock = Mockito.mock(ObjectMapper.class);
         analyzerMock = Mockito.mock(ApplicationAnalyzer.class);
-        logSnitch = new Slf4jLogSnitch(analyzerMock, objectMapperMock);
+        logSnitch = new Slf4jSnitchLogger(analyzerMock, objectMapperMock);
     }
 
     @Test
     public void log() throws IOException {
-        Level previousLogLevel = setLogLevel(Slf4jLogSnitch.class, Level.INFO);
+        Level previousLogLevel = setLogLevel(Slf4jSnitchLogger.class, Level.INFO);
 
         SystemFragment frag = SystemFragment.empty();
         Mockito.when(analyzerMock.analyzeSystem()).thenReturn(frag);
@@ -60,18 +59,18 @@ public class Slf4jLogSnitchTest {
         Mockito.verify(analyzerMock).analyzeSystem();
         Mockito.verify(objectMapperMock).writeValueAsString(frag);
 
-        setLogLevel(Slf4jLogSnitch.class, previousLogLevel);
+        setLogLevel(Slf4jSnitchLogger.class, previousLogLevel);
     }
 
     @Test
     public void logInfoDisabledShouldNotLog() throws IOException {
-        Level previousLogLevel = setLogLevel(Slf4jLogSnitch.class, Level.ERROR);
+        Level previousLogLevel = setLogLevel(Slf4jSnitchLogger.class, Level.ERROR);
 
         logSnitch.log();
         Mockito.verify(analyzerMock, Mockito.never()).analyzeSystem();
         Mockito.verify(objectMapperMock, Mockito.never()).writeValueAsString(Mockito.any());
 
-        setLogLevel(Slf4jLogSnitch.class, previousLogLevel);
+        setLogLevel(Slf4jSnitchLogger.class, previousLogLevel);
     }
 
     @Test
