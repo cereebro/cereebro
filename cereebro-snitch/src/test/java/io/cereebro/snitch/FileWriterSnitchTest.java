@@ -17,6 +17,7 @@ package io.cereebro.snitch;
 
 import java.io.File;
 import java.io.FilenameFilter;
+import java.net.URI;
 import java.nio.file.Files;
 import java.util.stream.Stream;
 
@@ -32,8 +33,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.cereebro.core.ApplicationAnalyzer;
 import io.cereebro.core.SystemFragment;
-import io.cereebro.snitch.CereebroProperties;
-import io.cereebro.snitch.FileWriterSnitch;
 
 /**
  * {@link FileWriterSnitch} unit tests.
@@ -63,6 +62,7 @@ public class FileWriterSnitchTest {
         snitch.run();
         String result = new String(Files.readAllBytes(temp.toPath()));
         Assertions.assertThat(result).isEqualTo("{\"componentRelationships\":[]}");
+        Assertions.assertThat(snitch.getUri()).isEqualTo(temp.toURI());
     }
 
     @Test
@@ -90,6 +90,12 @@ public class FileWriterSnitchTest {
         FileWriterSnitch snitch = new FileWriterSnitch(analyzerMock, messedUpMapperMock, properties);
         snitch.run();
         Assertions.assertThat(temp.length()).isEqualTo(0);
+    }
+
+    @Test
+    public void fileNotWrittenShouldYieldDefaultUri() {
+        FileWriterSnitch snitch = new FileWriterSnitch(analyzerMock, objectMapper, new CereebroProperties());
+        Assertions.assertThat(snitch.getUri()).isEqualTo(URI.create("file:///dev/null"));
     }
 
 }

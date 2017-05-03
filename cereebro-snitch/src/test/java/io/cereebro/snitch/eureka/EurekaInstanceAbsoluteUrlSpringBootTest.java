@@ -32,8 +32,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import io.cereebro.core.Snitch;
-import io.cereebro.core.StaticSnitch;
+import io.cereebro.core.SnitchEndpoint;
 import io.cereebro.core.SystemFragment;
 import io.cereebro.snitch.eureka.EurekaInstanceAbsoluteUrlSpringBootTest.EurekaClientMockTestConfiguration;
 
@@ -43,7 +42,7 @@ import io.cereebro.snitch.eureka.EurekaInstanceAbsoluteUrlSpringBootTest.EurekaC
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = { EurekaClientMockTestConfiguration.class,
         CereebroEurekaInstanceAutoConfiguration.class }, webEnvironment = WebEnvironment.NONE, value = {
-                "cereebro.eureka.instance.snitch.url=" + EurekaInstanceAbsoluteUrlSpringBootTest.SNITCH_URL })
+                "cereebro.snitch.eureka.endpoint-url=" + EurekaInstanceAbsoluteUrlSpringBootTest.SNITCH_URL })
 public class EurekaInstanceAbsoluteUrlSpringBootTest {
 
     static final String SNITCH_URL = "https://example.com/snitch";
@@ -65,8 +64,8 @@ public class EurekaInstanceAbsoluteUrlSpringBootTest {
         }
 
         @Bean
-        public Snitch snitchMock() {
-            return StaticSnitch.of(URI.create("/nope"), SystemFragment.empty());
+        public SnitchEndpoint snitchMock() {
+            return new StaticSnitchEndpoint(URI.create("/nope"), SystemFragment.empty());
         }
 
         @MockBean

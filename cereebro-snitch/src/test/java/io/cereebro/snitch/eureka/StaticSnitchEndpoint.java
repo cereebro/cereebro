@@ -15,32 +15,39 @@
  */
 package io.cereebro.snitch.eureka;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
+import java.net.URI;
 
-import lombok.Data;
+import io.cereebro.core.SnitchEndpoint;
+import io.cereebro.core.StaticSnitch;
+import io.cereebro.core.SystemFragment;
 
 /**
- * Fine tune the Snitch URI declared in Eureka metadata with these properties.
- * <p>
- * Note that this class is not used as Spring Boot
- * {@link ConfigurationProperties} because relaxed binding is needed to resolve
- * management properties.
- * </p>
+ * Just for tests.
  * 
  * @author michaeltecourt
  */
-@Data
-final class EurekaInstanceSnitchProperties {
+class StaticSnitchEndpoint extends StaticSnitch implements SnitchEndpoint {
 
     /**
-     * Absolute URL of the endpoint (ex: "http://localhost:8080/cereebro"). <br>
-     * Will take precedence over the {@link #endpointUrlPath} if both are set.
+     * Just for tests.
+     * 
+     * @param uri
+     *            Static URI.
+     * @param systemFragment
+     *            Static Frag.
      */
-    private String endpointUrl;
+    StaticSnitchEndpoint(URI uri, SystemFragment systemFragment) {
+        super(uri, systemFragment);
+    }
 
     /**
-     * Relative path of the endpoint location (ex: "/cereebro").
+     * Just for tests.
+     * 
+     * @param uri
+     *            Static URI.
      */
-    private String endpointUrlPath;
+    StaticSnitchEndpoint(URI uri) {
+        super(uri);
+    }
 
 }

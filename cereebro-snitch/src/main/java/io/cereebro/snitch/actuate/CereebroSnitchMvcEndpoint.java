@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import io.cereebro.core.ApplicationAnalyzer;
-import io.cereebro.core.Snitch;
+import io.cereebro.core.SnitchEndpoint;
 import io.cereebro.core.SystemFragment;
 
 /**
@@ -36,7 +36,7 @@ import io.cereebro.core.SystemFragment;
  * @author michaeltecourt
  */
 @ConfigurationProperties(prefix = "endpoints.cereebro")
-public class CereebroSnitchMvcEndpoint extends AbstractMvcEndpoint implements Snitch {
+public class CereebroSnitchMvcEndpoint extends AbstractMvcEndpoint implements SnitchEndpoint {
 
     public static final String DEFAULT_PATH = "/cereebro/snitch";
 

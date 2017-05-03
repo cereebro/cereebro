@@ -32,8 +32,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import io.cereebro.core.Snitch;
-import io.cereebro.core.StaticSnitch;
+import io.cereebro.core.SnitchEndpoint;
 import io.cereebro.core.SystemFragment;
 import io.cereebro.snitch.eureka.EurekaInstanceDefaultSpringBootTest.EurekaInstanceDefaultSpringBootTestConfiguration;
 
@@ -62,8 +61,8 @@ public class EurekaInstanceDefaultSpringBootTest {
         }
 
         @Bean
-        public Snitch snitchMock() {
-            return StaticSnitch.of(URI.create("/nope"), SystemFragment.empty());
+        public SnitchEndpoint snitchMock() {
+            return new StaticSnitchEndpoint(URI.create("/nope"), SystemFragment.empty());
         }
 
         @MockBean

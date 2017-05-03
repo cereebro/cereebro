@@ -18,6 +18,7 @@ package io.cereebro.snitch;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.URI;
 import java.util.Objects;
 
 import org.springframework.boot.CommandLineRunner;
@@ -26,6 +27,7 @@ import org.springframework.util.StringUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.cereebro.core.ApplicationAnalyzer;
+import io.cereebro.core.Snitch;
 import io.cereebro.core.SystemFragment;
 import lombok.extern.slf4j.Slf4j;
 
@@ -37,11 +39,12 @@ import lombok.extern.slf4j.Slf4j;
  * @author michaeltecourt
  */
 @Slf4j
-public class FileWriterSnitch implements CommandLineRunner {
+public class FileWriterSnitch implements CommandLineRunner, Snitch {
 
     private ApplicationAnalyzer analyzer;
     private ObjectMapper objectMapper;
     private CereebroProperties properties;
+    private File file;
 
     public FileWriterSnitch(ApplicationAnalyzer analyzer, ObjectMapper objectMapper, CereebroProperties properties) {
         this.analyzer = Objects.requireNonNull(analyzer, "Application analyzer required");
@@ -51,14 +54,15 @@ public class FileWriterSnitch implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        String file = properties.getSnitch().getFile().getLocation();
+        String location = properties.getSnitch().getFile().getLocation();
         try {
-            write(StringUtils.hasText(file) ? new File(file)
-                    : File.createTempFile(properties.getApplication().getComponent().getName(), ".json"));
+            file = StringUtils.hasText(location) ? new File(location)
+                    : File.createTempFile(properties.getApplication().getComponent().getName(), ".json");
+            write(file);
         } catch (IOException e) {
             // Swallow the exception, we don't want to prevent
             // the app from starting
-            LOGGER.error("Error while writing JSON to file : " + file, e);
+            LOGGER.error("Error while writing JSON to file : " + location, e);
         }
     }
 
@@ -66,19 +70,34 @@ public class FileWriterSnitch implements CommandLineRunner {
      * Write to a file the SystemFragment discovered after analyzing the
      * application.
      * 
-     * @param file
+     * @param f
      *            File to write.
      * @throws IOException
      *             if something wrong happens while serializing the
      *             SystemFragment or writing the file.
      */
-    public void write(File file) throws IOException {
-        try (FileWriter writer = new FileWriter(file)) {
-            SystemFragment frag = analyzer.analyzeSystem();
+    public void write(File f) throws IOException {
+        try (FileWriter writer = new FileWriter(f)) {
+            SystemFragment frag = snitch();
             String fragString = objectMapper.writeValueAsString(frag);
-            LOGGER.info("Writing system fragment to file : {}", file);
+            LOGGER.info("Writing system fragment to file : {}", f);
             writer.write(fragString);
         }
+    }
+
+    @Override
+    public URI getUri() {
+        if (file == null) {
+            URI uri = URI.create("file:///dev/null");
+            LOGGER.warn("File hasn't been written for some reason, returning default URI : {}", uri);
+            return uri;
+        }
+        return file.toURI();
+    }
+
+    @Override
+    public SystemFragment snitch() {
+        return analyzer.analyzeSystem();
     }
 
 }

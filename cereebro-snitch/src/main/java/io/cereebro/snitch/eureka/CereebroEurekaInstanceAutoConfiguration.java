@@ -18,6 +18,7 @@ package io.cereebro.snitch.eureka;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.bind.RelaxedPropertyResolver;
 import org.springframework.cloud.netflix.eureka.CloudEurekaInstanceConfig;
 import org.springframework.context.annotation.Bean;
@@ -26,7 +27,7 @@ import org.springframework.core.env.Environment;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import io.cereebro.core.Snitch;
+import io.cereebro.core.SnitchEndpoint;
 
 /**
  * Adds Cereebro metadata when registering an Eureka service (client
@@ -37,20 +38,20 @@ import io.cereebro.core.Snitch;
 @Configuration
 @ConditionalOnClass(CloudEurekaInstanceConfig.class)
 @ConditionalOnBean(CloudEurekaInstanceConfig.class)
+@ConditionalOnProperty(prefix = "cereebro.snitch.eureka", value = "enabled", havingValue = "true", matchIfMissing = true)
 public class CereebroEurekaInstanceAutoConfiguration {
 
     @Autowired
     private Environment env;
 
     @Bean
-    @ConditionalOnBean(Snitch.class)
-    public EurekaMetadataPopulator eurekaMetadataPopulator(Snitch snitch, CloudEurekaInstanceConfig config,
+    @ConditionalOnBean(SnitchEndpoint.class)
+    public EurekaMetadataPopulator eurekaMetadataPopulator(SnitchEndpoint snitch, CloudEurekaInstanceConfig config,
             ObjectMapper mapper) {
-        RelaxedPropertyResolver relaxedPropertyResolver = new RelaxedPropertyResolver(env,
-                "cereebro.eureka.instance.snitch.");
+        RelaxedPropertyResolver relaxedPropertyResolver = new RelaxedPropertyResolver(env, "cereebro.snitch.eureka.");
         EurekaInstanceSnitchProperties props = new EurekaInstanceSnitchProperties();
-        props.setUrl(relaxedPropertyResolver.getProperty("url"));
-        props.setUrlPath(relaxedPropertyResolver.getProperty("urlPath"));
+        props.setEndpointUrl(relaxedPropertyResolver.getProperty("endpointUrl"));
+        props.setEndpointUrlPath(relaxedPropertyResolver.getProperty("endpointUrlPath"));
         EurekaMetadataPopulator metadataPopulator = new EurekaMetadataPopulator(snitch, config, props, mapper);
         metadataPopulator.populate();
         return metadataPopulator;

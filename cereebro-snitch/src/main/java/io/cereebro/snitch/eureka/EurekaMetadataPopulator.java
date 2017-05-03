@@ -26,6 +26,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.cereebro.core.Snitch;
+import io.cereebro.core.SnitchEndpoint;
 import io.cereebro.core.SnitchingException;
 import io.cereebro.snitch.discovery.CereebroMetadata;
 
@@ -43,7 +44,7 @@ public class EurekaMetadataPopulator {
     private final CloudEurekaInstanceConfig config;
     private final ObjectMapper objectMapper;
 
-    public EurekaMetadataPopulator(Snitch snitch, CloudEurekaInstanceConfig config,
+    public EurekaMetadataPopulator(SnitchEndpoint snitch, CloudEurekaInstanceConfig config,
             EurekaInstanceSnitchProperties props, ObjectMapper mapper) {
         this.snitch = Objects.requireNonNull(snitch, "Snitch required");
         this.config = Objects.requireNonNull(config, "Cloud eureka instance config required");
@@ -68,15 +69,15 @@ public class EurekaMetadataPopulator {
      * @return Absolute Snitch URI.
      */
     protected URI getEndpointUri() {
-        if (!StringUtils.isEmpty(properties.getUrl())) {
-            return URI.create(properties.getUrl());
+        if (!StringUtils.isEmpty(properties.getEndpointUrl())) {
+            return URI.create(properties.getEndpointUrl());
         }
         // @formatter:off
         return UriComponentsBuilder.newInstance()
                 .scheme("http")
                 .host(config.getHostName(true))
                 .port(config.getNonSecurePort())
-                .path(StringUtils.isEmpty(properties.getUrlPath()) ? snitch.getUri().toString() : properties.getUrlPath())
+                .path(StringUtils.isEmpty(properties.getEndpointUrlPath()) ? snitch.getUri().toString() : properties.getEndpointUrlPath())
                 .build()
                 .toUri();
         // @formatter:on

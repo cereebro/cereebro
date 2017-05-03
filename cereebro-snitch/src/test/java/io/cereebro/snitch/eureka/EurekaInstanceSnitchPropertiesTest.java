@@ -36,8 +36,8 @@ public class EurekaInstanceSnitchPropertiesTest {
     @Test
     public void testToString() {
         EurekaInstanceSnitchProperties props = new EurekaInstanceSnitchProperties();
-        props.setUrl("https://example.org/nope");
-        props.setUrlPath("/nope");
+        props.setEndpointUrl("https://example.org/nope");
+        props.setEndpointUrlPath("/nope");
         Assertions.assertThat(props.toString()).isNotEmpty();
     }
 }
