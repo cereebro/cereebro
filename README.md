@@ -1,6 +1,6 @@
 ![Build status](https://travis-ci.org/cereebro/cereebro.svg?branch=master)
 
-# Cereebro
+# ![Cereebro](https://raw.githubusercontent.com/cereebro/cereebro.github.io/master/images/cereebro.png)
 
 The goal of Cereebro is to automate the documentation of relationships between components in a distributed system.
 
