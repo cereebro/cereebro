@@ -39,6 +39,10 @@
         </dependency>
         <dependency>
             <groupId>org.webjars</groupId>
+            <artifactId>webjars-locator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.webjars</groupId>
             <artifactId>bootstrap</artifactId>
         </dependency>
         <dependency>
@@ -48,6 +52,18 @@
         <dependency>
             <groupId>org.webjars</groupId>
             <artifactId>linkurious.js</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>d3js</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>d3-plugins</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>nvd3</artifactId>
         </dependency>
         <!-- Spring Cloud -->
         <dependency>

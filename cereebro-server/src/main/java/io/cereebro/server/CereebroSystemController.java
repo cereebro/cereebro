@@ -27,6 +27,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import io.cereebro.core.System;
 import io.cereebro.core.SystemService;
+import io.cereebro.server.graph.d3.wheel.DependencyWheel;
 import io.cereebro.server.graph.sigma.Graph;
 
 @Controller
@@ -46,8 +47,10 @@ public class CereebroSystemController {
         ModelAndView mav = new ModelAndView("cereebro/system");
         mav.getModelMap().put("system", system);
         Graph graph = Graph.of(system);
-        // Will be serialized as a JSON object by thymeleaf
-        mav.getModelMap().put("graph", graph);
+        DependencyWheel wheel = DependencyWheel.of(system);
+        // Will be serialized to JSON objects by thymeleaf
+        mav.addObject("graph", graph);
+        mav.addObject("wheel", wheel);
         return mav;
     }
 

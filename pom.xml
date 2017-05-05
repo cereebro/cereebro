@@ -62,6 +62,9 @@
         <spring-cloud.version>Camden.SR6</spring-cloud.version>
         <equalsverifier.version>2.2.1</equalsverifier.version>
         <linkurious.version>1.5.1</linkurious.version>
+        <d3js.version>3.5.17</d3js.version>
+        <d3-plugins.version>da342b6</d3-plugins.version>
+        <nvd3.version>1.8.2</nvd3.version>
         <rest-assured.version>3.0.2</rest-assured.version>
         <!-- In multi-module projects, install and deploy artifacts only if every module builds -->
         <installAtEnd>true</installAtEnd>
@@ -130,6 +133,21 @@
                 <groupId>org.webjars</groupId>
                 <artifactId>linkurious.js</artifactId>
                 <version>${linkurious.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.webjars</groupId>
+                <artifactId>d3js</artifactId>
+                <version>${d3js.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.webjars</groupId>
+                <artifactId>d3-plugins</artifactId>
+                <version>${d3-plugins.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.webjars</groupId>
+                <artifactId>nvd3</artifactId>
+                <version>${nvd3.version}</version>
             </dependency>
             <!-- MISC -->
             <dependency>
@@ -288,6 +306,9 @@
                         <include>**/*.js</include>
                         <include>**/*.html</include>
                     </includes>
+                    <excludes>
+                        <exclude>**/*d3.dependencyWheel.js</exclude>
+                    </excludes>
                     <properties>
                         <owner>the original authors</owner>
                         <email>http://cereebro.io</email>

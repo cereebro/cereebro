@@ -22,30 +22,46 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<script src="http://cdn.jsdelivr.net/webjars/jquery/2.1.1/jquery.min.js"
-  data-th-src="@{/webjars/jquery/2.1.1/jquery.min.js}"></script>
+<script src="/js/jquery/jquery.min.js" data-th-src="@{/webjars/jquery/jquery.min.js}"></script>
 <link rel="icon" href="/images/cereebro/favicon.ico" type="image/x-icon" />
-<link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.2.0/css/bootstrap.min.css"
-  data-th-href="@{/webjars/bootstrap/3.2.0/css/bootstrap.min.css}" rel="stylesheet" />
-
-<script data-th-src="@{/webjars/bootstrap/3.2.0/js/bootstrap.min.js}" src="/js/bootstrap.min.js"></script>
-<script data-th-src="@{/webjars/linkurious.js/1.5.1/sigma.min.js}" src="/js/sigma.js/sigma.min.js"></script>
-<script data-th-src="@{/webjars/linkurious.js/1.5.1/plugins/sigma.parsers.json.min.js}"
+<link href="/css/bootstrap.min.css" data-th-href="@{/webjars/bootstrap/css/bootstrap.min.css}" rel="stylesheet" />
+<script data-th-src="@{/webjars/bootstrap/js/bootstrap.min.js}" src="/js/bootstrap.min.js"></script>
+<script data-th-src="@{/webjars/linkurious.js/sigma.min.js}" src="/js/sigma.js/sigma.min.js"></script>
+<script data-th-src="@{/webjars/linkurious.js/plugins/sigma.parsers.json.min.js}"
   src="/js/sigma.js/plugins/sigma.parsers.json.min.js"></script>
-<script data-th-src="@{/webjars/linkurious.js/1.5.1/plugins/sigma.layouts.forceAtlas2.min.js}"
+<script data-th-src="@{/webjars/linkurious.js/plugins/sigma.layouts.forceAtlas2.min.js}"
   src="/js/sigma.js/plugins/sigma.layouts.forceAtlas2.min.js"></script>
-<script data-th-src="@{/webjars/linkurious.js/1.5.1/plugins/sigma.renderers.linkurious.min.js}"
+<script data-th-src="@{/webjars/linkurious.js/plugins/sigma.renderers.linkurious.min.js}"
   src="/js/sigma.js/plugins/sigma.renderers.linkurious.min.js"></script>
+<script data-th-src="@{/webjars/d3js/d3.min.js}" src="/webjars/d3js/d3.min.js"></script>
+<script src="/js/d3.dependencyWheel.js"></script>
 
 <style type="text/css">
 html, body {
     height: 100%;
 }
 
+.cereebro-chart-container {
+    border-width: 0px 1px 1px 1px;
+    border-style: solid;
+    color: #ddd;
+}
+
 #graph-container {
     width: 100%;
     height: 360px;
-    border: 1px solid #ddd;
+}
+
+#wheel-container {
+    text-align: center;
+}
+
+.dependencyWheel {
+    font-size: 0.7em;
+}
+
+.chord {
+    fill-opacity: .67;
 }
 
 .popover {
@@ -92,6 +108,10 @@ div.cereebro-components>div:nth-of-type(odd) {
         $(function() {
             $('[data-toggle="popover"]').popover()
         })
+
+        ////////////////////////////////////
+        // sigma.js graph
+        ////////////////////////////////////
 
         // Add a method to the graph model that returns an
         // object with every neighbors of a node inside:
@@ -178,6 +198,26 @@ div.cereebro-components>div:nth-of-type(odd) {
         setTimeout(function() {
             s.stopForceAtlas2();
         }, 1000);
+
+        ////////////////////////////////////
+        // d3.js dependency wheel
+        ////////////////////////////////////
+
+        var wheel = /*[[${wheel}]]*/{};
+        if (wheel.names.length > 0) {
+            var wheelData = {
+                packageNames : wheel.names,
+                matrix : wheel.dependencyMatrix
+            };
+
+            var wheelChart = d3.chart.dependencyWheel() //
+            .width(768) // also used for height, since the wheel is in a a square
+            .margin(192) // used to display package names
+            .padding(.04); // separating groups in the wheel
+
+            d3.select('#wheel-container').datum(wheelData).call(wheelChart);
+        }
+
     });
     /*]]>*/
 </script>
@@ -193,12 +233,17 @@ div.cereebro-components>div:nth-of-type(odd) {
     </div>
     <div class="container">
       <h1 data-th-text="${system.name}">System name</h1>
-      <div id="visual">
+      <div id="cerebro-charts">
         <ul class="nav nav-tabs">
-          <li role="presentation" class="active"><a href="#">Graph</a></li>
-          <!-- <li role="presentation"><a href="#">Diagram</a></li>  -->
+          <li role="presentation" class="active"><a href="#graph-container" aria-controls="graph-container"
+            role="tab" data-toggle="tab">Graph</a></li>
+          <li role="presentation"><a href="#wheel-container" aria-controls="wheel-container" role="tab"
+            data-toggle="tab" class="hidden-xs hidden-sm">Wheel</a></li>
         </ul>
-        <div id="graph-container"></div>
+        <div class="tab-content cereebro-chart-container">
+          <div id="graph-container" role="tabpanel" class="tab-pane active"></div>
+          <div id="wheel-container" role="tabpanel" class="tab-pane hidden-xs hidden-sm"></div>
+        </div>
       </div>
       <div class="alert alert-danger alert-dismissible fade in" role="alert" data-th-if="${system.hasErrors()}">
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
