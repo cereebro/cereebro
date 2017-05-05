@@ -1,1 +1,1 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=io.cereebro.spring.boot.autoconfigure.CereebroSnitchAutoConfiguration
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=io.cereebro.snitch.CereebroSnitchAutoConfiguration,io.cereebro.snitch.eureka.CereebroEurekaInstanceAutoConfiguration,io.cereebro.snitch.detect.feign.CereebroFeignClientAutoConfiguration,io.cereebro.snitch.eureka.CereebroEurekaInstanceAutoConfiguration,io.cereebro.snitch.detect.eureka.EurekaServerRelationshipDetectorAutoConfiguration

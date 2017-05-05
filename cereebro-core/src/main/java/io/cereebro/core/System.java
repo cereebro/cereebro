@@ -17,7 +17,7 @@ package io.cereebro.core;
 
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -50,8 +50,8 @@ public class System {
      */
     public System(String name, Collection<ComponentRelationships> rels, Collection<ResolutionError> errors) {
         this.name = Objects.requireNonNull(name, "System name required");
-        this.componentRelationships = new HashSet<>(rels);
-        this.errors = new HashSet<>(errors);
+        this.componentRelationships = new LinkedHashSet<>(rels);
+        this.errors = new LinkedHashSet<>(errors);
     }
 
     /**
@@ -64,7 +64,7 @@ public class System {
      *            Components and their relationships.
      */
     public System(String name, Collection<ComponentRelationships> rels) {
-        this(name, rels, new HashSet<ResolutionError>());
+        this(name, rels, new LinkedHashSet<ResolutionError>());
     }
 
     /**
@@ -166,7 +166,7 @@ public class System {
      * @return a copy of the system's relationships.
      */
     public Set<ComponentRelationships> getComponentRelationships() {
-        return new HashSet<>(componentRelationships);
+        return new LinkedHashSet<>(componentRelationships);
     }
 
     /**
@@ -175,7 +175,7 @@ public class System {
      * @return a copy of the resolution errors.
      */
     public Set<ResolutionError> getErrors() {
-        return new HashSet<>(errors);
+        return new LinkedHashSet<>(errors);
     }
 
     /**
@@ -202,8 +202,8 @@ public class System {
          * {@link System} Builder.
          */
         public SystemBuilder() {
-            componentRelationships = new HashSet<>();
-            errors = new HashSet<>();
+            componentRelationships = new LinkedHashSet<>();
+            errors = new LinkedHashSet<>();
         }
 
         /**

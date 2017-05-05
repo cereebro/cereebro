@@ -1,16 +1,18 @@
 ![Build status](https://travis-ci.org/cereebro/cereebro.svg?branch=master)
 
-# Cereebro
+# ![Cereebro](https://raw.githubusercontent.com/cereebro/cereebro.github.io/master/images/cereebro.png)
 
 The goal of Cereebro is to automate the documentation of relationships between components in a distributed system.
 
+See a [Cereebro demo live](http://sample.cereebro.io).
+
 ## Why
 
-When building a distributed system, it quickly becomes hard to keep track of every component and its dependencies.    
+When building a distributed system, it quickly becomes hard to keep track components and their dependencies.    
 Writing architecture documents and drawing diagrams is cool, but these pieces of art eventually get obsolete after a few time. Keeping software documentation up-to-date is an ageless problem.  
 Project Cereebro answers it by generating a map of a system at runtime : 
 
- * by simply adding a Cereebro Snitch Spring Boot starter, the context of each application is analyzed to detect its  relationships with other components, providing a fragment of the whole system
+ * by simply adding the Cereebro Snitch Spring Boot starter, the context of each application is analyzed to detect its  relationships with other components, providing a fragment of the whole system
  * the Cereebro server resolves the fragments from every Snitch to reconstitute the big picture  
 
 The name Cereebro is inspired by the [X-Men's Cerebro](https://en.wikipedia.org/wiki/Cerebro) device, which allows its user to locate mutants accross the world.
@@ -38,7 +40,7 @@ Check out our [samples and see them running on Heroku](https://github.com/cereeb
 
 Java :
  
-  * eclipse formatter : "Java conventions with spaces" (I don't know about IntelliJ)
+  * eclipse formatter : "Java conventions with spaces" (we don't know about IntelliJ)
   * line width : 120
   * indent using spaces only
   * auto-format all the things

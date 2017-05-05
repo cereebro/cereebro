@@ -40,7 +40,7 @@ public class ResolutionError {
     private final URI snitchUri;
     private final String message;
     @JsonIgnore
-    transient final Throwable cause;
+    private final Throwable cause;
 
     /**
      * Error caught while resolving a System.
@@ -151,11 +151,11 @@ public class ResolutionError {
      * @return StackTrace string.
      */
     public Optional<String> getCauseStackTraceString() {
-        Optional<Throwable> cause = getCause();
-        if (cause.isPresent()) {
+        Optional<Throwable> errorCause = getCause();
+        if (errorCause.isPresent()) {
             StringWriter sw = new StringWriter();
             PrintWriter pw = new PrintWriter(sw);
-            cause.get().printStackTrace(pw);
+            errorCause.get().printStackTrace(pw);
             String stackTraceString = sw.toString();
             closeQuietly(sw, pw);
             return Optional.of(stackTraceString);

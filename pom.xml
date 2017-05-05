@@ -4,10 +4,10 @@
 
     <groupId>io.cereebro</groupId>
     <artifactId>cereebro</artifactId>
-    <version>0.1.1-SNAPSHOT</version>
+    <version>1.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
-    <name>${project.groupId}:${project.artifactId}</name>
+    <name>Cereebro</name>
     <description>Cereebro Parent POM</description>
     <url>http://cereebro.io</url>
     <inceptionYear>2017</inceptionYear>
@@ -61,6 +61,9 @@
         <spring-cloud.version>Camden.SR6</spring-cloud.version>
         <equalsverifier.version>2.2.1</equalsverifier.version>
         <linkurious.version>1.5.1</linkurious.version>
+        <d3js.version>3.5.17</d3js.version>
+        <d3-plugins.version>da342b6</d3-plugins.version>
+        <nvd3.version>1.8.2</nvd3.version>
         <rest-assured.version>3.0.2</rest-assured.version>
         <!-- In multi-module projects, install and deploy artifacts only if every module builds -->
         <installAtEnd>true</installAtEnd>
@@ -69,17 +72,11 @@
 
     <modules>
         <module>cereebro-core</module>
-        <module>cereebro-spring</module>
-        <module>cereebro-snitch-spring-boot-autoconfigure</module>
+        <module>cereebro-snitch</module>
         <module>cereebro-snitch-spring-boot-starter</module>
         <module>cereebro-server</module>
         <module>cereebro-server-spring-boot-starter</module>
-        <module>cereebro-spring-cloud-autoconfigure</module>
-        <module>cereebro-snitch-feign-spring-cloud-starter</module>
-        <module>cereebro-snitch-eureka-spring-cloud-starter</module>
-        <module>cereebro-eureka-client-spring-cloud-starter</module>
-        <module>cereebro-snitch-netflix-spring-cloud-starter</module>
-        <module>cereebro-server-eureka-addon-spring-cloud-starter</module>
+        <module>cereebro-server-tests</module>
     </modules>
 
     <dependencyManagement>
@@ -97,7 +94,7 @@
             </dependency>
             <dependency>
                 <groupId>io.cereebro</groupId>
-                <artifactId>cereebro-snitch-spring-boot-autoconfigure</artifactId>
+                <artifactId>cereebro-snitch</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -113,36 +110,6 @@
             <dependency>
                 <groupId>io.cereebro</groupId>
                 <artifactId>cereebro-server-spring-boot-starter</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.cereebro</groupId>
-                <artifactId>cereebro-spring-cloud-autoconfigure</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.cereebro</groupId>
-                <artifactId>cereebro-snitch-netflix-spring-cloud-starter</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.cereebro</groupId>
-                <artifactId>cereebro-snitch-feign-spring-cloud-starter</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.cereebro</groupId>
-                <artifactId>cereebro-snitch-eureka-spring-cloud-starter</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.cereebro</groupId>
-                <artifactId>cereebro-eureka-client-spring-cloud-starter</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.cereebro</groupId>
-                <artifactId>cereebro-server-eureka-addon-spring-cloud-starter</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <!-- Spring dependencies -->
@@ -165,6 +132,21 @@
                 <groupId>org.webjars</groupId>
                 <artifactId>linkurious.js</artifactId>
                 <version>${linkurious.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.webjars</groupId>
+                <artifactId>d3js</artifactId>
+                <version>${d3js.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.webjars</groupId>
+                <artifactId>d3-plugins</artifactId>
+                <version>${d3-plugins.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.webjars</groupId>
+                <artifactId>nvd3</artifactId>
+                <version>${nvd3.version}</version>
             </dependency>
             <!-- MISC -->
             <dependency>
@@ -241,12 +223,12 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
-                    <version>2.19.1</version>
+                    <version>2.20</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-failsafe-plugin</artifactId>
-                    <version>2.19.1</version>
+                    <version>2.20</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -302,6 +284,18 @@
         </pluginManagement>
         <plugins>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
                 <groupId>com.mycila</groupId>
                 <artifactId>license-maven-plugin</artifactId>
                 <configuration>
@@ -311,6 +305,9 @@
                         <include>**/*.js</include>
                         <include>**/*.html</include>
                     </includes>
+                    <excludes>
+                        <exclude>**/*d3.dependencyWheel.js</exclude>
+                    </excludes>
                     <properties>
                         <owner>the original authors</owner>
                         <email>http://cereebro.io</email>

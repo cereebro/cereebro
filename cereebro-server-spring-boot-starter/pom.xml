@@ -4,11 +4,11 @@
     <parent>
         <groupId>io.cereebro</groupId>
         <artifactId>cereebro</artifactId>
-        <version>0.1.1-SNAPSHOT</version>
+        <version>1.0.1-SNAPSHOT</version>
     </parent>
 
     <artifactId>cereebro-server-spring-boot-starter</artifactId>
-    <name>${project.groupId}:${project.artifactId}</name>
+    <name>Cereebro Server Spring Boot Starter</name>
     <description>Cereebro Server Spring Boot Starter</description>
     <url>http://cereebro.io</url>
 
