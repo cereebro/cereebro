@@ -4,11 +4,11 @@
 
 The goal of Cereebro is to automate the documentation of relationships between components in a distributed system.
 
-See a [Cereebro sample live](http://sample.cereebro.io).
+See a [Cereebro demo live](http://sample.cereebro.io).
 
 ## Why
 
-When building a distributed system, it quickly becomes hard to keep track of every component and its dependencies.    
+When building a distributed system, it quickly becomes hard to keep track components and their dependencies.    
 Writing architecture documents and drawing diagrams is cool, but these pieces of art eventually get obsolete after a few time. Keeping software documentation up-to-date is an ageless problem.  
 Project Cereebro answers it by generating a map of a system at runtime : 
 
@@ -40,7 +40,7 @@ Check out our [samples and see them running on Heroku](https://github.com/cereeb
 
 Java :
  
-  * eclipse formatter : "Java conventions with spaces" (I don't know about IntelliJ)
+  * eclipse formatter : "Java conventions with spaces" (we don't know about IntelliJ)
   * line width : 120
   * indent using spaces only
   * auto-format all the things
