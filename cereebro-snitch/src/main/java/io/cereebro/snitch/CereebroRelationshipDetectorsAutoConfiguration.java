@@ -69,5 +69,4 @@ public class CereebroRelationshipDetectorsAutoConfiguration {
         return new RelationshipHintsAnnotationRelationshipDetector(dependencyHintAnnotationRelationshipDetector(),
                 consumerHintAnnotationRelationshipDetector());
     }
-
 }

@@ -24,6 +24,8 @@ import org.springframework.context.annotation.Configuration;
 
 import com.datastax.driver.core.Session;
 
+import io.cereebro.snitch.ConditionalOnPropertyDetector;
+
 /**
  * Cassandra detector auto configuration, depending on Cassandra classes being
  * available on the classpath. Requires a separate configuration class to
@@ -33,6 +35,7 @@ import com.datastax.driver.core.Session;
  */
 @Configuration
 @ConditionalOnClass(Session.class)
+@ConditionalOnPropertyDetector("cassandra")
 public class CassandraRelationshipDetectorAutoConfiguration {
 
     @Autowired(required = false)

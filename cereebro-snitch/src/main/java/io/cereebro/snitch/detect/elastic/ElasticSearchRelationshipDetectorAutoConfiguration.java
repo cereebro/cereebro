@@ -23,6 +23,8 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import io.cereebro.snitch.ConditionalOnPropertyDetector;
+
 /**
  * Elastic Search detector auto configuration, depending on Elastic Search
  * classes being available on the classpath. Requires a separate configuration
@@ -32,6 +34,7 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 @ConditionalOnClass(Client.class)
+@ConditionalOnPropertyDetector("elastic")
 public class ElasticSearchRelationshipDetectorAutoConfiguration {
 
     @Autowired(required = false)

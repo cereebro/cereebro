@@ -23,8 +23,11 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import io.cereebro.snitch.ConditionalOnPropertyDetector;
+
 @Configuration
 @ConditionalOnClass(value = { Session.class })
+@ConditionalOnPropertyDetector("neo4j")
 public class Neo4jRelationshipDetectorAutoConfiguration {
 
     @Autowired(required = false)
