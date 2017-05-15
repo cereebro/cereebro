@@ -25,7 +25,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
@@ -57,7 +56,7 @@ public class CereebroSnitchAutoConfiguration {
 
     @Bean
     @ConditionalOnProperty(prefix = "cereebro.snitch", name = "log-on-startup", havingValue = "true", matchIfMissing = false)
-    public Slf4jSnitchLogger snitchLogger(ApplicationAnalyzer analyzer) throws JsonProcessingException {
+    public Slf4jSnitchLogger snitchLogger(ApplicationAnalyzer analyzer) {
         return new Slf4jSnitchLogger(analyzer, copyObjectMapperWithoutIndentation());
     }
 
