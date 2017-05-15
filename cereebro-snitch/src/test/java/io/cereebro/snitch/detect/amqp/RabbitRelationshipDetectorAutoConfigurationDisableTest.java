@@ -36,7 +36,7 @@ import io.cereebro.snitch.detect.amqp.RabbitRelationshipDetectorAutoConfiguratio
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = RabbitRelationshipDetectorAutoConfigurationApplication.class, properties = {
-        "cereebro.snitch.detector.rabbit.enabled=false" })
+        "cereebro.snitch.detect.rabbit.enabled=false" })
 public class RabbitRelationshipDetectorAutoConfigurationDisableTest {
 
     @Autowired(required = false)

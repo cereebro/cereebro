@@ -34,7 +34,7 @@ import io.cereebro.snitch.ConditionalOnPropertyDetector.ConditionalDetector;
  * application.properties:<br>
  * 
  * <code>
- * cereebro.snitch.detector.cassandra.enabled = false # Disable the cassandra detector
+ * cereebro.snitch.detect.cassandra.enabled = false # Disable the cassandra detector
  * </code>
  * 
  * @author lwarrot
@@ -47,7 +47,7 @@ public @interface ConditionalOnPropertyDetector {
 
     String value();
 
-    String prefix() default "cereebro.snitch.detector";
+    String prefix() default "cereebro.snitch.detect";
 
     public class ConditionalDetector implements Condition {
 

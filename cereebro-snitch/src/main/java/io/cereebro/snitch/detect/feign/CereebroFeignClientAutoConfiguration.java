@@ -20,8 +20,11 @@ import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import io.cereebro.snitch.ConditionalOnPropertyDetector;
+
 @Configuration
 @ConditionalOnClass(value = FeignClient.class)
+@ConditionalOnPropertyDetector("feign")
 public class CereebroFeignClientAutoConfiguration {
 
     @Bean
