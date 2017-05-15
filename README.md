@@ -8,7 +8,7 @@ See a [Cereebro demo live](http://sample.cereebro.io).
 
 ## Why
 
-When building a distributed system, it quickly becomes hard to keep track components and their dependencies.    
+When building a distributed system, it quickly becomes hard to keep track of components and their dependencies.    
 Writing architecture documents and drawing diagrams is cool, but these pieces of art eventually get obsolete after a few time. Keeping software documentation up-to-date is an ageless problem.  
 Project Cereebro answers it by generating a map of a system at runtime : 
 
@@ -27,9 +27,9 @@ We named it cere**e**bro because :
 
 Get started with [Cereebro, Spring Cloud Netflix and the Eureka Server](https://github.com/cereebro/cereebro/wiki/Using-Cereebro-with-Spring-Cloud-Netflix-and-the-Eureka-Server).
 
-Learn more in the [project documentation](https://github.com/cereebro/cereebro/wiki).
+Learn more in the [project documentation](http://docs.cereebro.io).
 
-Check out our [samples and see them running on Heroku](https://github.com/cereebro/cereebro-samples).
+Check out our [samples](https://github.com/cereebro/cereebro-samples) and [see them running](http://sample.cereebro.io).
  
 ## Continuous Integration
 
