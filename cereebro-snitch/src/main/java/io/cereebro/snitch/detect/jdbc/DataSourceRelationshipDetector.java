@@ -83,8 +83,10 @@ public class DataSourceRelationshipDetector implements RelationshipDetector {
      * Extract a DataSource name, using a default one if necessary.
      * 
      * @param dataSource
+     *            JDBC DataSource.
      * @return a non-null DataSource name.
      * @throws SQLException
+     *             if something goes wrong while extracting component info.
      */
     protected String extractName(DataSource dataSource) throws SQLException {
         String name = dataSource.getConnection().getSchema();
@@ -98,8 +100,10 @@ public class DataSourceRelationshipDetector implements RelationshipDetector {
      * Extract the Database type from the metadata of the connection.
      * 
      * @param dataSource
+     *            JDBC DataSource.
      * @return a non-null Datasource type.
      * @throws SQLException
+     *             if something goes wrong while extracting the component type.
      */
     protected String extractDatabaseType(DataSource dataSource) throws SQLException {
         return DbType.findByProductName(dataSource.getConnection().getMetaData().getDatabaseProductName())
