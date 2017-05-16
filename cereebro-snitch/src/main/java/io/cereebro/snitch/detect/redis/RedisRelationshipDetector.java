@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
@@ -30,6 +31,9 @@ import io.cereebro.core.ComponentType;
 import io.cereebro.core.Dependency;
 import io.cereebro.core.Relationship;
 import io.cereebro.core.RelationshipDetector;
+import io.cereebro.snitch.ConditionalOnPropertyDetector;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Redis RelationshipDetector. Aside from a Redis sentinel master, nothing
@@ -39,9 +43,12 @@ import io.cereebro.core.RelationshipDetector;
  * @author michaeltecourt
  *
  */
+@ConfigurationProperties(prefix = ConditionalOnPropertyDetector.DETECTOR_PREFIX + ".redis")
 public class RedisRelationshipDetector implements RelationshipDetector {
 
-    static final String DEFAULT_NAME = "default";
+    @Getter
+    @Setter
+    private String defaultName = "default";
 
     private final RedisProperties redisProperties;
     private final List<RedisConnectionFactory> connectionFactories;
@@ -69,7 +76,7 @@ public class RedisRelationshipDetector implements RelationshipDetector {
             return new HashSet<>();
         }
         String sentinelMaster = getRedisSentinelMasterName();
-        String name = StringUtils.hasText(sentinelMaster) ? sentinelMaster : DEFAULT_NAME;
+        String name = StringUtils.hasText(sentinelMaster) ? sentinelMaster : defaultName;
         return Dependency.on(Component.of(name, ComponentType.REDIS)).asRelationshipSet();
     }
 

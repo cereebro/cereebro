@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.neo4j.ogm.session.Session;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.util.CollectionUtils;
 
 import io.cereebro.core.Component;
@@ -29,6 +30,9 @@ import io.cereebro.core.ComponentType;
 import io.cereebro.core.Dependency;
 import io.cereebro.core.Relationship;
 import io.cereebro.core.RelationshipDetector;
+import io.cereebro.snitch.ConditionalOnPropertyDetector;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Neo4J database relationship detector. Databases don't have names in Neo4j so
@@ -38,9 +42,12 @@ import io.cereebro.core.RelationshipDetector;
  * @author lucwarrot
  * @author michaeltecourt
  */
+@ConfigurationProperties(prefix = ConditionalOnPropertyDetector.DETECTOR_PREFIX + ".neo4j")
 public class Neo4jRelationshipDetector implements RelationshipDetector {
 
-    private static final String DEFAULT_NAME = "default";
+    @Getter
+    @Setter
+    private String defaultName = "default";
 
     private final List<Session> sessions;
 
@@ -62,7 +69,7 @@ public class Neo4jRelationshipDetector implements RelationshipDetector {
     @Override
     public Set<Relationship> detect() {
         return sessions.isEmpty() ? new HashSet<>()
-                : Dependency.on(Component.of(DEFAULT_NAME, ComponentType.NEO4J)).asRelationshipSet();
+                : Dependency.on(Component.of(defaultName, ComponentType.NEO4J)).asRelationshipSet();
     }
 
 }

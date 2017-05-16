@@ -34,7 +34,6 @@ import io.cereebro.core.Component;
 import io.cereebro.core.ComponentType;
 import io.cereebro.core.Dependency;
 import io.cereebro.core.Relationship;
-import io.cereebro.snitch.detect.redis.RedisRelationshipDetector;
 import io.cereebro.snitch.detect.redis.RedisRelationshipDetectorBasicTest.RedisRelationshipDetectorBasicTestApplication;
 
 @RunWith(SpringRunner.class)
@@ -46,8 +45,7 @@ public class RedisRelationshipDetectorBasicTest {
 
     @Test
     public void shouldReturnRedisDependencyWithDefaultName() {
-        Dependency dependency = Dependency
-                .on(Component.of(RedisRelationshipDetector.DEFAULT_NAME, ComponentType.REDIS));
+        Dependency dependency = Dependency.on(Component.of("default", ComponentType.REDIS));
         Set<Relationship> rels = new HashSet<>(Arrays.asList(dependency));
         Assertions.assertThat(detector.detect()).isEqualTo(rels);
     }

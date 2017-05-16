@@ -55,8 +55,7 @@ public class EurekaServerRelationshipDetectorTest {
         EurekaClient eurekaClientMock = Mockito.mock(EurekaClient.class);
         EurekaServerRelationshipDetector detector = new EurekaServerRelationshipDetector(
                 Arrays.asList(eurekaClientMock));
-        Dependency dependency = Dependency.on(
-                Component.of(EurekaServerRelationshipDetector.DEFAULT_NAME, ComponentType.HTTP_APPLICATION_REGISTRY));
+        Dependency dependency = Dependency.on(Component.of("eureka-server", ComponentType.HTTP_APPLICATION_REGISTRY));
         Set<Relationship> expected = new HashSet<>(Arrays.asList(dependency));
         Assertions.assertThat(detector.detect()).isEqualTo(expected);
     }

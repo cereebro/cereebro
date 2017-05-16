@@ -45,9 +45,11 @@ import io.cereebro.snitch.ConditionalOnPropertyDetector.ConditionalDetector;
 @Conditional(ConditionalDetector.class)
 public @interface ConditionalOnPropertyDetector {
 
+    public static final String DETECTOR_PREFIX = "cereebro.snitch.detect";
+
     String value();
 
-    String prefix() default "cereebro.snitch.detect";
+    String prefix() default DETECTOR_PREFIX;
 
     public class ConditionalDetector implements Condition {
 

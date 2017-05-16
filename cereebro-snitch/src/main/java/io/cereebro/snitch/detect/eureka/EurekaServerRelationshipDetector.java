@@ -20,6 +20,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.util.CollectionUtils;
 
 import com.netflix.discovery.EurekaClient;
@@ -29,6 +30,9 @@ import io.cereebro.core.ComponentType;
 import io.cereebro.core.Dependency;
 import io.cereebro.core.Relationship;
 import io.cereebro.core.RelationshipDetector;
+import io.cereebro.snitch.ConditionalOnPropertyDetector;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Eureka Server relationship detector. If some {@link EurekaClient} bean is
@@ -38,9 +42,12 @@ import io.cereebro.core.RelationshipDetector;
  * @author michaeltecourt
  *
  */
+@ConfigurationProperties(prefix = ConditionalOnPropertyDetector.DETECTOR_PREFIX + ".eureka")
 public class EurekaServerRelationshipDetector implements RelationshipDetector {
 
-    static final String DEFAULT_NAME = "eureka-server";
+    @Getter
+    @Setter
+    private String defaultName = "eureka-server";
 
     private final List<EurekaClient> eurekaClients;
 
@@ -62,7 +69,7 @@ public class EurekaServerRelationshipDetector implements RelationshipDetector {
         if (eurekaClients.isEmpty()) {
             return new HashSet<>();
         }
-        return Dependency.on(Component.of(DEFAULT_NAME, ComponentType.HTTP_APPLICATION_REGISTRY)).asRelationshipSet();
+        return Dependency.on(Component.of(defaultName, ComponentType.HTTP_APPLICATION_REGISTRY)).asRelationshipSet();
     }
 
 }
