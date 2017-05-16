@@ -41,7 +41,10 @@ public class Slf4jSnitchLogger implements CommandLineRunner {
      * Writes Snitch data in the logs.
      * 
      * @param analyzer
+     *            An application analyzer that will provide information about
+     *            the application and its relationships.
      * @param objectMapper
+     *            JSON Object Mapper.
      */
     public Slf4jSnitchLogger(ApplicationAnalyzer analyzer, ObjectMapper objectMapper) {
         this.analyzer = Objects.requireNonNull(analyzer, "Application analyzer required");
