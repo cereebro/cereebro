@@ -13,49 +13,46 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.cereebro.snitch.detect.neo4j;
+package io.cereebro.snitch.detect.eureka;
 
 import java.util.Set;
 
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mockito;
-import org.neo4j.ogm.session.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration;
-import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Bean;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import com.netflix.discovery.EurekaClient;
 
 import io.cereebro.core.Component;
 import io.cereebro.core.ComponentType;
 import io.cereebro.core.Dependency;
 import io.cereebro.core.Relationship;
-import io.cereebro.snitch.detect.neo4j.Neo4jRelationshipDetectorAutoConfigurationTest.Neo4jRelationshipDetectorAutoConfigurationTestApplication;
+import io.cereebro.snitch.detect.eureka.EurekaServerRelationshipDetectorSpringBootDefaultNameTest.EurekaServerRelationshipDetectorSpringBootTestApplication;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = Neo4jRelationshipDetectorAutoConfigurationTestApplication.class)
-public class Neo4jRelationshipDetectorAutoConfigurationTest {
+@SpringBootTest(classes = EurekaServerRelationshipDetectorSpringBootTestApplication.class, properties = "cereebro.snitch.detect.eureka.default-name=my-eureka")
+public class EurekaServerRelationshipDetectorSpringBootDefaultNameTest {
 
     @Autowired
-    Neo4jRelationshipDetector detector;
+    EurekaServerRelationshipDetector detector;
 
     @Test
-    public void shouldReturnDependencyOnDefaultNeo4jComponent() {
-        Set<Relationship> rels = Dependency.on(Component.of("default", ComponentType.NEO4J)).asRelationshipSet();
+    public void test() {
+        Set<Relationship> rels = Dependency.on(Component.of("my-eureka", ComponentType.HTTP_APPLICATION_REGISTRY))
+                .asRelationshipSet();
         Assertions.assertThat(detector.detect()).isEqualTo(rels);
     }
 
-    @SpringBootApplication(exclude = { MongoAutoConfiguration.class, RabbitAutoConfiguration.class })
-    static class Neo4jRelationshipDetectorAutoConfigurationTestApplication {
+    @SpringBootApplication
+    static class EurekaServerRelationshipDetectorSpringBootTestApplication {
 
-        @Bean
-        Session session() {
-            return Mockito.mock(Session.class);
-        }
+        @MockBean
+        EurekaClient eurekaClientMock;
 
     }
 

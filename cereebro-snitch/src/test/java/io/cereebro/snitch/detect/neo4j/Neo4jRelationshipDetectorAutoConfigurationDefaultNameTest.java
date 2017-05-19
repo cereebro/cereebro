@@ -34,18 +34,18 @@ import io.cereebro.core.Component;
 import io.cereebro.core.ComponentType;
 import io.cereebro.core.Dependency;
 import io.cereebro.core.Relationship;
-import io.cereebro.snitch.detect.neo4j.Neo4jRelationshipDetectorAutoConfigurationTest.Neo4jRelationshipDetectorAutoConfigurationTestApplication;
+import io.cereebro.snitch.detect.neo4j.Neo4jRelationshipDetectorAutoConfigurationDefaultNameTest.Neo4jRelationshipDetectorAutoConfigurationTestApplication;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = Neo4jRelationshipDetectorAutoConfigurationTestApplication.class)
-public class Neo4jRelationshipDetectorAutoConfigurationTest {
+@SpringBootTest(classes = Neo4jRelationshipDetectorAutoConfigurationTestApplication.class, properties = "cereebro.snitch.detect.neo4j.default-name=my-neo4j")
+public class Neo4jRelationshipDetectorAutoConfigurationDefaultNameTest {
 
     @Autowired
     Neo4jRelationshipDetector detector;
 
     @Test
     public void shouldReturnDependencyOnDefaultNeo4jComponent() {
-        Set<Relationship> rels = Dependency.on(Component.of("default", ComponentType.NEO4J)).asRelationshipSet();
+        Set<Relationship> rels = Dependency.on(Component.of("my-neo4j", ComponentType.NEO4J)).asRelationshipSet();
         Assertions.assertThat(detector.detect()).isEqualTo(rels);
     }
 
