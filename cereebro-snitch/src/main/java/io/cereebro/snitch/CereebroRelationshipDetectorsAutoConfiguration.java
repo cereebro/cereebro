@@ -32,6 +32,7 @@ import io.cereebro.snitch.detect.jdbc.DataSourceRelationshipDetectorAutoConfigur
 import io.cereebro.snitch.detect.mongo.MongoDbRelationshipDetectorAutoConfiguration;
 import io.cereebro.snitch.detect.neo4j.Neo4jRelationshipDetectorAutoConfiguration;
 import io.cereebro.snitch.detect.redis.RedisRelationshipDetectorAutoConfiguration;
+import io.cereebro.snitch.detect.zuul.ZuulRouteRelationshipDetectorAutoConfiguration;
 
 /**
  * Configures various {@link RelationshipDetector}s.
@@ -43,7 +44,7 @@ import io.cereebro.snitch.detect.redis.RedisRelationshipDetectorAutoConfiguratio
 @Import({ CassandraRelationshipDetectorAutoConfiguration.class, DataSourceRelationshipDetectorAutoConfiguration.class,
         ElasticSearchRelationshipDetectorAutoConfiguration.class, MongoDbRelationshipDetectorAutoConfiguration.class,
         RedisRelationshipDetectorAutoConfiguration.class, RabbitRelationshipDetectorAutoConfiguration.class,
-        Neo4jRelationshipDetectorAutoConfiguration.class })
+        Neo4jRelationshipDetectorAutoConfiguration.class, ZuulRouteRelationshipDetectorAutoConfiguration.class })
 public class CereebroRelationshipDetectorsAutoConfiguration {
 
     @Autowired

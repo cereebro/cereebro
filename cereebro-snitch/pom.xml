@@ -75,6 +75,7 @@
             <artifactId>spring-cloud-netflix-eureka-client</artifactId>
             <optional>true</optional>
         </dependency>
+        <!-- Netflix OSS -->
         <dependency>
             <groupId>com.netflix.eureka</groupId>
             <artifactId>eureka-client</artifactId>
@@ -88,6 +89,26 @@
         <dependency>
             <groupId>io.github.openfeign</groupId>
             <artifactId>feign-slf4j</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>com.netflix.zuul</groupId>
+            <artifactId>zuul-core</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>com.netflix.hystrix</groupId>
+            <artifactId>hystrix-javanica</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>com.netflix.hystrix</groupId>
+            <artifactId>hystrix-core</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>com.netflix.ribbon</groupId>
+            <artifactId>ribbon</artifactId>
             <optional>true</optional>
         </dependency>
         <!-- Detected tools -->
