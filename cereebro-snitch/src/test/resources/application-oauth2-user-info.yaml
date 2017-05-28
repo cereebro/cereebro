@@ -1,0 +1,9 @@
+eureka.client.enabled: false
+
+security:
+  oauth2:
+    client:
+      clientId: why
+      clientSecret: not
+    resource:
+      user-info-uri: http://nope.nope/oauth/info

@@ -39,7 +39,8 @@ import io.restassured.http.ContentType;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = { SnitchEndpointPathOverrideTestApplication.class,
         CereebroSnitchAutoConfiguration.class }, webEnvironment = WebEnvironment.RANDOM_PORT, value = {
-                "spring.application.name=spring-app-name", "endpoints.cereebro.path=/cereebro/snitch/test" })
+                "spring.application.name=spring-app-name", "endpoints.cereebro.path=/cereebro/snitch/test",
+                "management.security.enabled=false" })
 public class SnitchEndpointPathOverrideTest {
 
     @Value("http://localhost:${local.server.port}/cereebro/snitch/test")

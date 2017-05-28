@@ -38,7 +38,7 @@ import io.restassured.http.ContentType;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = { SnitchEndpointSpringApplicationNameTestApplication.class,
         CereebroSnitchAutoConfiguration.class }, webEnvironment = WebEnvironment.RANDOM_PORT, value = {
-                "spring.application.name=springappname" })
+                "spring.application.name=springappname", "management.security.enabled=false" })
 public class SnitchEndpointSpringApplicationNameTest {
 
     @Value("http://localhost:${local.server.port}/cereebro/snitch")
