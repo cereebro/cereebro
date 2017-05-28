@@ -28,7 +28,7 @@ import io.cereebro.core.ComponentType;
 import io.cereebro.core.Dependency;
 import io.cereebro.core.Relationship;
 import io.cereebro.core.RelationshipDetector;
-import io.cereebro.snitch.ConditionalOnPropertyDetector;
+import io.cereebro.snitch.detect.Detectors;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -38,7 +38,7 @@ import lombok.Setter;
  * 
  * @author michaeltecourt
  */
-@ConfigurationProperties(prefix = ConditionalOnPropertyDetector.DETECTOR_PREFIX + ".oauth2.authorization-server")
+@ConfigurationProperties(prefix = Detectors.PREFIX + ".oauth2.authorization-server")
 public class AuthorizationServerRelationshipDetector implements RelationshipDetector {
 
     private final ResourceServerTokenServices tokenService;

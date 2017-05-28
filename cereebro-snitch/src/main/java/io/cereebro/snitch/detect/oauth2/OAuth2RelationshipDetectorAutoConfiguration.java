@@ -22,11 +22,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.provider.token.ResourceServerTokenServices;
 
-import io.cereebro.snitch.ConditionalOnPropertyDetector;
+import io.cereebro.snitch.detect.ConditionalOnEnabledDetector;
 
 @Configuration
 @ConditionalOnClass({ EnableResourceServer.class })
-@ConditionalOnPropertyDetector("oauth2.authorization-server")
+@ConditionalOnEnabledDetector("oauth2.authorization-server")
 public class OAuth2RelationshipDetectorAutoConfiguration {
 
     @Autowired(required = false)

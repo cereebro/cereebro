@@ -22,7 +22,7 @@ import org.springframework.cloud.netflix.zuul.filters.ZuulProperties.ZuulRoute;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import io.cereebro.snitch.ConditionalOnPropertyDetector;
+import io.cereebro.snitch.detect.ConditionalOnEnabledDetector;
 
 /**
  * Detect automatically services downstream of a Zuul Proxy.
@@ -30,7 +30,7 @@ import io.cereebro.snitch.ConditionalOnPropertyDetector;
  * @author michaeltecourt
  */
 @Configuration
-@ConditionalOnPropertyDetector("zuul")
+@ConditionalOnEnabledDetector("zuul")
 @ConditionalOnClass({ ZuulRoute.class, RouteLocator.class })
 @ConditionalOnBean(RouteLocator.class)
 public class ZuulRouteRelationshipDetectorAutoConfiguration {

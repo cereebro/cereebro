@@ -24,11 +24,11 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import io.cereebro.snitch.ConditionalOnPropertyDetector;
+import io.cereebro.snitch.detect.ConditionalOnEnabledDetector;
 
 @Configuration
 @ConditionalOnClass(DataSource.class)
-@ConditionalOnPropertyDetector("jdbc")
+@ConditionalOnEnabledDetector("jdbc")
 public class DataSourceRelationshipDetectorAutoConfiguration {
 
     @Autowired(required = false)

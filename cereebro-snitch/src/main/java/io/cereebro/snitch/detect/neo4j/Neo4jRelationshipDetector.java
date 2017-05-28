@@ -30,7 +30,7 @@ import io.cereebro.core.ComponentType;
 import io.cereebro.core.Dependency;
 import io.cereebro.core.Relationship;
 import io.cereebro.core.RelationshipDetector;
-import io.cereebro.snitch.ConditionalOnPropertyDetector;
+import io.cereebro.snitch.detect.Detectors;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -42,7 +42,7 @@ import lombok.Setter;
  * @author lucwarrot
  * @author michaeltecourt
  */
-@ConfigurationProperties(prefix = ConditionalOnPropertyDetector.DETECTOR_PREFIX + ".neo4j")
+@ConfigurationProperties(prefix = Detectors.PREFIX + ".neo4j")
 public class Neo4jRelationshipDetector implements RelationshipDetector {
 
     @Getter

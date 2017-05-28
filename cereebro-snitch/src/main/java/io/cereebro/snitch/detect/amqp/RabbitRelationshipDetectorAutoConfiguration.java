@@ -25,7 +25,7 @@ import org.springframework.context.annotation.Configuration;
 
 import com.rabbitmq.client.AMQP.Channel;
 
-import io.cereebro.snitch.ConditionalOnPropertyDetector;
+import io.cereebro.snitch.detect.ConditionalOnEnabledDetector;
 
 /**
  * RabbitMQ relationship detector configuration.
@@ -34,7 +34,7 @@ import io.cereebro.snitch.ConditionalOnPropertyDetector;
  */
 @Configuration
 @ConditionalOnClass({ ConnectionFactory.class, Channel.class })
-@ConditionalOnPropertyDetector("rabbit")
+@ConditionalOnEnabledDetector("rabbit")
 public class RabbitRelationshipDetectorAutoConfiguration {
 
     @Autowired(required = false)

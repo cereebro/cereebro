@@ -24,7 +24,7 @@ import org.springframework.context.annotation.Configuration;
 
 import com.netflix.discovery.EurekaClient;
 
-import io.cereebro.snitch.ConditionalOnPropertyDetector;
+import io.cereebro.snitch.detect.ConditionalOnEnabledDetector;
 
 /**
  * Eureka Server relationship detector configuration. Detects relationships from
@@ -35,7 +35,7 @@ import io.cereebro.snitch.ConditionalOnPropertyDetector;
  */
 @Configuration
 @ConditionalOnClass(EurekaClient.class)
-@ConditionalOnPropertyDetector("eureka")
+@ConditionalOnEnabledDetector("eureka")
 public class EurekaServerRelationshipDetectorAutoConfiguration {
 
     @Autowired(required = false)

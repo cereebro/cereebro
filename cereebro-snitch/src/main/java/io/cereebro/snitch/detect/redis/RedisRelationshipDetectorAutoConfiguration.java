@@ -24,7 +24,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 
-import io.cereebro.snitch.ConditionalOnPropertyDetector;
+import io.cereebro.snitch.detect.ConditionalOnEnabledDetector;
 
 /**
  * Redis relationship detector, based on Spring Data Redis'
@@ -34,7 +34,7 @@ import io.cereebro.snitch.ConditionalOnPropertyDetector;
  */
 @Configuration
 @ConditionalOnClass({ RedisConnectionFactory.class })
-@ConditionalOnPropertyDetector("redis")
+@ConditionalOnEnabledDetector("redis")
 public class RedisRelationshipDetectorAutoConfiguration {
 
     @Autowired(required = false)

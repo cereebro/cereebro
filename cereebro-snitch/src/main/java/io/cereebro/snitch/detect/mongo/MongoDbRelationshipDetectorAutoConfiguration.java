@@ -24,7 +24,7 @@ import org.springframework.context.annotation.Configuration;
 
 import com.mongodb.MongoClient;
 
-import io.cereebro.snitch.ConditionalOnPropertyDetector;
+import io.cereebro.snitch.detect.ConditionalOnEnabledDetector;
 
 /**
  * MongoDB detector auto configuration, depending on MongoDb classes being
@@ -35,7 +35,7 @@ import io.cereebro.snitch.ConditionalOnPropertyDetector;
  */
 @Configuration
 @ConditionalOnClass(MongoClient.class)
-@ConditionalOnPropertyDetector("mongo")
+@ConditionalOnEnabledDetector("mongo")
 public class MongoDbRelationshipDetectorAutoConfiguration {
 
     @Autowired(required = false)
