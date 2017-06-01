@@ -17,21 +17,26 @@ package io.cereebro.snitch.detect.oauth2;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.provider.token.ResourceServerTokenServices;
 
 import io.cereebro.snitch.detect.ConditionalOnEnabledDetector;
+import io.cereebro.snitch.detect.Detectors;
 
 @Configuration
 @ConditionalOnClass({ EnableResourceServer.class })
-@ConditionalOnEnabledDetector("oauth2.authorization-server")
+@ConditionalOnEnabledDetector(OAuth2RelationshipDetectorAutoConfiguration.PROP)
 public class OAuth2RelationshipDetectorAutoConfiguration {
+
+    static final String PROP = "oauth2.authorization-server";
 
     @Autowired(required = false)
     private ResourceServerTokenServices tokenService;
 
+    @ConfigurationProperties(prefix = Detectors.PREFIX + "." + PROP)
     @Bean
     public AuthorizationServerRelationshipDetector oauth2AuthorizationServerRelationshipDetector() {
         return new AuthorizationServerRelationshipDetector(tokenService);

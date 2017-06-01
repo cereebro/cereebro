@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.neo4j.ogm.session.Session;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.util.CollectionUtils;
 
 import io.cereebro.core.Component;
@@ -30,7 +29,6 @@ import io.cereebro.core.ComponentType;
 import io.cereebro.core.Dependency;
 import io.cereebro.core.Relationship;
 import io.cereebro.core.RelationshipDetector;
-import io.cereebro.snitch.detect.Detectors;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -42,7 +40,6 @@ import lombok.Setter;
  * @author lucwarrot
  * @author michaeltecourt
  */
-@ConfigurationProperties(prefix = Detectors.PREFIX + ".neo4j")
 public class Neo4jRelationshipDetector implements RelationshipDetector {
 
     @Getter

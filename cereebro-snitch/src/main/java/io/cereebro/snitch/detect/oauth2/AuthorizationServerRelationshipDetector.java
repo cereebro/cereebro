@@ -19,7 +19,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.springframework.boot.autoconfigure.security.oauth2.resource.UserInfoTokenServices;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.security.oauth2.provider.token.RemoteTokenServices;
 import org.springframework.security.oauth2.provider.token.ResourceServerTokenServices;
 
@@ -28,7 +27,6 @@ import io.cereebro.core.ComponentType;
 import io.cereebro.core.Dependency;
 import io.cereebro.core.Relationship;
 import io.cereebro.core.RelationshipDetector;
-import io.cereebro.snitch.detect.Detectors;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -38,7 +36,6 @@ import lombok.Setter;
  * 
  * @author michaeltecourt
  */
-@ConfigurationProperties(prefix = Detectors.PREFIX + ".oauth2.authorization-server")
 public class AuthorizationServerRelationshipDetector implements RelationshipDetector {
 
     private final ResourceServerTokenServices tokenService;

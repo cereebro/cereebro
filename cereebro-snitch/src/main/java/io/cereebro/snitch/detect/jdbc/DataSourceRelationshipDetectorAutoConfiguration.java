@@ -21,20 +21,25 @@ import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import io.cereebro.snitch.detect.ConditionalOnEnabledDetector;
+import io.cereebro.snitch.detect.Detectors;
 
 @Configuration
 @ConditionalOnClass(DataSource.class)
-@ConditionalOnEnabledDetector("jdbc")
+@ConditionalOnEnabledDetector(DataSourceRelationshipDetectorAutoConfiguration.PROP)
 public class DataSourceRelationshipDetectorAutoConfiguration {
+
+    static final String PROP = "jdbc";
 
     @Autowired(required = false)
     private List<DataSource> dataSources;
 
     @Bean
+    @ConfigurationProperties(prefix = Detectors.PREFIX + "." + PROP)
     public DataSourceRelationshipDetector dataSourceRelationshipDetector() {
         return new DataSourceRelationshipDetector(dataSources);
     }
