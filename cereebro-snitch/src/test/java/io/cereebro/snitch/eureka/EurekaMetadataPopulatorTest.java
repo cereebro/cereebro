@@ -29,6 +29,7 @@ import org.springframework.cloud.netflix.eureka.CloudEurekaInstanceConfig;
 
 import com.fasterxml.jackson.core.io.JsonEOFException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.netflix.appinfo.ApplicationInfoManager;
 
 import io.cereebro.core.SnitchEndpoint;
 import io.cereebro.core.SnitchingException;
@@ -45,6 +46,7 @@ public class EurekaMetadataPopulatorTest {
 
     private EurekaInstanceSnitchProperties props;
     private CloudEurekaInstanceConfig cloudEurekaInstanceConfig;
+    private ApplicationInfoManager appInfoManager;
     private Map<String, String> metadata;
     private SnitchEndpoint snitch;
     private EurekaMetadataPopulator populator;
@@ -52,6 +54,8 @@ public class EurekaMetadataPopulatorTest {
     @Before
     public void setup() {
         cloudEurekaInstanceConfig = Mockito.mock(CloudEurekaInstanceConfig.class);
+        appInfoManager = Mockito.mock(ApplicationInfoManager.class);
+        Mockito.when(appInfoManager.getEurekaInstanceConfig()).thenReturn(cloudEurekaInstanceConfig);
         metadata = new HashMap<String, String>();
         Mockito.when(cloudEurekaInstanceConfig.getMetadataMap()).thenReturn(metadata);
         Mockito.when(cloudEurekaInstanceConfig.getHostName(true)).thenReturn("localhost");
@@ -59,7 +63,7 @@ public class EurekaMetadataPopulatorTest {
         snitch = Mockito.mock(SnitchEndpoint.class);
         Mockito.when(snitch.getUri()).thenReturn(TEST_URI);
         props = new EurekaInstanceSnitchProperties();
-        populator = new EurekaMetadataPopulator(snitch, cloudEurekaInstanceConfig, props, new ObjectMapper());
+        populator = new EurekaMetadataPopulator(snitch, appInfoManager, props, new ObjectMapper());
     }
 
     @Test
@@ -97,8 +101,7 @@ public class EurekaMetadataPopulatorTest {
         ObjectMapper objectMapperMock = Mockito.mock(ObjectMapper.class);
         SystemFragment frag = SystemFragment.empty();
         Mockito.when(snitch.snitch()).thenReturn(frag);
-        EurekaMetadataPopulator pop = new EurekaMetadataPopulator(snitch, cloudEurekaInstanceConfig, props,
-                objectMapperMock);
+        EurekaMetadataPopulator pop = new EurekaMetadataPopulator(snitch, appInfoManager, props, objectMapperMock);
         Mockito.when(objectMapperMock.writeValueAsString(frag))
                 .thenThrow(new JsonEOFException(null, null, "unit test"));
         try {
@@ -111,8 +114,7 @@ public class EurekaMetadataPopulatorTest {
 
     @Test(expected = NullPointerException.class)
     public void snitchRequired() {
-        new EurekaMetadataPopulator(null, Mockito.mock(CloudEurekaInstanceConfig.class), props,
-                Mockito.mock(ObjectMapper.class));
+        new EurekaMetadataPopulator(null, appInfoManager, props, Mockito.mock(ObjectMapper.class));
     }
 
     @Test(expected = NullPointerException.class)
@@ -122,14 +124,12 @@ public class EurekaMetadataPopulatorTest {
 
     @Test(expected = NullPointerException.class)
     public void objectMpaperRequired() {
-        new EurekaMetadataPopulator(Mockito.mock(SnitchEndpoint.class), Mockito.mock(CloudEurekaInstanceConfig.class),
-                props, null);
+        new EurekaMetadataPopulator(snitch, appInfoManager, props, null);
     }
 
     @Test(expected = NullPointerException.class)
     public void propertiesRequired() {
-        new EurekaMetadataPopulator(Mockito.mock(SnitchEndpoint.class), Mockito.mock(CloudEurekaInstanceConfig.class),
-                null, Mockito.mock(ObjectMapper.class));
+        new EurekaMetadataPopulator(snitch, appInfoManager, null, Mockito.mock(ObjectMapper.class));
     }
 
 }

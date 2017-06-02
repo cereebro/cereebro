@@ -31,6 +31,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.netflix.appinfo.ApplicationInfoManager;
 
 import io.cereebro.core.SnitchEndpoint;
 import io.cereebro.core.SystemFragment;
@@ -53,11 +54,13 @@ public class EurekaInstanceDefaultSpringBootTest {
     static class EurekaInstanceDefaultSpringBootTestConfiguration {
 
         @Bean
-        public CloudEurekaInstanceConfig cloudEurekaInstanceConfig() {
+        public ApplicationInfoManager applicationInfoManager() {
             CloudEurekaInstanceConfig mock = Mockito.mock(CloudEurekaInstanceConfig.class);
             Mockito.when(mock.getHostName(true)).thenReturn("localhost");
             Mockito.when(mock.getNonSecurePort()).thenReturn(1337);
-            return mock;
+            ApplicationInfoManager applicationInfoManager = Mockito.mock(ApplicationInfoManager.class);
+            Mockito.when(applicationInfoManager.getEurekaInstanceConfig()).thenReturn(mock);
+            return applicationInfoManager;
         }
 
         @Bean
