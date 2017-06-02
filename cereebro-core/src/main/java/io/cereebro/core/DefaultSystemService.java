@@ -17,6 +17,8 @@ package io.cereebro.core;
 
 import java.util.Objects;
 
+import javax.cache.annotation.CacheResult;
+
 /**
  * Default SystemService that does all the wiring between the SystemResolver and
  * SnitchRegistry. No caching, the System is resolved every time.
@@ -47,6 +49,7 @@ public class DefaultSystemService implements SystemService {
     }
 
     @Override
+    @CacheResult(cacheName = "io.cereebro.system")
     public System get() {
         return systemResolver.resolve(name, snitchRegistry);
     }

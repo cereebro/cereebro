@@ -43,8 +43,7 @@ public class EurekaServerRelationshipDetectorSpringBootTest {
 
     @Test
     public void test() {
-        Set<Relationship> rels = Dependency.on(
-                Component.of(EurekaServerRelationshipDetector.DEFAULT_NAME, ComponentType.HTTP_APPLICATION_REGISTRY))
+        Set<Relationship> rels = Dependency.on(Component.of("eureka-server", ComponentType.HTTP_APPLICATION_REGISTRY))
                 .asRelationshipSet();
         Assertions.assertThat(detector.detect()).isEqualTo(rels);
     }

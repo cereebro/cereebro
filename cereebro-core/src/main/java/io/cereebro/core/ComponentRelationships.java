@@ -15,6 +15,7 @@
  */
 package io.cereebro.core;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Objects;
@@ -91,6 +92,20 @@ public class ComponentRelationships {
      */
     public static ComponentRelationships of(Component component, Collection<Relationship> relationships) {
         return new ComponentRelationships(component, filterDependencies(relationships), filterConsumers(relationships));
+    }
+
+    /**
+     * Pictures a Component and how it relates to others.
+     * 
+     * @param component
+     *            The documented component.
+     * @param relationships
+     *            Relationships that will be split between Dependency and
+     *            Consumer.
+     * @return ComponentRelationships
+     */
+    public static ComponentRelationships of(Component component, Relationship... relationships) {
+        return ComponentRelationships.of(component, Arrays.asList(relationships));
     }
 
     /**

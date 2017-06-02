@@ -231,4 +231,11 @@ public class ComponentRelationshipsTest {
         Assertions.assertThat(c.hasRelationships()).isFalse();
     }
 
+    @Test
+    public void constructorWithoutRelationships() {
+        Component c = Component.of("a", "a");
+        ComponentRelationships rels = ComponentRelationships.of(c);
+        Assertions.assertThat(rels.getRelationships()).isEmpty();
+    }
+
 }

@@ -15,6 +15,9 @@
  */
 package io.cereebro.snitch.detect.neo4j;
 
+import java.util.Set;
+
+import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -27,7 +30,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import io.cereebro.snitch.detect.neo4j.Neo4jRelationshipDetector;
+import io.cereebro.core.Component;
+import io.cereebro.core.ComponentType;
+import io.cereebro.core.Dependency;
+import io.cereebro.core.Relationship;
 import io.cereebro.snitch.detect.neo4j.Neo4jRelationshipDetectorAutoConfigurationTest.Neo4jRelationshipDetectorAutoConfigurationTestApplication;
 
 @RunWith(SpringRunner.class)
@@ -39,7 +45,8 @@ public class Neo4jRelationshipDetectorAutoConfigurationTest {
 
     @Test
     public void shouldReturnDependencyOnDefaultNeo4jComponent() {
-        detector.detect();
+        Set<Relationship> rels = Dependency.on(Component.of("default", ComponentType.NEO4J)).asRelationshipSet();
+        Assertions.assertThat(detector.detect()).isEqualTo(rels);
     }
 
     @SpringBootApplication(exclude = { MongoAutoConfiguration.class, RabbitAutoConfiguration.class })

@@ -20,17 +20,25 @@ import java.util.List;
 import org.neo4j.ogm.session.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import io.cereebro.snitch.detect.ConditionalOnEnabledDetector;
+import io.cereebro.snitch.detect.Detectors;
+
 @Configuration
 @ConditionalOnClass(value = { Session.class })
+@ConditionalOnEnabledDetector(Neo4jRelationshipDetectorAutoConfiguration.PROP)
 public class Neo4jRelationshipDetectorAutoConfiguration {
+
+    static final String PROP = "neo4j";
 
     @Autowired(required = false)
     private List<Session> neo4jSessions;
 
     @Bean
+    @ConfigurationProperties(prefix = Detectors.PREFIX + "." + PROP)
     public Neo4jRelationshipDetector neo4jDetector() {
         return new Neo4jRelationshipDetector(neo4jSessions);
     }

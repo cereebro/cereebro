@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 
 import org.assertj.core.api.Assertions;
@@ -34,6 +35,9 @@ import org.springframework.core.io.UrlResource;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import io.cereebro.core.Component;
+import io.cereebro.core.ComponentRelationships;
+import io.cereebro.core.ComponentType;
 import io.cereebro.core.Snitch;
 import io.cereebro.core.SnitchingException;
 import io.cereebro.core.SystemFragment;
@@ -71,9 +75,17 @@ public class ServiceInstanceSnitchTest {
         new ServiceInstanceSnitch(objectMapperMock, null);
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void serviceInstanceMetadataRequired() {
-        new ServiceInstanceSnitch(objectMapperMock, serviceInstanceMock);
+    @Test
+    public void serviceInstanceWithoutCereebroMetadataShouldUseServiceInstanceUriAndId() {
+        URI serviceInstanceUri = URI.create("http://service-instance-uri");
+        String serviceId = "serviceId";
+        Mockito.when(serviceInstanceMock.getUri()).thenReturn(serviceInstanceUri);
+        Mockito.when(serviceInstanceMock.getServiceId()).thenReturn(serviceId);
+        ServiceInstanceSnitch snitch = new ServiceInstanceSnitch(objectMapperMock, serviceInstanceMock);
+        Assertions.assertThat(snitch.getUri()).isEqualTo(serviceInstanceUri);
+        Component component = Component.of(serviceId, ComponentType.HTTP_APPLICATION);
+        SystemFragment expected = SystemFragment.of(ComponentRelationships.of(component, new HashSet<>()));
+        Assertions.assertThat(snitch.snitch()).isEqualTo(expected);
     }
 
     @Test

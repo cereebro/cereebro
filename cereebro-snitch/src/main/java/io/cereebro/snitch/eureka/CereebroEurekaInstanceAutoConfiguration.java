@@ -20,12 +20,12 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.bind.RelaxedPropertyResolver;
-import org.springframework.cloud.netflix.eureka.CloudEurekaInstanceConfig;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.netflix.appinfo.ApplicationInfoManager;
 
 import io.cereebro.core.SnitchEndpoint;
 
@@ -36,8 +36,8 @@ import io.cereebro.core.SnitchEndpoint;
  * @author michaeltecourt
  */
 @Configuration
-@ConditionalOnClass(CloudEurekaInstanceConfig.class)
-@ConditionalOnBean(CloudEurekaInstanceConfig.class)
+@ConditionalOnClass(ApplicationInfoManager.class)
+@ConditionalOnBean(ApplicationInfoManager.class)
 @ConditionalOnProperty(prefix = "cereebro.snitch.eureka", value = "enabled", havingValue = "true", matchIfMissing = true)
 public class CereebroEurekaInstanceAutoConfiguration {
 
@@ -46,13 +46,13 @@ public class CereebroEurekaInstanceAutoConfiguration {
 
     @Bean
     @ConditionalOnBean(SnitchEndpoint.class)
-    public EurekaMetadataPopulator eurekaMetadataPopulator(SnitchEndpoint snitch, CloudEurekaInstanceConfig config,
+    public EurekaMetadataPopulator eurekaMetadataPopulator(SnitchEndpoint snitch, ApplicationInfoManager manager,
             ObjectMapper mapper) {
         RelaxedPropertyResolver relaxedPropertyResolver = new RelaxedPropertyResolver(env, "cereebro.snitch.eureka.");
         EurekaInstanceSnitchProperties props = new EurekaInstanceSnitchProperties();
         props.setEndpointUrl(relaxedPropertyResolver.getProperty("endpointUrl"));
         props.setEndpointUrlPath(relaxedPropertyResolver.getProperty("endpointUrlPath"));
-        EurekaMetadataPopulator metadataPopulator = new EurekaMetadataPopulator(snitch, config, props, mapper);
+        EurekaMetadataPopulator metadataPopulator = new EurekaMetadataPopulator(snitch, manager, props, mapper);
         metadataPopulator.populate();
         return metadataPopulator;
     }

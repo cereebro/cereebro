@@ -26,6 +26,9 @@ import org.springframework.util.StringUtils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import io.cereebro.core.Component;
+import io.cereebro.core.ComponentRelationships;
+import io.cereebro.core.ComponentType;
 import io.cereebro.core.Snitch;
 import io.cereebro.core.SnitchingException;
 import io.cereebro.core.StaticSnitch;
@@ -47,7 +50,7 @@ public class ServiceInstanceSnitch implements Snitch {
     private final ObjectMapper objectMapper;
 
     /**
-     * * Snitch that uses a service instance's metadata provided by a service
+     * Snitch that uses a service instance's metadata provided by a service
      * registry like Eureka or Consul.
      * 
      * @param mapper
@@ -58,13 +61,10 @@ public class ServiceInstanceSnitch implements Snitch {
     public ServiceInstanceSnitch(ObjectMapper mapper, ServiceInstance instance) {
         serviceInstance = Objects.requireNonNull(instance, "Service instance required");
         objectMapper = Objects.requireNonNull(mapper, "ObjectMapper required");
-        if (!hasCereebroMetadata(instance)) {
-            throw new IllegalArgumentException("Service instance does not contain cereebro snitch metadata");
-        }
     }
 
     /**
-     * * Snitch that uses a service instance's metadata provided by a service
+     * Snitch that uses a service instance's metadata provided by a service
      * registry like Eureka or Consul.
      * 
      * @param mapper
@@ -90,7 +90,17 @@ public class ServiceInstanceSnitch implements Snitch {
     }
 
     /**
-     * Extract the Cereebro Snitch URI from metadata.
+     * Determine if the service instance wrapped contains Cereebro metadata.
+     * 
+     * @return {@code true} if this {@link ServiceInstance} contains Cereebro
+     *         metadata, {@code false} otherwise.
+     */
+    public boolean hasCereebroMetadata() {
+        return hasCereebroMetadata(this.serviceInstance);
+    }
+
+    /**
+     * Extract the Snitch URI from Cereebro metadata.
      * 
      * @param instance
      *            Service instance.
@@ -106,27 +116,34 @@ public class ServiceInstanceSnitch implements Snitch {
 
     @Override
     public URI getUri() {
-        return extractSnitchURI(serviceInstance).orElseThrow(() -> new IllegalStateException(
-                "Could not extract Snitch URI from service instance metadata : " + serviceInstance));
+        return extractSnitchURI(serviceInstance).orElse(serviceInstance.getUri());
     }
 
     @Override
     public SystemFragment snitch() {
         URI uri = getUri();
+        String serviceId = serviceInstance.getServiceId();
         try {
-            if (StringUtils.hasText(getSystemFragmentJsonString())) {
-                LOGGER.debug("Using snitched system fragment from discovery client - uri : {}", uri);
-                SystemFragment frag = objectMapper.readValue(getSystemFragmentJsonString(), SystemFragment.class);
-                return StaticSnitch.of(uri, frag).snitch();
+            if (hasCereebroMetadata()) {
+                if (StringUtils.hasText(getSystemFragmentJsonString())) {
+                    LOGGER.debug("Using snitched system fragment from discovery client - uri : {}", uri);
+                    SystemFragment frag = objectMapper.readValue(getSystemFragmentJsonString(), SystemFragment.class);
+                    return StaticSnitch.of(uri, frag).snitch();
+                } else {
+                    LOGGER.debug("Using Snitch URL from discovery client - uri : {}", uri);
+                    return ResourceSnitch.of(objectMapper, new UrlResource(uri)).snitch();
+                }
             } else {
-                LOGGER.debug("Using Snitch URL from discovery client - uri : {}", uri);
-                return ResourceSnitch.of(objectMapper, new UrlResource(uri)).snitch();
+                LOGGER.debug("No Cereebro metadata, using only the serviceId : {} and instance URI : {}", serviceId,
+                        uri);
+                Component service = Component.of(serviceId, ComponentType.HTTP_APPLICATION);
+                return SystemFragment.of(ComponentRelationships.of(service));
             }
         } catch (IOException | RuntimeException e) {
-            LOGGER.warn("Could not create snitch out of service : {} - meta-data : {} - error : {}",
-                    serviceInstance.getServiceId(), serviceInstance.getMetadata(), e.getMessage());
-            throw new SnitchingException(uri, "Error while creating snitch for uri : " + uri + " - service instance : "
-                    + serviceInstance.getServiceId(), e);
+            LOGGER.warn("Could not create snitch out of service : {} - meta-data : {} - error : {}", serviceId,
+                    serviceInstance.getMetadata(), e.getMessage());
+            throw new SnitchingException(uri,
+                    "Error while creating snitch for uri : " + uri + " - service instance : " + serviceId, e);
         }
     }
 

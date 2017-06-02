@@ -19,10 +19,14 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.netflix.discovery.EurekaClient;
+
+import io.cereebro.snitch.detect.ConditionalOnEnabledDetector;
+import io.cereebro.snitch.detect.Detectors;
 
 /**
  * Eureka Server relationship detector configuration. Detects relationships from
@@ -33,12 +37,16 @@ import com.netflix.discovery.EurekaClient;
  */
 @Configuration
 @ConditionalOnClass(EurekaClient.class)
+@ConditionalOnEnabledDetector(EurekaServerRelationshipDetectorAutoConfiguration.PROP)
 public class EurekaServerRelationshipDetectorAutoConfiguration {
+
+    static final String PROP = "eureka";
 
     @Autowired(required = false)
     private List<EurekaClient> eurekaClients;
 
     @Bean
+    @ConfigurationProperties(prefix = Detectors.PREFIX + "." + PROP)
     public EurekaServerRelationshipDetector eurekaRelationshipDetector() {
         return new EurekaServerRelationshipDetector(eurekaClients);
     }

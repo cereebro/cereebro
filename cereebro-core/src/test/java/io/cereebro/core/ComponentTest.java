@@ -15,6 +15,7 @@
  */
 package io.cereebro.core;
 
+import org.assertj.core.api.Assertions;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -60,6 +61,11 @@ public class ComponentTest {
     @Test
     public void testAsString() {
         Assert.assertEquals("type:name", Component.of("name", "type").asString());
+    }
+
+    @Test
+    public void equalsShouldIgnoreNameCase() {
+        Assertions.assertThat(Component.of("C", "c")).isEqualTo(Component.of("c", "c"));
     }
 
 }

@@ -39,9 +39,9 @@ public class Component {
      * Cereebro base unit of work.
      * 
      * @param name
-     *            Name of the component
+     *            Name of the component (case insensitive).
      * @param type
-     *            Type of the component
+     *            Type of the component.
      */
     @JsonCreator
     public Component(@JsonProperty("name") String name, @JsonProperty("type") String type) {
@@ -53,9 +53,9 @@ public class Component {
      * Cereebro base unit of work.
      * 
      * @param name
-     *            Name of the component
+     *            Name of the component (case insensitive).
      * @param type
-     *            Type of the component
+     *            Type of the component.
      * @return Component
      */
     public static Component of(String name, String type) {
@@ -64,7 +64,7 @@ public class Component {
 
     @Override
     public int hashCode() {
-        return Objects.hash(getClass(), name, type);
+        return Objects.hash(getClass(), nameCaseInsensitive(), type);
     }
 
     @Override
@@ -76,7 +76,18 @@ public class Component {
             return false;
         }
         Component that = (Component) o;
-        return Objects.equals(this.name, that.name) && Objects.equals(this.type, that.type);
+        return Objects.equals(this.nameCaseInsensitive(), that.nameCaseInsensitive())
+                && Objects.equals(this.type, that.type);
+    }
+
+    /**
+     * Case insensitive name. Only there so it does not break equals/hashCode
+     * when the object is created through reflection (JSON).
+     * 
+     * @return case insensitive name.
+     */
+    private String nameCaseInsensitive() {
+        return name == null ? null : name.toLowerCase();
     }
 
     public String asString() {

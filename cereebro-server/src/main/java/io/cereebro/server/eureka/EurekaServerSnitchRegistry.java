@@ -67,9 +67,7 @@ public class EurekaServerSnitchRegistry implements SnitchRegistry {
         return eurekaServerContext.getRegistry().getSortedApplications().stream()
             .map(Application::getInstances)
             .flatMap(Collection::stream)
-            .map(EurekaServiceInstancePublic::new)
-            .filter(ServiceInstanceSnitch::hasCereebroMetadata)
-            .map(instance -> new ServiceInstanceSnitch(objectMapper, instance))
+            .map(instance -> new ServiceInstanceSnitch(objectMapper, new EurekaServiceInstancePublic(instance)))
             .collect(Collectors.toList());
         // @formatter:on
     }

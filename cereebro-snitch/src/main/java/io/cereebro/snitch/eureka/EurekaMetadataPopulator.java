@@ -17,13 +17,14 @@ package io.cereebro.snitch.eureka;
 
 import java.io.IOException;
 import java.net.URI;
+import java.util.Map;
 import java.util.Objects;
 
-import org.springframework.cloud.netflix.eureka.CloudEurekaInstanceConfig;
 import org.springframework.util.StringUtils;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.netflix.appinfo.ApplicationInfoManager;
 
 import io.cereebro.core.Snitch;
 import io.cereebro.core.SnitchEndpoint;
@@ -41,26 +42,33 @@ public class EurekaMetadataPopulator {
     private final EurekaInstanceSnitchProperties properties;
 
     private final Snitch snitch;
-    private final CloudEurekaInstanceConfig config;
+    private final ApplicationInfoManager appInfoManager;
     private final ObjectMapper objectMapper;
 
-    public EurekaMetadataPopulator(SnitchEndpoint snitch, CloudEurekaInstanceConfig config,
+    public EurekaMetadataPopulator(SnitchEndpoint snitch, ApplicationInfoManager manager,
             EurekaInstanceSnitchProperties props, ObjectMapper mapper) {
         this.snitch = Objects.requireNonNull(snitch, "Snitch required");
-        this.config = Objects.requireNonNull(config, "Cloud eureka instance config required");
+        this.appInfoManager = Objects.requireNonNull(manager, "Eureka ApplicationInfoManager required");
         this.objectMapper = Objects.requireNonNull(mapper, "ObjectMapper required");
         this.properties = Objects.requireNonNull(props, "Configuration properties required");
     }
 
+    /**
+     * Populate Eureka instance metadata with Snitch info.
+     */
     public void populate() {
         try {
-            this.config.getMetadataMap().put(CereebroMetadata.KEY_SNITCH_URI, getEndpointUri().toString());
+            Map<String, String> metadata = appInfoManager.getEurekaInstanceConfig().getMetadataMap();
+            metadata.put(CereebroMetadata.KEY_SNITCH_URI, getEndpointUri().toString());
             String frag = objectMapper.writeValueAsString(snitch.snitch());
-            this.config.getMetadataMap().put(CereebroMetadata.KEY_SNITCH_SYSTEM_FRAGMENT_JSON, frag);
+            metadata.put(CereebroMetadata.KEY_SNITCH_SYSTEM_FRAGMENT_JSON, frag);
+            // Force meta-data registration, updating only the meta-data map
+            // is not sufficient when the application has already been
+            // registered.
+            appInfoManager.registerAppMetadata(metadata);
         } catch (IOException e) {
             throw new SnitchingException(snitch.getUri(), "Error while serializing fragment", e);
         }
-
     }
 
     /**
@@ -75,8 +83,8 @@ public class EurekaMetadataPopulator {
         // @formatter:off
         return UriComponentsBuilder.newInstance()
                 .scheme("http")
-                .host(config.getHostName(true))
-                .port(config.getNonSecurePort())
+                .host(appInfoManager.getEurekaInstanceConfig().getHostName(true))
+                .port(appInfoManager.getEurekaInstanceConfig().getNonSecurePort())
                 .path(StringUtils.isEmpty(properties.getEndpointUrlPath()) ? snitch.getUri().toString() : properties.getEndpointUrlPath())
                 .build()
                 .toUri();

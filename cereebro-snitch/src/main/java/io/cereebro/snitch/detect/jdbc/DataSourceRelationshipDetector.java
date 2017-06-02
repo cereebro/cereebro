@@ -32,6 +32,8 @@ import io.cereebro.core.Component;
 import io.cereebro.core.Dependency;
 import io.cereebro.core.Relationship;
 import io.cereebro.core.RelationshipDetector;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -45,11 +47,13 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class DataSourceRelationshipDetector implements RelationshipDetector {
 
-    private static final String DEFAULT_NAME = "default_db";
-
     private final List<DataSource> dataSources;
 
     private Set<Relationship> relationsCache;
+
+    @Getter
+    @Setter
+    private String defaultName = "default_db";
 
     public DataSourceRelationshipDetector(Collection<DataSource> dataSources) {
         this.dataSources = new ArrayList<>();
@@ -93,7 +97,7 @@ public class DataSourceRelationshipDetector implements RelationshipDetector {
         if (name == null) {
             name = dataSource.getConnection().getCatalog();
         }
-        return Optional.ofNullable(name).orElse(DEFAULT_NAME);
+        return Optional.ofNullable(name).orElse(defaultName);
     }
 
     /**

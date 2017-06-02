@@ -1,0 +1,14 @@
+zuul:
+  routes:
+    x-route:
+      path: /x/**
+      serviceId: x
+    y-route:
+      path: /y/**
+      serviceId: y
+      url: https://y.nope
+    z-route:
+      path: /z/**
+      url: http://z.nope
+
+eureka.client.enabled: false

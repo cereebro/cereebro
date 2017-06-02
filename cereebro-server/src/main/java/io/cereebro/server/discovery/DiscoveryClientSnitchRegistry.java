@@ -58,7 +58,6 @@ public class DiscoveryClientSnitchRegistry implements SnitchRegistry {
         return discoveryClient.getServices().stream()
             .map(discoveryClient::getInstances)
             .flatMap(List::stream)
-            .filter(ServiceInstanceSnitch::hasCereebroMetadata)
             .map(instance -> new ServiceInstanceSnitch(objectMapper, instance))
             .collect(Collectors.toList());
         // @formatter:on

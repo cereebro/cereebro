@@ -30,6 +30,8 @@ import io.cereebro.core.ComponentType;
 import io.cereebro.core.Dependency;
 import io.cereebro.core.Relationship;
 import io.cereebro.core.RelationshipDetector;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Redis RelationshipDetector. Aside from a Redis sentinel master, nothing
@@ -41,7 +43,9 @@ import io.cereebro.core.RelationshipDetector;
  */
 public class RedisRelationshipDetector implements RelationshipDetector {
 
-    static final String DEFAULT_NAME = "default";
+    @Getter
+    @Setter
+    private String defaultName = "default";
 
     private final RedisProperties redisProperties;
     private final List<RedisConnectionFactory> connectionFactories;
@@ -69,7 +73,7 @@ public class RedisRelationshipDetector implements RelationshipDetector {
             return new HashSet<>();
         }
         String sentinelMaster = getRedisSentinelMasterName();
-        String name = StringUtils.hasText(sentinelMaster) ? sentinelMaster : DEFAULT_NAME;
+        String name = StringUtils.hasText(sentinelMaster) ? sentinelMaster : defaultName;
         return Dependency.on(Component.of(name, ComponentType.REDIS)).asRelationshipSet();
     }
 
