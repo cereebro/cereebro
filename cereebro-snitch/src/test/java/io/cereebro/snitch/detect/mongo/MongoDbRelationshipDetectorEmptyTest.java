@@ -35,7 +35,7 @@ public class MongoDbRelationshipDetectorEmptyTest {
     private MongoDbRelationshipDetector detector;
 
     @Test
-    public void cassandraRelationshipWithNoSessionAvailable() {
+    public void mongoRelationshipWithNoSessionAvailable() {
         Assertions.assertThat(detector.detect()).isEmpty();
     }
 
