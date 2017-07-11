@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import org.springframework.cloud.netflix.eureka.EurekaServiceInstancePublic;
+import org.springframework.cloud.netflix.eureka.EurekaDiscoveryClient.EurekaServiceInstance;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.netflix.discovery.shared.Application;
@@ -67,7 +67,7 @@ public class EurekaServerSnitchRegistry implements SnitchRegistry {
         return eurekaServerContext.getRegistry().getSortedApplications().stream()
             .map(Application::getInstances)
             .flatMap(Collection::stream)
-            .map(instance -> new ServiceInstanceSnitch(objectMapper, new EurekaServiceInstancePublic(instance)))
+            .map(instance -> new ServiceInstanceSnitch(objectMapper, new EurekaServiceInstance(instance)))
             .collect(Collectors.toList());
         // @formatter:on
     }
