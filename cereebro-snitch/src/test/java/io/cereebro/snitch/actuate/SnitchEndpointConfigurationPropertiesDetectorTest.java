@@ -55,8 +55,11 @@ public class SnitchEndpointConfigurationPropertiesDetectorTest {
                 .contentType(ContentType.JSON)
                 .body("componentRelationships[0].component.name", Matchers.is("app-props-detector"))
                 .body("componentRelationships[0].component.type", Matchers.is("properties/application"))
-                .body("componentRelationships[0].dependencies[0].component.name", Matchers.is("dependency"))
-                .body("componentRelationships[0].dependencies[0].component.type", Matchers.is("properties/dependency"))
+                .body("componentRelationships[0].dependencies", Matchers.hasSize(2)) // one for component from props, one for neo4j
+                .body("componentRelationships[0].dependencies.find { it.component.name == 'dependency' }.component.type",
+                        Matchers.is("properties/dependency"))
+                .body("componentRelationships[0].dependencies.find { it.component.name == 'default' }.component.type",
+                        Matchers.is("database/neo4j"))
                 .body("componentRelationships[0].consumers[0].component.name", Matchers.is("consumer"))
                 .body("componentRelationships[0].consumers[0].component.type", Matchers.is("properties/consumer"));
         // @formatter:on
