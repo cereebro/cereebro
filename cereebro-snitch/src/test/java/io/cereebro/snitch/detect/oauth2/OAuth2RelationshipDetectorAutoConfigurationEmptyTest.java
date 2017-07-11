@@ -21,11 +21,11 @@ import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.provider.token.ResourceServerTokenServices;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import io.cereebro.snitch.detect.oauth2.OAuth2RelationshipDetectorAutoConfigurationEmptyTest.OAuth2RelationshipDetectorAutoConfigurationEmptyTestApplication;
@@ -33,6 +33,7 @@ import io.cereebro.snitch.detect.oauth2.OAuth2RelationshipDetectorAutoConfigurat
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = { OAuth2RelationshipDetectorAutoConfigurationEmptyTestApplication.class,
         OAuth2RelationshipDetectorAutoConfiguration.class })
+@ActiveProfiles("nodb")
 public class OAuth2RelationshipDetectorAutoConfigurationEmptyTest {
 
     @Autowired
@@ -43,7 +44,7 @@ public class OAuth2RelationshipDetectorAutoConfigurationEmptyTest {
         Assertions.assertThat(detector.detect()).isEmpty();
     }
 
-    @SpringBootApplication(exclude = MongoAutoConfiguration.class)
+    @SpringBootApplication
     @EnableResourceServer
     static class OAuth2RelationshipDetectorAutoConfigurationEmptyTestApplication {
 

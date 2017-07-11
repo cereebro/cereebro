@@ -24,7 +24,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
@@ -45,7 +44,7 @@ import io.cereebro.snitch.detect.zuul.ZuulRouteRelationshipDetectorAutoConfigura
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = { ZuulRouteRelationshipDetectorTestApplication.class,
         ZuulRouteRelationshipDetectorAutoConfiguration.class }, webEnvironment = WebEnvironment.RANDOM_PORT)
-@ActiveProfiles("zuul")
+@ActiveProfiles({ "zuul", "nodb" })
 public class ZuulRouteRelationshipDetectorAutoConfigurationTest {
 
     @Autowired
@@ -60,7 +59,7 @@ public class ZuulRouteRelationshipDetectorAutoConfigurationTest {
     }
 
     @EnableZuulProxy
-    @SpringBootApplication(exclude = MongoAutoConfiguration.class)
+    @SpringBootApplication
     static class ZuulRouteRelationshipDetectorTestApplication {
 
     }

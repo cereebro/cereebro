@@ -23,9 +23,6 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration;
-import org.springframework.boot.autoconfigure.data.neo4j.Neo4jDataAutoConfiguration;
-import org.springframework.boot.autoconfigure.data.neo4j.Neo4jRepositoriesAutoConfiguration;
-import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.test.context.ActiveProfiles;
@@ -39,7 +36,7 @@ import io.restassured.http.ContentType;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = { SnitchEndpointConfigurationPropertiesDetectorTestApplication.class,
         CereebroSnitchAutoConfiguration.class }, webEnvironment = WebEnvironment.RANDOM_PORT)
-@ActiveProfiles("props-detector")
+@ActiveProfiles({ "props-detector", "nodb" })
 public class SnitchEndpointConfigurationPropertiesDetectorTest {
 
     @Value("http://localhost:${local.server.port}/cereebro/snitch")
@@ -66,8 +63,7 @@ public class SnitchEndpointConfigurationPropertiesDetectorTest {
         // @formatter:on
     }
 
-    @SpringBootApplication(exclude = { RabbitAutoConfiguration.class, MongoAutoConfiguration.class,
-            Neo4jDataAutoConfiguration.class, Neo4jRepositoriesAutoConfiguration.class })
+    @SpringBootApplication(exclude = { RabbitAutoConfiguration.class })
     static class SnitchEndpointConfigurationPropertiesDetectorTestApplication {
 
     }

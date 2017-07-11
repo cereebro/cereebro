@@ -24,9 +24,9 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import io.cereebro.core.ComponentType;
@@ -39,6 +39,7 @@ import io.restassured.http.ContentType;
 @SpringBootTest(classes = { SnitchEndpointSpringApplicationNameTestApplication.class,
         CereebroSnitchAutoConfiguration.class }, webEnvironment = WebEnvironment.RANDOM_PORT, value = {
                 "spring.application.name=springappname", "management.security.enabled=false" })
+@ActiveProfiles("nodb")
 public class SnitchEndpointSpringApplicationNameTest {
 
     @Value("http://localhost:${local.server.port}/cereebro/snitch")
@@ -81,7 +82,7 @@ public class SnitchEndpointSpringApplicationNameTest {
         Assertions.assertThat(endpoint.isEnabled()).isTrue();
     }
 
-    @SpringBootApplication(exclude = MongoAutoConfiguration.class)
+    @SpringBootApplication
     static class SnitchEndpointSpringApplicationNameTestApplication {
 
     }

@@ -20,15 +20,15 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import io.cereebro.snitch.detect.cassandra.CassandraRelationshipDetector;
 import io.cereebro.snitch.detect.cassandra.CassandraRelationshipDetectorEmptyTest.MissingCassandraTestApplication;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = MissingCassandraTestApplication.class)
+@ActiveProfiles("nodb")
 public class CassandraRelationshipDetectorEmptyTest {
 
     @Autowired
@@ -39,7 +39,7 @@ public class CassandraRelationshipDetectorEmptyTest {
         Assertions.assertThat(detector.detect()).isEmpty();
     }
 
-    @SpringBootApplication(exclude = { MongoAutoConfiguration.class })
+    @SpringBootApplication
     static class MissingCassandraTestApplication {
 
     }

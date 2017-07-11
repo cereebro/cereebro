@@ -25,22 +25,22 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
-import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import io.cereebro.core.Component;
 import io.cereebro.core.ComponentType;
 import io.cereebro.core.Dependency;
 import io.cereebro.core.Relationship;
-import io.cereebro.snitch.detect.redis.RedisRelationshipDetector;
 import io.cereebro.snitch.detect.redis.RedisRelationshipDetectorSentinelTest.RedisRelationshipDetectorSentinelTestApplication;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = RedisRelationshipDetectorSentinelTestApplication.class, value = "spring.redis.sentinel.master=apocalypse")
+@ActiveProfiles("nodb")
 public class RedisRelationshipDetectorSentinelTest {
 
     @Autowired
@@ -56,7 +56,7 @@ public class RedisRelationshipDetectorSentinelTest {
         Assertions.assertThat(detector.detect()).isEqualTo(rels);
     }
 
-    @SpringBootApplication(exclude = { MongoAutoConfiguration.class })
+    @SpringBootApplication
     @EnableConfigurationProperties(RedisProperties.class)
     public static class RedisRelationshipDetectorSentinelTestApplication {
 

@@ -21,9 +21,9 @@ import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Bean;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.mongodb.MongoClient;
@@ -33,11 +33,11 @@ import com.mongodb.client.MongoIterable;
 import io.cereebro.core.Component;
 import io.cereebro.core.ComponentType;
 import io.cereebro.core.Dependency;
-import io.cereebro.snitch.detect.mongo.MongoDbRelationshipDetector;
 import io.cereebro.snitch.detect.mongo.MongoDbRelationshipDetectorTest.MongoDbTestApplication;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = MongoDbTestApplication.class)
+@ActiveProfiles("nodb")
 public class MongoDbRelationshipDetectorTest {
 
     @Autowired
@@ -48,7 +48,7 @@ public class MongoDbRelationshipDetectorTest {
         Assertions.assertThat(detector.detect()).contains(Dependency.on(Component.of("local", ComponentType.MONGODB)));
     }
 
-    @SpringBootApplication(exclude = MongoAutoConfiguration.class)
+    @SpringBootApplication
     public static class MongoDbTestApplication {
 
         @Bean

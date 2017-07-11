@@ -22,10 +22,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration;
-import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import io.cereebro.snitch.CereebroSnitchAutoConfiguration;
@@ -38,6 +37,7 @@ import io.restassured.http.ContentType;
         CereebroSnitchAutoConfiguration.class }, webEnvironment = WebEnvironment.RANDOM_PORT, value = {
                 "spring.application.name=spring-app-name", "cereebro.application.component.name=cereebro-app-name",
                 "cereebro.application.component.type=test-override", "management.security.enabled=false" })
+@ActiveProfiles("nodb")
 public class SnitchEndpointApplicationNameOverrideTest {
 
     @Value("http://localhost:${local.server.port}/cereebro/snitch")
@@ -63,7 +63,7 @@ public class SnitchEndpointApplicationNameOverrideTest {
         // @formatter:on
     }
 
-    @SpringBootApplication(exclude = { MongoAutoConfiguration.class, RabbitAutoConfiguration.class })
+    @SpringBootApplication
     static class SnitchEndpointApplicationNameOverrideTestApplication {
 
     }
