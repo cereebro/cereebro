@@ -24,12 +24,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration;
 import org.springframework.boot.autoconfigure.data.neo4j.Neo4jDataAutoConfiguration;
+import org.springframework.boot.autoconfigure.data.neo4j.Neo4jRepositoriesAutoConfiguration;
 import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import io.cereebro.core.Relationship;
-import io.cereebro.snitch.detect.neo4j.Neo4jRelationshipDetector;
 import io.cereebro.snitch.detect.neo4j.Neo4jRelationshipDetectorAutoConfigurationEmptyTest.Neo4jRelationshipDetectorAutoConfigurationTestApplication;
 
 @RunWith(SpringRunner.class)
@@ -43,13 +43,10 @@ public class Neo4jRelationshipDetectorAutoConfigurationEmptyTest {
     public void shouldReturnDependencyOnDefaultNeo4jComponent() {
         Set<Relationship> result = detector.detect();
         Assertions.assertThat(result).isEmpty();
-        ;
     }
 
     @SpringBootApplication(exclude = { MongoAutoConfiguration.class, RabbitAutoConfiguration.class,
-            Neo4jDataAutoConfiguration.class })
+            Neo4jDataAutoConfiguration.class, Neo4jRepositoriesAutoConfiguration.class })
     static class Neo4jRelationshipDetectorAutoConfigurationTestApplication {
-
     }
-
 }
