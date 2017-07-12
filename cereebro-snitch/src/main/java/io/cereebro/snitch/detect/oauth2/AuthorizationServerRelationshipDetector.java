@@ -15,7 +15,7 @@
  */
 package io.cereebro.snitch.detect.oauth2;
 
-import java.util.HashSet;
+import java.util.Collections;
 import java.util.Set;
 
 import org.springframework.boot.autoconfigure.security.oauth2.resource.UserInfoTokenServices;
@@ -53,7 +53,7 @@ public class AuthorizationServerRelationshipDetector implements RelationshipDete
         if (tokenService instanceof RemoteTokenServices || tokenService instanceof UserInfoTokenServices) {
             return Dependency.on(Component.of(getDefaultName(), ComponentType.HTTP_APPLICATION)).asRelationshipSet();
         }
-        return new HashSet<>();
+        return Collections.emptySet();
     }
 
 }

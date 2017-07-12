@@ -44,7 +44,7 @@ public class ElasticSearchRelationshipDetector implements RelationshipDetector {
 
     public ElasticSearchRelationshipDetector(Collection<Client> esClients) {
         this.clients = new ArrayList<>();
-        if (!CollectionUtils.isEmpty(esClients)) {
+        if (esClients != null) {
             this.clients.addAll(esClients);
         }
     }

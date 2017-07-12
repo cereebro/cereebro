@@ -16,13 +16,12 @@
 package io.cereebro.snitch.detect.amqp;
 
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
-import org.springframework.util.CollectionUtils;
 
 import io.cereebro.core.Component;
 import io.cereebro.core.ComponentType;
@@ -51,7 +50,7 @@ public class RabbitRelationshipDetector implements RelationshipDetector {
      */
     public RabbitRelationshipDetector(List<ConnectionFactory> rabbitConnectionFactories) {
         this.connectionFactories = new ArrayList<>();
-        if (!CollectionUtils.isEmpty(rabbitConnectionFactories)) {
+        if (rabbitConnectionFactories != null) {
             connectionFactories.addAll(rabbitConnectionFactories);
         }
     }
@@ -59,7 +58,7 @@ public class RabbitRelationshipDetector implements RelationshipDetector {
     @Override
     public Set<Relationship> detect() {
         if (connectionFactories.isEmpty()) {
-            return new HashSet<>();
+            return Collections.emptySet();
         }
         return connectionFactories.stream().map(factory -> createRabbitDependency(factory.getVirtualHost()))
                 .collect(Collectors.toSet());

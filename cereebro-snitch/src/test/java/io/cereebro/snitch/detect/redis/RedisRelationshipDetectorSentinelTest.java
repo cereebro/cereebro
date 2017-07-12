@@ -58,7 +58,7 @@ public class RedisRelationshipDetectorSentinelTest {
 
     @SpringBootApplication
     @EnableConfigurationProperties(RedisProperties.class)
-    public static class RedisRelationshipDetectorSentinelTestApplication {
+    static class RedisRelationshipDetectorSentinelTestApplication {
 
         @MockBean
         RedisConnectionFactory mock;

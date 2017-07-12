@@ -22,8 +22,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-import org.springframework.util.CollectionUtils;
-
 import com.datastax.driver.core.Session;
 
 import io.cereebro.core.Component;
@@ -46,7 +44,7 @@ public class CassandraRelationshipDetector implements RelationshipDetector {
 
     public CassandraRelationshipDetector(Collection<Session> sessions) {
         this.sessions = new ArrayList<>();
-        if (!CollectionUtils.isEmpty(sessions)) {
+        if (sessions != null) {
             this.sessions.addAll(sessions);
         }
     }

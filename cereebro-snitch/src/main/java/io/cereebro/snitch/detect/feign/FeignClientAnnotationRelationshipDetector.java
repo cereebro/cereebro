@@ -15,8 +15,6 @@
  */
 package io.cereebro.snitch.detect.feign;
 
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -37,7 +35,7 @@ public class FeignClientAnnotationRelationshipDetector extends AnnotationRelatio
     @Override
     protected Set<Relationship> extractFromAnnotation(FeignClient annotation) {
         Dependency dependency = Dependency.on(Component.of(annotation.name(), ComponentType.HTTP_APPLICATION));
-        return new HashSet<>(Arrays.asList(dependency));
+        return dependency.asRelationshipSet();
     }
 
     /**

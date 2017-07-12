@@ -21,8 +21,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.springframework.util.CollectionUtils;
-
 import com.mongodb.MongoClient;
 
 import io.cereebro.core.Component;
@@ -45,7 +43,7 @@ public class MongoDbRelationshipDetector implements RelationshipDetector {
 
     public MongoDbRelationshipDetector(Collection<MongoClient> clients) {
         this.clients = new ArrayList<>();
-        if (!CollectionUtils.isEmpty(clients)) {
+        if (clients != null) {
             this.clients.addAll(clients);
         }
     }
