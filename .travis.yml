@@ -4,6 +4,6 @@ jdk:
 script: 
  - mvn clean jacoco:prepare-agent install sonar:sonar -P quality
 addons:
-  sonarqube:
+  sonarcloud:
     branches: 
       - master
