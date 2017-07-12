@@ -40,6 +40,7 @@ public class ComponentType {
     public static final String NEO4J = "database/neo4j";
     public static final String ELASTIC_SEARCH = "index/elasticsearch";
     public static final String RABBITMQ = "message-broker/rabbitmq";
+    public static final String LDAP = "directory/ldap";
 
     private ComponentType() {
 
