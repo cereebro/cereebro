@@ -62,9 +62,7 @@ public class EurekaServerAddOnTest {
     public void eurekaServerSnitchRegistryShouldBeConfigured() {
         // @formatter:off
         boolean eurekaServerSnitchRegistryConfigured = registries.stream()
-                .filter(r -> r instanceof EurekaServerSnitchRegistry)
-                .findFirst()
-                .isPresent();
+                .anyMatch(r -> r instanceof EurekaServerSnitchRegistry);
         // @formatter:on
         Assertions.assertThat(eurekaServerSnitchRegistryConfigured).isTrue();
     }

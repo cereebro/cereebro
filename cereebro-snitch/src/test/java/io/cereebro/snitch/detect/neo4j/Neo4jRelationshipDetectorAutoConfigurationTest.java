@@ -24,10 +24,9 @@ import org.mockito.Mockito;
 import org.neo4j.ogm.session.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration;
-import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Bean;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import io.cereebro.core.Component;
@@ -38,6 +37,7 @@ import io.cereebro.snitch.detect.neo4j.Neo4jRelationshipDetectorAutoConfiguratio
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Neo4jRelationshipDetectorAutoConfigurationTestApplication.class)
+@ActiveProfiles("nodb")
 public class Neo4jRelationshipDetectorAutoConfigurationTest {
 
     @Autowired
@@ -49,7 +49,7 @@ public class Neo4jRelationshipDetectorAutoConfigurationTest {
         Assertions.assertThat(detector.detect()).isEqualTo(rels);
     }
 
-    @SpringBootApplication(exclude = { MongoAutoConfiguration.class, RabbitAutoConfiguration.class })
+    @SpringBootApplication
     static class Neo4jRelationshipDetectorAutoConfigurationTestApplication {
 
         @Bean

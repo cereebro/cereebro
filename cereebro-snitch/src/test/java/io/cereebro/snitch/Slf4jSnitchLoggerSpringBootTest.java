@@ -24,10 +24,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration;
-import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.rule.OutputCapture;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import io.cereebro.snitch.Slf4jSnitchLoggerSpringBootTest.LogSnitchSpringBootTestApplication;
@@ -35,6 +34,7 @@ import io.cereebro.snitch.Slf4jSnitchLoggerSpringBootTest.LogSnitchSpringBootTes
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = LogSnitchSpringBootTestApplication.class, value = { "cereebro.snitch.logOnStartup=true",
         "spring.jackson.serialization.indent_output=true" })
+@ActiveProfiles("nodb")
 public class Slf4jSnitchLoggerSpringBootTest {
 
     static final URI SNITCH_URI = URI.create("http://cereebro.io/nope");
@@ -59,7 +59,7 @@ public class Slf4jSnitchLoggerSpringBootTest {
         Assertions.assertThat(capture.toString()).contains(Slf4jSnitchLogger.class.getSimpleName());
     }
 
-    @SpringBootApplication(exclude = { MongoAutoConfiguration.class, RabbitAutoConfiguration.class })
+    @SpringBootApplication
     static class LogSnitchSpringBootTestApplication {
 
     }

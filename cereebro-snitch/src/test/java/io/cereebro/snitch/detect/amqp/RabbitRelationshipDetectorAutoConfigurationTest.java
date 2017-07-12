@@ -25,16 +25,14 @@ import org.mockito.Mockito;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Bean;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import io.cereebro.core.Component;
 import io.cereebro.core.ComponentType;
 import io.cereebro.core.Dependency;
-import io.cereebro.snitch.detect.amqp.RabbitRelationshipDetector;
-import io.cereebro.snitch.detect.amqp.RabbitRelationshipDetectorAutoConfiguration;
 import io.cereebro.snitch.detect.amqp.RabbitRelationshipDetectorAutoConfigurationTest.RabbitRelationshipDetectorAutoConfigurationApplication;
 
 /**
@@ -44,6 +42,7 @@ import io.cereebro.snitch.detect.amqp.RabbitRelationshipDetectorAutoConfiguratio
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = RabbitRelationshipDetectorAutoConfigurationApplication.class)
+@ActiveProfiles("nodb")
 public class RabbitRelationshipDetectorAutoConfigurationTest {
 
     @Autowired
@@ -55,7 +54,7 @@ public class RabbitRelationshipDetectorAutoConfigurationTest {
         Assertions.assertThat(detector.detect()).isEqualTo(new HashSet<>(Arrays.asList(dependency)));
     }
 
-    @SpringBootApplication(exclude = { MongoAutoConfiguration.class })
+    @SpringBootApplication
     static class RabbitRelationshipDetectorAutoConfigurationApplication {
 
         @Bean

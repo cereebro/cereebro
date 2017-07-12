@@ -27,19 +27,19 @@ import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Bean;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import io.cereebro.core.Component;
 import io.cereebro.core.ComponentType;
 import io.cereebro.core.Dependency;
-import io.cereebro.snitch.detect.jdbc.DataSourceRelationshipDetector;
 import io.cereebro.snitch.detect.jdbc.DataSourceRelationshipDetectorTest.DataSourceTestApplication;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = DataSourceTestApplication.class)
+@ActiveProfiles("nodb")
 public class DataSourceRelationshipDetectorTest {
 
     @Autowired
@@ -52,7 +52,7 @@ public class DataSourceRelationshipDetectorTest {
                 .contains(Dependency.on(Component.of("catalog", ComponentType.RELATIONAL_DATABASE)));
     }
 
-    @SpringBootApplication(exclude = { MongoAutoConfiguration.class })
+    @SpringBootApplication
     static class DataSourceTestApplication {
 
         @Bean

@@ -4,7 +4,7 @@
 
     <groupId>io.cereebro</groupId>
     <artifactId>cereebro</artifactId>
-    <version>1.1.1-SNAPSHOT</version>
+    <version>1.2.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>Cereebro</name>
@@ -57,8 +57,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <!-- Dependencies versions -->
-        <spring-boot.version>1.4.5.RELEASE</spring-boot.version>
-        <spring-cloud.version>Camden.SR6</spring-cloud.version>
+        <spring-boot.version>1.5.4.RELEASE</spring-boot.version>
+        <spring-cloud.version>Dalston.SR1</spring-cloud.version>
         <equalsverifier.version>2.2.1</equalsverifier.version>
         <linkurious.version>1.5.1</linkurious.version>
         <d3js.version>3.5.17</d3js.version>
@@ -330,6 +330,11 @@
     <profiles>
         <profile>
             <id>quality</id>
+            <properties>
+                <!-- Limit memory of CI builds -->
+                <!-- See : https://docs.sonarqube.org/display/PLUG/Usage+of+JaCoCo+with+Java+Plugin -->
+                <argLine>-Xmx1024M</argLine>
+            </properties>
             <build>
                 <plugins>
                     <plugin>
@@ -350,6 +355,10 @@
                                 </goals>
                             </execution>
                         </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
                     </plugin>
                 </plugins>
             </build>

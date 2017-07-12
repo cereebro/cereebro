@@ -21,9 +21,9 @@ import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Bean;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.datastax.driver.core.Cluster;
@@ -32,11 +32,11 @@ import com.datastax.driver.core.Session;
 import io.cereebro.core.Component;
 import io.cereebro.core.ComponentType;
 import io.cereebro.core.Dependency;
-import io.cereebro.snitch.detect.cassandra.CassandraRelationshipDetector;
 import io.cereebro.snitch.detect.cassandra.CassandraRelationshipDetectorNullTest.CassandraTestApplication;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = CassandraTestApplication.class)
+@ActiveProfiles("nodb")
 public class CassandraRelationshipDetectorNullTest {
 
     @Autowired
@@ -48,7 +48,7 @@ public class CassandraRelationshipDetectorNullTest {
                 .contains(Dependency.on(Component.of("default_cluster", ComponentType.CASSANDRA)));
     }
 
-    @SpringBootApplication(exclude = { MongoAutoConfiguration.class })
+    @SpringBootApplication
     static class CassandraTestApplication {
 
         @Bean

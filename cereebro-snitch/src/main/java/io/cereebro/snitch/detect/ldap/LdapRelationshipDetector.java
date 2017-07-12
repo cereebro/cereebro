@@ -13,46 +13,55 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.cereebro.snitch.detect.elastic;
+package io.cereebro.snitch.detect.ldap;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
-import org.elasticsearch.client.Client;
+import org.springframework.ldap.core.ContextSource;
 
 import io.cereebro.core.Component;
 import io.cereebro.core.ComponentType;
 import io.cereebro.core.Dependency;
 import io.cereebro.core.Relationship;
 import io.cereebro.core.RelationshipDetector;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
- * Implementation of {@link RelationshipDetector} used to detect an Elastic
- * Search dependency. The class retrieve all {@link Client} available in the
- * Spring context and create {@link Relationship}s.
+ * LDAP Relationship detector.
  * 
- * @author lwarrot
+ * <p>
+ * When one or multiple {@link ContextSource} beans are found in the application
+ * context, a single LDAP dependency will be produced with a default name.
+ * </p>
+ * 
+ * @author michaeltecourt
  *
  */
-public class ElasticSearchRelationshipDetector implements RelationshipDetector {
+public class LdapRelationshipDetector implements RelationshipDetector {
 
-    private final List<Client> clients;
+    private final List<ContextSource> contextSources;
 
-    public ElasticSearchRelationshipDetector(Collection<Client> esClients) {
-        this.clients = new ArrayList<>();
-        if (esClients != null) {
-            this.clients.addAll(esClients);
+    @Getter
+    @Setter
+    private String defaultName = "default";
+
+    public LdapRelationshipDetector(List<ContextSource> sources) {
+        this.contextSources = new ArrayList<>();
+        if (sources != null) {
+            contextSources.addAll(sources);
         }
     }
 
     @Override
     public Set<Relationship> detect() {
-        return clients.stream()
-                .map(c -> Dependency.on(Component.of(c.settings().get("cluster.name"), ComponentType.ELASTIC_SEARCH)))
-                .collect(Collectors.toSet());
+        if (contextSources.isEmpty()) {
+            return Collections.emptySet();
+        }
+        return Dependency.on(Component.of(defaultName, ComponentType.LDAP)).asRelationshipSet();
     }
 
 }

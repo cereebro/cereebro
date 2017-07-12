@@ -22,9 +22,9 @@ import org.mockito.Mockito;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Bean;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import io.cereebro.snitch.detect.amqp.RabbitRelationshipDetectorAutoConfigurationDisableTest.RabbitRelationshipDetectorAutoConfigurationApplication;
@@ -37,6 +37,7 @@ import io.cereebro.snitch.detect.amqp.RabbitRelationshipDetectorAutoConfiguratio
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = RabbitRelationshipDetectorAutoConfigurationApplication.class, properties = {
         "cereebro.snitch.detect.rabbit.enabled=false" })
+@ActiveProfiles("nodb")
 public class RabbitRelationshipDetectorAutoConfigurationDisableTest {
 
     @Autowired(required = false)
@@ -47,7 +48,7 @@ public class RabbitRelationshipDetectorAutoConfigurationDisableTest {
         Assertions.assertThat(detector).isNull();
     }
 
-    @SpringBootApplication(exclude = { MongoAutoConfiguration.class })
+    @SpringBootApplication
     static class RabbitRelationshipDetectorAutoConfigurationApplication {
 
         @Bean

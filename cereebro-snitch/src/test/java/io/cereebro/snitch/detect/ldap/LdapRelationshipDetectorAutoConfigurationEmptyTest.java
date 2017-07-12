@@ -13,34 +13,43 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.cereebro.snitch.detect.jdbc;
+package io.cereebro.snitch.detect.ldap;
 
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.data.ldap.LdapRepositoriesAutoConfiguration;
+import org.springframework.boot.autoconfigure.ldap.LdapAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import io.cereebro.snitch.detect.jdbc.DataSourceRelationshipDetectorEmptyTest.NoDataSourceTestApplication;
+import io.cereebro.snitch.detect.ldap.LdapRelationshipDetectorAutoConfigurationEmptyTest.LdapRelationshipDetectorAutoConfigurationEmptyTestApplication;
 
+/**
+ * LDAP auto configuration is deactivated, so the LDAP detector should not
+ * detect anything.
+ * 
+ * @author michaeltecourt
+ *
+ */
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = NoDataSourceTestApplication.class)
+@SpringBootTest(classes = LdapRelationshipDetectorAutoConfigurationEmptyTestApplication.class)
 @ActiveProfiles("nodb")
-public class DataSourceRelationshipDetectorEmptyTest {
+public class LdapRelationshipDetectorAutoConfigurationEmptyTest {
 
     @Autowired
-    private DataSourceRelationshipDetector detector;
+    LdapRelationshipDetector detector;
 
     @Test
-    public void dataSourceRelationshipWithoutDataSourceAvailable() {
+    public void shouldNotDetectLdapDependency() {
         Assertions.assertThat(detector.detect()).isEmpty();
     }
 
-    @SpringBootApplication
-    static class NoDataSourceTestApplication {
+    @SpringBootApplication(exclude = { LdapAutoConfiguration.class, LdapRepositoriesAutoConfiguration.class })
+    static class LdapRelationshipDetectorAutoConfigurationEmptyTestApplication {
 
     }
 

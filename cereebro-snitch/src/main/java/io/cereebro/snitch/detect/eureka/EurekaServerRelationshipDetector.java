@@ -16,11 +16,9 @@
 package io.cereebro.snitch.detect.eureka;
 
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
-
-import org.springframework.util.CollectionUtils;
 
 import com.netflix.discovery.EurekaClient;
 
@@ -56,7 +54,7 @@ public class EurekaServerRelationshipDetector implements RelationshipDetector {
      */
     public EurekaServerRelationshipDetector(List<EurekaClient> eurekaClients) {
         this.eurekaClients = new ArrayList<>();
-        if (!CollectionUtils.isEmpty(eurekaClients)) {
+        if (eurekaClients != null) {
             this.eurekaClients.addAll(eurekaClients);
         }
     }
@@ -64,7 +62,7 @@ public class EurekaServerRelationshipDetector implements RelationshipDetector {
     @Override
     public Set<Relationship> detect() {
         if (eurekaClients.isEmpty()) {
-            return new HashSet<>();
+            return Collections.emptySet();
         }
         return Dependency.on(Component.of(defaultName, ComponentType.HTTP_APPLICATION_REGISTRY)).asRelationshipSet();
     }

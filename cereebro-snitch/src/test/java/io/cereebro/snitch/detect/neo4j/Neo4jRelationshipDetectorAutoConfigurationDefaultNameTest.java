@@ -24,8 +24,6 @@ import org.mockito.Mockito;
 import org.neo4j.ogm.session.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration;
-import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -49,7 +47,7 @@ public class Neo4jRelationshipDetectorAutoConfigurationDefaultNameTest {
         Assertions.assertThat(detector.detect()).isEqualTo(rels);
     }
 
-    @SpringBootApplication(exclude = { MongoAutoConfiguration.class, RabbitAutoConfiguration.class })
+    @SpringBootApplication
     static class Neo4jRelationshipDetectorAutoConfigurationTestApplication {
 
         @Bean

@@ -22,7 +22,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.test.context.ActiveProfiles;
@@ -32,14 +31,12 @@ import io.cereebro.core.Component;
 import io.cereebro.core.ComponentType;
 import io.cereebro.core.Dependency;
 import io.cereebro.core.Relationship;
-import io.cereebro.snitch.detect.oauth2.AuthorizationServerRelationshipDetector;
-import io.cereebro.snitch.detect.oauth2.OAuth2RelationshipDetectorAutoConfiguration;
 import io.cereebro.snitch.detect.oauth2.OAuth2RelationshipDetectorAutoConfigurationTokenInfoTest.OAuth2RelationshipDetectorAutoConfigurationTokenInfoTestApplication;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = { OAuth2RelationshipDetectorAutoConfigurationTokenInfoTestApplication.class,
         OAuth2RelationshipDetectorAutoConfiguration.class })
-@ActiveProfiles("oauth2-token-info")
+@ActiveProfiles({ "oauth2-token-info", "nodb" })
 public class OAuth2RelationshipDetectorAutoConfigurationTokenInfoTest {
 
     @Autowired
@@ -52,7 +49,7 @@ public class OAuth2RelationshipDetectorAutoConfigurationTokenInfoTest {
         Assertions.assertThat(detector.detect()).isEqualTo(expected);
     }
 
-    @SpringBootApplication(exclude = MongoAutoConfiguration.class)
+    @SpringBootApplication
     @EnableResourceServer
     static class OAuth2RelationshipDetectorAutoConfigurationTokenInfoTestApplication {
 

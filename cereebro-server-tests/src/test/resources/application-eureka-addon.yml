@@ -1,6 +1,8 @@
 spring:
   application:
     name: cereebro-server-eureka-addon
+  freemarker:
+    prefer-file-system-access: false
 
 eureka:
   client:

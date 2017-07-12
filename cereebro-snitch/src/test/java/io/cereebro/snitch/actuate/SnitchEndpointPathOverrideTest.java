@@ -25,9 +25,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration;
-import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import io.cereebro.core.Snitch;
@@ -41,6 +41,7 @@ import io.restassured.http.ContentType;
         CereebroSnitchAutoConfiguration.class }, webEnvironment = WebEnvironment.RANDOM_PORT, value = {
                 "spring.application.name=spring-app-name", "endpoints.cereebro.path=/cereebro/snitch/test",
                 "management.security.enabled=false" })
+@ActiveProfiles("nodb")
 public class SnitchEndpointPathOverrideTest {
 
     @Value("http://localhost:${local.server.port}/cereebro/snitch/test")
@@ -68,7 +69,7 @@ public class SnitchEndpointPathOverrideTest {
         Assertions.assertThat(snitch.getUri()).isEqualTo(URI.create("/cereebro/snitch/test"));
     }
 
-    @SpringBootApplication(exclude = { MongoAutoConfiguration.class, RabbitAutoConfiguration.class })
+    @SpringBootApplication(exclude = { RabbitAutoConfiguration.class })
     static class SnitchEndpointPathOverrideTestApplication {
 
     }

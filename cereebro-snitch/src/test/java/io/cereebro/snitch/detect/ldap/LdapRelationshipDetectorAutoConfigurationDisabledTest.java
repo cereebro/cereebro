@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.cereebro.snitch.detect.jdbc;
+package io.cereebro.snitch.detect.ldap;
 
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
@@ -21,26 +21,35 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.ldap.core.ContextSource;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import io.cereebro.snitch.detect.jdbc.DataSourceRelationshipDetectorEmptyTest.NoDataSourceTestApplication;
+import io.cereebro.snitch.detect.ldap.LdapRelationshipDetectorAutoConfigurationDisabledTest.LdapRelationshipDetectorAutoConfigurationDisabledTestApplication;
 
+/**
+ * Spring Boot auto configures a LDAP connection to a default URL, so a
+ * {@link ContextSource} will be available.
+ * 
+ * @author michaeltecourt
+ *
+ */
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = NoDataSourceTestApplication.class)
+@SpringBootTest(classes = LdapRelationshipDetectorAutoConfigurationDisabledTestApplication.class, value = {
+        "cereebro.snitch.detect.ldap.enabled=false" })
 @ActiveProfiles("nodb")
-public class DataSourceRelationshipDetectorEmptyTest {
+public class LdapRelationshipDetectorAutoConfigurationDisabledTest {
 
-    @Autowired
-    private DataSourceRelationshipDetector detector;
+    @Autowired(required = false)
+    LdapRelationshipDetector detector;
 
     @Test
-    public void dataSourceRelationshipWithoutDataSourceAvailable() {
-        Assertions.assertThat(detector.detect()).isEmpty();
+    public void ldapDetectorShouldNotBeConfigured() {
+        Assertions.assertThat(detector).isNull();
     }
 
     @SpringBootApplication
-    static class NoDataSourceTestApplication {
+    static class LdapRelationshipDetectorAutoConfigurationDisabledTestApplication {
 
     }
 

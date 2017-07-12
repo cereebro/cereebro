@@ -13,7 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.cereebro.snitch.detect.jdbc;
+package io.cereebro.snitch.detect.ldap;
+
+import java.util.Set;
 
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
@@ -24,23 +26,35 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import io.cereebro.snitch.detect.jdbc.DataSourceRelationshipDetectorEmptyTest.NoDataSourceTestApplication;
+import io.cereebro.core.Component;
+import io.cereebro.core.ComponentType;
+import io.cereebro.core.Dependency;
+import io.cereebro.core.Relationship;
+import io.cereebro.snitch.detect.ldap.LdapRelationshipDetectorAutoConfigurationTest.LdapRelationshipDetectorAutoConfigurationTestApplication;
 
+/**
+ * Spring Boot auto configures a default LDAP connection, so a ContextSource
+ * bean should be available.
+ * 
+ * @author michaeltecourt
+ *
+ */
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = NoDataSourceTestApplication.class)
+@SpringBootTest(classes = LdapRelationshipDetectorAutoConfigurationTestApplication.class)
 @ActiveProfiles("nodb")
-public class DataSourceRelationshipDetectorEmptyTest {
+public class LdapRelationshipDetectorAutoConfigurationTest {
 
     @Autowired
-    private DataSourceRelationshipDetector detector;
+    LdapRelationshipDetector detector;
 
     @Test
-    public void dataSourceRelationshipWithoutDataSourceAvailable() {
-        Assertions.assertThat(detector.detect()).isEmpty();
+    public void shouldDetectLdapDependency() {
+        Set<Relationship> expected = Dependency.on(Component.of("default", ComponentType.LDAP)).asRelationshipSet();
+        Assertions.assertThat(detector.detect()).isEqualTo(expected);
     }
 
     @SpringBootApplication
-    static class NoDataSourceTestApplication {
+    static class LdapRelationshipDetectorAutoConfigurationTestApplication {
 
     }
 

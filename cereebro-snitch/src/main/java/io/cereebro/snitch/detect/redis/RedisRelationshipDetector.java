@@ -16,7 +16,7 @@
 package io.cereebro.snitch.detect.redis;
 
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -70,7 +70,7 @@ public class RedisRelationshipDetector implements RelationshipDetector {
     @Override
     public Set<Relationship> detect() {
         if (CollectionUtils.isEmpty(connectionFactories)) {
-            return new HashSet<>();
+            return Collections.emptySet();
         }
         String sentinelMaster = getRedisSentinelMasterName();
         String name = StringUtils.hasText(sentinelMaster) ? sentinelMaster : defaultName;
