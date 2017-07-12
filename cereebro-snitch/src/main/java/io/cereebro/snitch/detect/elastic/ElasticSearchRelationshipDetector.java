@@ -22,7 +22,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.elasticsearch.client.Client;
-import org.springframework.util.CollectionUtils;
 
 import io.cereebro.core.Component;
 import io.cereebro.core.ComponentType;
