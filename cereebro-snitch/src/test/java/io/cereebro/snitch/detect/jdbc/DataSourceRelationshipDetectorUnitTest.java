@@ -29,7 +29,6 @@ import org.junit.Test;
 import org.mockito.Mockito;
 
 import io.cereebro.core.Relationship;
-import io.cereebro.snitch.detect.jdbc.DataSourceRelationshipDetector;
 
 /**
  * {@link DataSourceRelationshipDetector} unit tests.
@@ -54,7 +53,7 @@ public class DataSourceRelationshipDetectorUnitTest {
     public void extractNameShouldUseSchemaFirst() throws SQLException {
         Mockito.when(connectionMock.getSchema()).thenReturn("schema");
         Mockito.when(connectionMock.getCatalog()).thenReturn("catalog");
-        String name = detector.extractName(dataSourceMock);
+        String name = detector.extractName(connectionMock);
         Assertions.assertThat(name).isEqualTo("schema");
     }
 
@@ -62,7 +61,7 @@ public class DataSourceRelationshipDetectorUnitTest {
     public void extractNameWithoutSchemaShouldReturnCatalog() throws SQLException {
         Mockito.when(connectionMock.getSchema()).thenReturn(null);
         Mockito.when(connectionMock.getCatalog()).thenReturn("catalog");
-        String name = detector.extractName(dataSourceMock);
+        String name = detector.extractName(connectionMock);
         Assertions.assertThat(name).isEqualTo("catalog");
     }
 
@@ -70,7 +69,7 @@ public class DataSourceRelationshipDetectorUnitTest {
     public void extractNameShouldReturnDefaultName() throws SQLException {
         Mockito.when(connectionMock.getSchema()).thenReturn(null);
         Mockito.when(connectionMock.getCatalog()).thenReturn(null);
-        String name = detector.extractName(dataSourceMock);
+        String name = detector.extractName(connectionMock);
         Assertions.assertThat(name).isEqualTo("default_db");
     }
 
