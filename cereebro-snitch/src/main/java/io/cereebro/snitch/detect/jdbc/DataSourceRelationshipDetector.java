@@ -15,6 +15,7 @@
  */
 package io.cereebro.snitch.detect.jdbc;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -72,8 +73,8 @@ public class DataSourceRelationshipDetector implements RelationshipDetector {
         if (relationsCache == null) {
             final Set<Relationship> result = new HashSet<>();
             for (DataSource ds : dataSources) {
-                try {
-                    result.add(Dependency.on(Component.of(extractName(ds), extractDatabaseType(ds))));
+                try (Connection connection = ds.getConnection()) {
+                    result.add(Dependency.on(Component.of(extractName(connection), extractDatabaseType(connection))));
                 } catch (SQLException e) {
                     LOGGER.error("Could not fetch the default catalog of the database connection", e);
                 }
@@ -86,16 +87,16 @@ public class DataSourceRelationshipDetector implements RelationshipDetector {
     /**
      * Extract a DataSource name, using a default one if necessary.
      * 
-     * @param dataSource
-     *            JDBC DataSource.
+     * @param connection
+     *            JDBC DataSource Connection.
      * @return a non-null DataSource name.
      * @throws SQLException
      *             if something goes wrong while extracting component info.
      */
-    protected String extractName(DataSource dataSource) throws SQLException {
-        String name = dataSource.getConnection().getSchema();
+    protected String extractName(Connection connection) throws SQLException {
+        String name = connection.getSchema();
         if (name == null) {
-            name = dataSource.getConnection().getCatalog();
+            name = connection.getCatalog();
         }
         return Optional.ofNullable(name).orElse(defaultName);
     }
@@ -103,15 +104,14 @@ public class DataSourceRelationshipDetector implements RelationshipDetector {
     /**
      * Extract the Database type from the metadata of the connection.
      * 
-     * @param dataSource
-     *            JDBC DataSource.
+     * @param connection
+     *            JDBC DataSource Connection.
      * @return a non-null Datasource type.
      * @throws SQLException
      *             if something goes wrong while extracting the component type.
      */
-    protected String extractDatabaseType(DataSource dataSource) throws SQLException {
-        return DbType.findByProductName(dataSource.getConnection().getMetaData().getDatabaseProductName())
-                .componentType();
+    protected String extractDatabaseType(Connection connection) throws SQLException {
+        return DbType.findByProductName(connection.getMetaData().getDatabaseProductName()).componentType();
     }
 
 }

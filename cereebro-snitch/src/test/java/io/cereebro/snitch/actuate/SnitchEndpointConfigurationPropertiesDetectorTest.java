@@ -23,6 +23,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration;
+import org.springframework.boot.autoconfigure.ldap.LdapAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.test.context.ActiveProfiles;
@@ -63,7 +64,7 @@ public class SnitchEndpointConfigurationPropertiesDetectorTest {
         // @formatter:on
     }
 
-    @SpringBootApplication(exclude = { RabbitAutoConfiguration.class })
+    @SpringBootApplication(exclude = { RabbitAutoConfiguration.class, LdapAutoConfiguration.class })
     static class SnitchEndpointConfigurationPropertiesDetectorTestApplication {
 
     }
