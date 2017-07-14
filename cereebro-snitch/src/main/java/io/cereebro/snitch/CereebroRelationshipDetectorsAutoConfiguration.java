@@ -29,6 +29,7 @@ import io.cereebro.snitch.detect.annotation.RelationshipHintsAnnotationRelations
 import io.cereebro.snitch.detect.cassandra.CassandraRelationshipDetectorAutoConfiguration;
 import io.cereebro.snitch.detect.elastic.ElasticSearchRelationshipDetectorAutoConfiguration;
 import io.cereebro.snitch.detect.jdbc.DataSourceRelationshipDetectorAutoConfiguration;
+import io.cereebro.snitch.detect.ldap.LdapRelationshipDetectorAutoConfiguration;
 import io.cereebro.snitch.detect.mongo.MongoDbRelationshipDetectorAutoConfiguration;
 import io.cereebro.snitch.detect.neo4j.Neo4jRelationshipDetectorAutoConfiguration;
 import io.cereebro.snitch.detect.oauth2.OAuth2RelationshipDetectorAutoConfiguration;
@@ -46,7 +47,7 @@ import io.cereebro.snitch.detect.zuul.ZuulRouteRelationshipDetectorAutoConfigura
         ElasticSearchRelationshipDetectorAutoConfiguration.class, MongoDbRelationshipDetectorAutoConfiguration.class,
         RedisRelationshipDetectorAutoConfiguration.class, RabbitRelationshipDetectorAutoConfiguration.class,
         Neo4jRelationshipDetectorAutoConfiguration.class, ZuulRouteRelationshipDetectorAutoConfiguration.class,
-        OAuth2RelationshipDetectorAutoConfiguration.class })
+        OAuth2RelationshipDetectorAutoConfiguration.class, LdapRelationshipDetectorAutoConfiguration.class })
 public class CereebroRelationshipDetectorsAutoConfiguration {
 
     @Autowired
