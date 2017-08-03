@@ -18,7 +18,6 @@ package io.cereebro.server.eureka;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
-import org.springframework.cloud.netflix.eureka.server.EurekaServerAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -39,7 +38,7 @@ import io.cereebro.core.SnitchRegistry;
  */
 @Configuration
 @ConditionalOnClass(EurekaServerContext.class)
-@AutoConfigureAfter(EurekaServerAutoConfiguration.class)
+@AutoConfigureAfter(name = "org.springframework.cloud.netflix.eureka.server.EurekaServerAutoConfiguration")
 public class CereebroEurekaServerAddOnAutoConfiguration {
 
     @Bean
