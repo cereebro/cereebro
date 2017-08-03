@@ -21,18 +21,15 @@ import lombok.Data;
 @Data
 public final class SystemProperties {
 
-    public static final String DEFAULT_PATH = "/cereebro/system";
-    public static final String DEFAULT_NAME = "cereebro";
-
     /**
      * System name.
      */
-    private String name = DEFAULT_NAME;
+    private String name = "cereebro";
 
     /**
      * Path of the system HTML page and JSON resource.
      */
-    private String path = DEFAULT_PATH;
+    private String path = "/cereebro/system";
 
     /**
      * Available {@link Snitch} resources.
