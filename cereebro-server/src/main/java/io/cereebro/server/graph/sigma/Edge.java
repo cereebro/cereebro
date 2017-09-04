@@ -34,14 +34,14 @@ public final class Edge {
     private final String target;
 
     public static Edge to(Component component, Dependency dependency) {
-        String from = component.asString();
-        String to = dependency.getComponent().asString();
+        String from = component.asString().toLowerCase();
+        String to = dependency.getComponent().asString().toLowerCase();
         return Edge.create(from + "-to-" + to, from, to);
     }
 
     public static Edge from(Component component, Consumer consumer) {
-        String to = component.asString();
-        String from = consumer.getComponent().asString();
+        String to = component.asString().toLowerCase();
+        String from = consumer.getComponent().asString().toLowerCase();
         return Edge.create(from + "-to-" + to, from, to);
     }
 

@@ -66,13 +66,13 @@ public final class DependencyWheel {
         final DependencyWheelBuilder builder = DependencyWheel.builder();
 
         List<ComponentRelationships> rels = new ArrayList<>(system.getComponentRelationships());
-        rels.sort((c1, c2) -> c1.getComponent().asString().compareTo(c2.getComponent().asString()));
+        rels.sort((c1, c2) -> c1.getComponent().asString().toLowerCase().compareTo(c2.getComponent().asString()));
         for (ComponentRelationships rel : rels) {
             List<Integer> line = new ArrayList<>();
             for (ComponentRelationships potentialDependency : rels) {
                 line.add(rel.getDependencies().contains(Dependency.on(potentialDependency.getComponent())) ? 1 : 0);
             }
-            builder.name(rel.getComponent().getName()).matrixLine(line);
+            builder.name(rel.getComponent().getName().toLowerCase()).matrixLine(line);
         }
 
         return builder.build();
