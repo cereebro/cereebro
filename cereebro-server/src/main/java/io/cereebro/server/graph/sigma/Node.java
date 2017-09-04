@@ -74,7 +74,7 @@ public final class Node {
     public static Node of(Component component, int size) {
         // @formatter:off
 	return Node.builder()
-	        .id(component.asString())
+	        .id(component.asString().toLowerCase())
 	        .label(component.asString())
 	        .x(randomCoordinate())
 	        .y(randomCoordinate())
