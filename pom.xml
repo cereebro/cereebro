@@ -4,7 +4,7 @@
 
     <groupId>io.cereebro</groupId>
     <artifactId>cereebro</artifactId>
-    <version>1.2.4</version>
+    <version>1.2.5-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>Cereebro</name>
@@ -36,7 +36,7 @@
         <connection>scm:git:git://github.com/cereebro/cereebro.git</connection>
         <developerConnection>scm:git:ssh://git@github.com/cereebro/cereebro.git</developerConnection>
         <url>http://github.com/cereebro/cereebro/tree/master</url>
-        <tag>cereebro-1.2.4</tag>
+        <tag>HEAD</tag>
     </scm>
 
     <distributionManagement>
