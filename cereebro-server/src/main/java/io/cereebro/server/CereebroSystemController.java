@@ -20,8 +20,8 @@ import java.util.Objects;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -41,7 +41,7 @@ public class CereebroSystemController {
         this.systemService = Objects.requireNonNull(systemService, "SystemService required");
     }
 
-    @RequestMapping(method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
+    @GetMapping(produces = MediaType.TEXT_HTML_VALUE)
     public ModelAndView systemPage() {
         System system = systemService.get();
         ModelAndView mav = new ModelAndView("cereebro/system");
@@ -54,7 +54,7 @@ public class CereebroSystemController {
         return mav;
     }
 
-    @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public System systemJson() {
         return systemService.get();

@@ -66,7 +66,7 @@ public final class DependencyWheel {
         final DependencyWheelBuilder builder = DependencyWheel.builder();
 
         List<ComponentRelationships> rels = new ArrayList<>(system.getComponentRelationships());
-        rels.sort((c1, c2) -> c1.getComponent().asString().toLowerCase().compareTo(c2.getComponent().asString()));
+        rels.sort((c1, c2) -> c1.getComponent().asString().compareToIgnoreCase(c2.getComponent().asString()));
         for (ComponentRelationships rel : rels) {
             List<Integer> line = new ArrayList<>();
             for (ComponentRelationships potentialDependency : rels) {

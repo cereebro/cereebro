@@ -4,7 +4,7 @@
 
     <groupId>io.cereebro</groupId>
     <artifactId>cereebro</artifactId>
-    <version>1.2.4-SNAPSHOT</version>
+    <version>1.2.5-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>Cereebro</name>
@@ -267,12 +267,12 @@
                 <plugin>
                     <groupId>org.sonarsource.scanner.maven</groupId>
                     <artifactId>sonar-maven-plugin</artifactId>
-                    <version>3.3.0.603</version>
+                    <version>3.4.0.905</version>
                 </plugin>
                 <plugin>
                     <groupId>org.jacoco</groupId>
                     <artifactId>jacoco-maven-plugin</artifactId>
-                    <version>0.7.9</version>
+                    <version>0.8.0</version>
                 </plugin>
                 <!-- Spring -->
                 <plugin>
