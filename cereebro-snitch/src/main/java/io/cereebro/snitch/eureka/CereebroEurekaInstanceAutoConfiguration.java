@@ -19,7 +19,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.boot.bind.RelaxedPropertyResolver;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
@@ -48,10 +47,9 @@ public class CereebroEurekaInstanceAutoConfiguration {
     @ConditionalOnBean(SnitchEndpoint.class)
     public EurekaMetadataPopulator eurekaMetadataPopulator(SnitchEndpoint snitch, ApplicationInfoManager manager,
             ObjectMapper mapper) {
-        RelaxedPropertyResolver relaxedPropertyResolver = new RelaxedPropertyResolver(env, "cereebro.snitch.eureka.");
         EurekaInstanceSnitchProperties props = new EurekaInstanceSnitchProperties();
-        props.setEndpointUrl(relaxedPropertyResolver.getProperty("endpointUrl"));
-        props.setEndpointUrlPath(relaxedPropertyResolver.getProperty("endpointUrlPath"));
+        props.setEndpointUrl(env.getProperty("cereebro.snitch.eureka.endpointUrl"));
+        props.setEndpointUrlPath(env.getProperty("cereebro.snitch.eureka.endpointUrlPath"));
         EurekaMetadataPopulator metadataPopulator = new EurekaMetadataPopulator(snitch, manager, props, mapper);
         metadataPopulator.populate();
         return metadataPopulator;

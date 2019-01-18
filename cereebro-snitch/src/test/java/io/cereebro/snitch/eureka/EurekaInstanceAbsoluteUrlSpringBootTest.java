@@ -43,7 +43,7 @@ import io.cereebro.snitch.eureka.EurekaInstanceAbsoluteUrlSpringBootTest.EurekaC
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = { EurekaClientMockTestConfiguration.class,
         CereebroEurekaInstanceAutoConfiguration.class }, webEnvironment = WebEnvironment.NONE, value = {
-                "cereebro.snitch.eureka.endpoint-url=" + EurekaInstanceAbsoluteUrlSpringBootTest.SNITCH_URL })
+                "cereebro.snitch.eureka.endpointUrl=" + EurekaInstanceAbsoluteUrlSpringBootTest.SNITCH_URL })
 public class EurekaInstanceAbsoluteUrlSpringBootTest {
 
     static final String SNITCH_URL = "https://example.com/snitch";

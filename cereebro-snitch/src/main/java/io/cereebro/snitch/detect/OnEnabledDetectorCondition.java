@@ -18,7 +18,6 @@ package io.cereebro.snitch.detect;
 import org.springframework.boot.autoconfigure.condition.ConditionMessage;
 import org.springframework.boot.autoconfigure.condition.ConditionOutcome;
 import org.springframework.boot.autoconfigure.condition.SpringBootCondition;
-import org.springframework.boot.bind.RelaxedPropertyResolver;
 import org.springframework.context.annotation.ConditionContext;
 import org.springframework.core.annotation.AnnotationAttributes;
 import org.springframework.core.type.AnnotatedTypeMetadata;
@@ -38,9 +37,7 @@ public class OnEnabledDetectorCondition extends SpringBootCondition {
                 .fromMap(metadata.getAnnotationAttributes(ConditionalOnEnabledDetector.class.getName()));
         final String name = attributes.getString("value");
         final String prefix = attributes.getString("prefix");
-        RelaxedPropertyResolver resolver = new RelaxedPropertyResolver(context.getEnvironment(),
-                prefix + "." + name + ".");
-        Boolean enabled = resolver.getProperty("enabled", Boolean.class, true);
+        Boolean enabled = context.getEnvironment().getProperty(prefix + "." + name + ".enabled", Boolean.class, true);
         return new ConditionOutcome(enabled, ConditionMessage.forCondition(ConditionalOnEnabledDetector.class, name)
                 .because(enabled ? "enabled" : "disabled"));
     }
