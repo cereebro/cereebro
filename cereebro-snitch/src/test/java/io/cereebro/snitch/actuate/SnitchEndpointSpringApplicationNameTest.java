@@ -17,13 +17,12 @@ package io.cereebro.snitch.actuate;
 
 import java.net.URI;
 
-import org.assertj.core.api.Assertions;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.test.context.ActiveProfiles;
@@ -38,15 +37,13 @@ import io.restassured.http.ContentType;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = { SnitchEndpointSpringApplicationNameTestApplication.class,
         CereebroSnitchAutoConfiguration.class }, webEnvironment = WebEnvironment.RANDOM_PORT, value = {
-                "spring.application.name=springappname", "management.security.enabled=false" })
+                "spring.application.name=springappname", "management.security.enabled=false",
+                "management.endpoints.web.path-mapping.cereebro=/cereebro/snitch"})
 @ActiveProfiles("nodb")
 public class SnitchEndpointSpringApplicationNameTest {
 
-    @Value("http://localhost:${local.server.port}/cereebro/snitch")
+    @Value("http://localhost:${local.server.port}/actuator/cereebro/snitch")
     URI snitchURI;
-
-    @Autowired
-    private CereebroSnitchMvcEndpoint endpoint;
 
     /**
      * Verify that the component name returned by the snitch endpoint is the
@@ -67,22 +64,7 @@ public class SnitchEndpointSpringApplicationNameTest {
         // @formatter:on
     }
 
-    @Test
-    public void endpointShouldBeSensitiveByDefault() {
-        Assertions.assertThat(endpoint.isSensitive()).isTrue();
-    }
-
-    @Test
-    public void endpointPathShouldBeEqualToDefaultPath() {
-        Assertions.assertThat(endpoint.getPath()).isEqualTo(CereebroSnitchMvcEndpoint.DEFAULT_PATH);
-    }
-
-    @Test
-    public void endpointShouldBeEnabledByDefault() {
-        Assertions.assertThat(endpoint.isEnabled()).isTrue();
-    }
-
-    @SpringBootApplication
+    @SpringBootApplication(exclude = SecurityAutoConfiguration.class)
     static class SnitchEndpointSpringApplicationNameTestApplication {
 
     }

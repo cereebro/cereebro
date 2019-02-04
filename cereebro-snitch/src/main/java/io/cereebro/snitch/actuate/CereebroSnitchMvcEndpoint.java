@@ -18,7 +18,8 @@ package io.cereebro.snitch.actuate;
 import java.net.URI;
 import java.util.Objects;
 
-import org.springframework.boot.actuate.endpoint.mvc.AbstractMvcEndpoint;
+import org.springframework.boot.actuate.endpoint.annotation.Endpoint;
+import org.springframework.boot.actuate.endpoint.annotation.ReadOperation;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -36,7 +37,10 @@ import io.cereebro.core.SystemFragment;
  * @author michaeltecourt
  */
 @ConfigurationProperties(prefix = "endpoints.cereebro")
-public class CereebroSnitchMvcEndpoint extends AbstractMvcEndpoint implements SnitchEndpoint {
+// uri can be changed using management.endpoints.web.path-mapping.cereebro: /cereebro/snitch
+// we can't use id 'cereebro/snitch' here because '/' is not allowed as id
+@Endpoint(id = "cereebro") 
+public class CereebroSnitchMvcEndpoint implements SnitchEndpoint {
 
     public static final String DEFAULT_PATH = "/cereebro/snitch";
 
@@ -51,18 +55,18 @@ public class CereebroSnitchMvcEndpoint extends AbstractMvcEndpoint implements Sn
      *            the application and its relationships.
      */
     public CereebroSnitchMvcEndpoint(ApplicationAnalyzer analyzer) {
-        super(DEFAULT_PATH, true, true);
         this.applicationAnalyzer = Objects.requireNonNull(analyzer, "Application analyzer required");
     }
 
     @Override
     public URI getUri() {
-        return URI.create(getPath());
+        return URI.create(DEFAULT_PATH);
     }
 
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
     @Override
+    @ReadOperation
     public SystemFragment snitch() {
         return applicationAnalyzer.analyzeSystem();
     }

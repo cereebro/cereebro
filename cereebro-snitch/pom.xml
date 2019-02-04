@@ -57,6 +57,11 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-commons</artifactId>
             <optional>true</optional>
         </dependency>
@@ -68,6 +73,11 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-netflix-eureka-client</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-netflix-zuul</artifactId>
             <optional>true</optional>
         </dependency>
         <!-- Netflix OSS -->
@@ -113,6 +123,12 @@
             <optional>true</optional>
         </dependency>
         <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>23.0</version>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
             <groupId>org.elasticsearch</groupId>
             <artifactId>elasticsearch</artifactId>
             <optional>true</optional>
@@ -138,13 +154,18 @@
             <optional>true</optional>
         </dependency>
         <dependency>
-            <groupId>org.springframework.data</groupId>
+            <groupId>io.lettuce</groupId>
+            <artifactId>lettuce-core</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+        <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-neo4j</artifactId>
             <optional>true</optional>
         </dependency>
         <dependency>
-            <groupId>org.springframework.security.oauth</groupId>
-            <artifactId>spring-security-oauth2</artifactId>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-oauth2</artifactId>
             <optional>true</optional>
         </dependency>
         <dependency>
@@ -153,6 +174,11 @@
             <optional>true</optional>
         </dependency>
         <!-- Testing -->
+<!--          <dependency> -->
+<!--       <groupId>org.springframework</groupId> -->
+<!--       <artifactId>spring-test</artifactId> -->
+<!--       <scope>compile</scope> -->
+<!--     </dependency> -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>

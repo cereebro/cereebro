@@ -4,3 +4,5 @@ spring:
      - org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration
      - org.springframework.boot.autoconfigure.data.neo4j.Neo4jDataAutoConfiguration
      - org.springframework.boot.autoconfigure.data.neo4j.Neo4jRepositoriesAutoConfiguration
+
+management.endpoints.web.exposure.include: '*'

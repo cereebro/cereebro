@@ -57,14 +57,17 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <!-- Dependencies versions -->
-        <spring-boot.version>1.5.6.RELEASE</spring-boot.version>
-        <spring-cloud.version>Dalston.SR2</spring-cloud.version>
+        <spring-boot.version>2.0.2.RELEASE</spring-boot.version>
+        <spring-cloud.version>Finchley.SR2</spring-cloud.version>
         <equalsverifier.version>2.3.1</equalsverifier.version>
         <linkurious.version>1.5.1</linkurious.version>
         <d3js.version>3.5.17</d3js.version>
         <d3-plugins.version>da342b6</d3-plugins.version>
         <nvd3.version>1.8.2</nvd3.version>
         <rest-assured.version>3.0.3</rest-assured.version>
+        <webjars-locator.version>0.32-1</webjars-locator.version>
+        <bootstrap.version>3.2.0</bootstrap.version>
+        <jquery.version>2.1.1</jquery.version>
         <!-- In multi-module projects, install and deploy artifacts only if every module builds -->
         <installAtEnd>true</installAtEnd>
         <deployAtEnd>true</deployAtEnd>
@@ -147,6 +150,21 @@
                 <groupId>org.webjars</groupId>
                 <artifactId>nvd3</artifactId>
                 <version>${nvd3.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.webjars</groupId>
+                <artifactId>webjars-locator</artifactId>
+                <version>${webjars-locator.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.webjars</groupId>
+                <artifactId>bootstrap</artifactId>
+                <version>${bootstrap.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.webjars</groupId>
+                <artifactId>jquery</artifactId>
+                <version>${jquery.version}</version>
             </dependency>
             <!-- MISC -->
             <dependency>

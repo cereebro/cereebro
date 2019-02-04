@@ -40,7 +40,7 @@ import io.restassured.http.ContentType;
 @ActiveProfiles("nodb")
 public class SnitchEndpointApplicationNameOverrideTest {
 
-    @Value("http://localhost:${local.server.port}/cereebro/snitch")
+    @Value("http://localhost:${local.server.port}/actuator/cereebro/snitch")
     URI snitchURI;
 
     /**

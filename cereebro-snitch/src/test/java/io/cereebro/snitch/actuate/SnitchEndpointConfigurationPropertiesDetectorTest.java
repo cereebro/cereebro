@@ -24,6 +24,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration;
 import org.springframework.boot.autoconfigure.ldap.LdapAutoConfiguration;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.test.context.ActiveProfiles;
@@ -40,7 +41,7 @@ import io.restassured.http.ContentType;
 @ActiveProfiles({ "props-detector", "nodb" })
 public class SnitchEndpointConfigurationPropertiesDetectorTest {
 
-    @Value("http://localhost:${local.server.port}/cereebro/snitch")
+    @Value("http://localhost:${local.server.port}/actuator/cereebro/snitch")
     URI snitchURI;
 
     @Test
@@ -64,7 +65,7 @@ public class SnitchEndpointConfigurationPropertiesDetectorTest {
         // @formatter:on
     }
 
-    @SpringBootApplication(exclude = { RabbitAutoConfiguration.class, LdapAutoConfiguration.class })
+    @SpringBootApplication(exclude = { RabbitAutoConfiguration.class, LdapAutoConfiguration.class, SecurityAutoConfiguration.class })
     static class SnitchEndpointConfigurationPropertiesDetectorTestApplication {
 
     }

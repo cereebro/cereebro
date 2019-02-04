@@ -15,7 +15,6 @@
  */
 package io.cereebro.snitch.actuate;
 
-import java.net.URI;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -57,26 +56,6 @@ public class CereebroSnitchMvcEndpointTest {
     @Test(expected = NullPointerException.class)
     public void constructorWithNullAnalyzerShouldThrowNullPointerException() {
         new CereebroSnitchMvcEndpoint(null);
-    }
-
-    @Test
-    public void isSensitive() {
-        Assert.assertTrue(endpoint.isSensitive());
-    }
-
-    @Test
-    public void isEnabled() {
-        Assert.assertTrue(endpoint.isEnabled());
-    }
-
-    @Test
-    public void location() {
-        Assert.assertEquals(URI.create("/cereebro/snitch"), endpoint.getUri());
-    }
-
-    @Test
-    public void path() {
-        Assert.assertEquals("/cereebro/snitch", endpoint.getPath());
     }
 
     @Test

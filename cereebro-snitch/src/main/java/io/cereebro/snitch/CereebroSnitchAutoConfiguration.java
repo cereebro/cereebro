@@ -31,6 +31,7 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import io.cereebro.core.ApplicationAnalyzer;
 import io.cereebro.core.RelationshipDetector;
 import io.cereebro.snitch.actuate.CereebroWebMvcEndpointConfiguration;
+import io.cereebro.snitch.actuate.LegacyCereebroEndpointConfiguration;
 
 /**
  * Cereebro Snitch configuration entry point.
@@ -39,7 +40,8 @@ import io.cereebro.snitch.actuate.CereebroWebMvcEndpointConfiguration;
  */
 @Configuration
 @EnableConfigurationProperties({ CereebroProperties.class })
-@Import({ CereebroRelationshipDetectorsAutoConfiguration.class, CereebroWebMvcEndpointConfiguration.class })
+@Import({ CereebroRelationshipDetectorsAutoConfiguration.class, CereebroWebMvcEndpointConfiguration.class,
+    LegacyCereebroEndpointConfiguration.class})
 public class CereebroSnitchAutoConfiguration {
 
     @Autowired

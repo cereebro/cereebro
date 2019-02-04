@@ -96,8 +96,6 @@ public class EurekaSnitchRegistryTest {
         EurekaServiceInstance serviceInstance = Mockito.mock(EurekaServiceInstance.class);
         Mockito.when(discoveryClient.getServices()).thenReturn(Lists.newArrayList("serviceId"));
         Mockito.when(discoveryClient.getInstances("serviceId")).thenReturn(Lists.newArrayList(serviceInstance));
-        Mockito.when(serviceInstance.getMetadata())
-                .thenReturn(Maps.newHashMap(CereebroMetadata.KEY_SNITCH_URI, "http://localhost:8080/cereebro"));
         DiscoveryClientSnitchRegistry snitchR = new DiscoveryClientSnitchRegistry(discoveryClient, objectMapper);
         List<Snitch> snitches = snitchR.getAll();
         Assertions.assertThat(snitches).isNotEmpty();
@@ -115,11 +113,6 @@ public class EurekaSnitchRegistryTest {
                 .thenReturn(Lists.newArrayList(firstServiceInstance));
         Mockito.when(discoveryClient.getInstances("secondServiceId"))
                 .thenReturn(Lists.newArrayList(secondServiceInstance));
-
-        Mockito.when(firstServiceInstance.getMetadata())
-                .thenReturn(Maps.newHashMap(CereebroMetadata.KEY_SNITCH_URI, "http://localhost:8081/cereebro"));
-        Mockito.when(secondServiceInstance.getMetadata())
-                .thenReturn(Maps.newHashMap(CereebroMetadata.KEY_SNITCH_URI, "http://localhost:8082/cereebro"));
 
         DiscoveryClientSnitchRegistry snitchR = new DiscoveryClientSnitchRegistry(discoveryClient, objectMapper);
         List<Snitch> snitches = snitchR.getAll();

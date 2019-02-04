@@ -18,9 +18,7 @@ package io.cereebro.snitch.actuate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.actuate.autoconfigure.ManagementContextConfiguration;
-import org.springframework.boot.actuate.condition.ConditionalOnEnabledEndpoint;
-import org.springframework.boot.actuate.endpoint.mvc.MvcEndpoint;
+import org.springframework.boot.actuate.endpoint.annotation.Endpoint;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
@@ -30,19 +28,16 @@ import io.cereebro.core.ApplicationAnalyzer;
 import io.cereebro.core.RelationshipDetector;
 import io.cereebro.core.SnitchEndpoint;
 
-@ManagementContextConfiguration
-@ConditionalOnClass(MvcEndpoint.class)
+@ConditionalOnClass(Endpoint.class)
 @ConditionalOnWebApplication
 public class CereebroWebMvcEndpointConfiguration {
 
     @Autowired
     private ApplicationAnalyzer analyzer;
-
+    
     @Bean
-    @ConditionalOnEnabledEndpoint("cereebro")
     @ConditionalOnMissingBean(SnitchEndpoint.class)
     public CereebroSnitchMvcEndpoint snitchMvcEndpoint(List<RelationshipDetector> detectors) {
         return new CereebroSnitchMvcEndpoint(analyzer);
     }
-
 }
