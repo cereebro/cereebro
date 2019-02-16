@@ -4,7 +4,7 @@
 
     <groupId>io.cereebro</groupId>
     <artifactId>cereebro</artifactId>
-    <version>1.2.5-SNAPSHOT</version>
+    <version>2.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>Cereebro</name>
