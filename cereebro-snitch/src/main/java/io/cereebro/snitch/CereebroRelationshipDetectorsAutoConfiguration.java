@@ -19,22 +19,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
 
 import io.cereebro.core.RelationshipDetector;
-import io.cereebro.snitch.detect.amqp.RabbitRelationshipDetectorAutoConfiguration;
 import io.cereebro.snitch.detect.annotation.ConsumerHintAnnotationRelationshipDetector;
 import io.cereebro.snitch.detect.annotation.DependencyHintAnnotationRelationshipDetector;
 import io.cereebro.snitch.detect.annotation.RelationshipHintsAnnotationRelationshipDetector;
-import io.cereebro.snitch.detect.cassandra.CassandraRelationshipDetectorAutoConfiguration;
-import io.cereebro.snitch.detect.elastic.ElasticSearchRelationshipDetectorAutoConfiguration;
-import io.cereebro.snitch.detect.jdbc.DataSourceRelationshipDetectorAutoConfiguration;
-import io.cereebro.snitch.detect.ldap.LdapRelationshipDetectorAutoConfiguration;
-import io.cereebro.snitch.detect.mongo.MongoDbRelationshipDetectorAutoConfiguration;
-import io.cereebro.snitch.detect.neo4j.Neo4jRelationshipDetectorAutoConfiguration;
-import io.cereebro.snitch.detect.oauth2.OAuth2RelationshipDetectorAutoConfiguration;
-import io.cereebro.snitch.detect.redis.RedisRelationshipDetectorAutoConfiguration;
-import io.cereebro.snitch.detect.zuul.ZuulRouteRelationshipDetectorAutoConfiguration;
 
 /**
  * Configures various {@link RelationshipDetector}s.
@@ -43,11 +32,6 @@ import io.cereebro.snitch.detect.zuul.ZuulRouteRelationshipDetectorAutoConfigura
  */
 @Configuration
 @EnableConfigurationProperties({ CereebroProperties.class })
-@Import({ CassandraRelationshipDetectorAutoConfiguration.class, DataSourceRelationshipDetectorAutoConfiguration.class,
-        ElasticSearchRelationshipDetectorAutoConfiguration.class, MongoDbRelationshipDetectorAutoConfiguration.class,
-        RedisRelationshipDetectorAutoConfiguration.class, RabbitRelationshipDetectorAutoConfiguration.class,
-        Neo4jRelationshipDetectorAutoConfiguration.class, ZuulRouteRelationshipDetectorAutoConfiguration.class,
-        OAuth2RelationshipDetectorAutoConfiguration.class, LdapRelationshipDetectorAutoConfiguration.class })
 public class CereebroRelationshipDetectorsAutoConfiguration {
 
     @Autowired

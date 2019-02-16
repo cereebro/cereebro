@@ -20,7 +20,6 @@ import java.util.Objects;
 
 import org.springframework.boot.actuate.endpoint.annotation.Endpoint;
 import org.springframework.boot.actuate.endpoint.annotation.ReadOperation;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -36,13 +35,10 @@ import io.cereebro.core.SystemFragment;
  * @author lucwarrot
  * @author michaeltecourt
  */
-@ConfigurationProperties(prefix = "endpoints.cereebro")
-// uri can be changed using management.endpoints.web.path-mapping.cereebro: /cereebro/snitch
-// we can't use id 'cereebro/snitch' here because '/' is not allowed as id
-@Endpoint(id = "cereebro") 
-public class CereebroSnitchMvcEndpoint implements SnitchEndpoint {
+@Endpoint(id = "cereebro")
+public class CereebroSnitchActuatorEndpoint implements SnitchEndpoint {
 
-    public static final String DEFAULT_PATH = "/cereebro/snitch";
+    public static final String DEFAULT_PATH = "/cereebro";
 
     private ApplicationAnalyzer applicationAnalyzer;
 
@@ -54,7 +50,7 @@ public class CereebroSnitchMvcEndpoint implements SnitchEndpoint {
      *            An application analyzer that will provide information about
      *            the application and its relationships.
      */
-    public CereebroSnitchMvcEndpoint(ApplicationAnalyzer analyzer) {
+    public CereebroSnitchActuatorEndpoint(ApplicationAnalyzer analyzer) {
         this.applicationAnalyzer = Objects.requireNonNull(analyzer, "Application analyzer required");
     }
 

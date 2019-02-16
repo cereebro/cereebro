@@ -26,7 +26,7 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import io.cereebro.core.ApplicationAnalyzer;
 import io.cereebro.core.Component;
@@ -36,7 +36,7 @@ import io.cereebro.core.Dependency;
 import io.cereebro.core.SystemFragment;
 
 /**
- * {@link CereebroSnitchMvcEndpoint} unit tests.
+ * {@link CereebroSnitchActuatorEndpoint} unit tests.
  * 
  * @author michaeltecourt
  */
@@ -46,16 +46,16 @@ public class CereebroSnitchMvcEndpointTest {
     @Mock
     private ApplicationAnalyzer analyzer;
     @InjectMocks
-    private CereebroSnitchMvcEndpoint endpoint;
+    private CereebroSnitchActuatorEndpoint endpoint;
 
     @Before
     public void setUp() {
-        endpoint = new CereebroSnitchMvcEndpoint(analyzer);
+        endpoint = new CereebroSnitchActuatorEndpoint(analyzer);
     }
 
     @Test(expected = NullPointerException.class)
     public void constructorWithNullAnalyzerShouldThrowNullPointerException() {
-        new CereebroSnitchMvcEndpoint(null);
+        new CereebroSnitchActuatorEndpoint(null);
     }
 
     @Test

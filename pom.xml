@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>io.cereebro</groupId>
@@ -57,14 +58,14 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <!-- Dependencies versions -->
-        <spring-boot.version>2.0.2.RELEASE</spring-boot.version>
+        <spring-boot.version>2.0.8.RELEASE</spring-boot.version>
         <spring-cloud.version>Finchley.SR2</spring-cloud.version>
         <equalsverifier.version>2.3.1</equalsverifier.version>
         <linkurious.version>1.5.1</linkurious.version>
+        <guava.version>23.0</guava.version>
         <d3js.version>3.5.17</d3js.version>
         <d3-plugins.version>da342b6</d3-plugins.version>
         <nvd3.version>1.8.2</nvd3.version>
-        <rest-assured.version>3.0.3</rest-assured.version>
         <webjars-locator.version>0.32-1</webjars-locator.version>
         <bootstrap.version>3.2.0</bootstrap.version>
         <jquery.version>2.1.1</jquery.version>
@@ -77,6 +78,7 @@
         <module>cereebro-core</module>
         <module>cereebro-snitch</module>
         <module>cereebro-snitch-spring-boot-starter</module>
+        <module>cereebro-snitch-tests</module>
         <module>cereebro-server</module>
         <module>cereebro-server-spring-boot-starter</module>
         <module>cereebro-server-tests</module>
@@ -168,9 +170,9 @@
             </dependency>
             <!-- MISC -->
             <dependency>
-                <groupId>io.rest-assured</groupId>
-                <artifactId>rest-assured</artifactId>
-                <version>${rest-assured.version}</version>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava.version}</version>
             </dependency>
             <dependency>
                 <groupId>nl.jqno.equalsverifier</groupId>

@@ -15,8 +15,10 @@
  */
 package io.cereebro.snitch.detect.zuul;
 
+import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.cloud.netflix.zuul.ZuulServerAutoConfiguration;
 import org.springframework.cloud.netflix.zuul.filters.RouteLocator;
 import org.springframework.cloud.netflix.zuul.filters.ZuulProperties.ZuulRoute;
 import org.springframework.context.annotation.Bean;
@@ -32,10 +34,11 @@ import io.cereebro.snitch.detect.ConditionalOnEnabledDetector;
 @Configuration
 @ConditionalOnEnabledDetector("zuul")
 @ConditionalOnClass({ ZuulRoute.class, RouteLocator.class })
-@ConditionalOnBean(RouteLocator.class)
+@AutoConfigureAfter(ZuulServerAutoConfiguration.class)
 public class ZuulRouteRelationshipDetectorAutoConfiguration {
 
     @Bean
+    @ConditionalOnBean(RouteLocator.class)
     public ZuulRouteRelationshipDetector zuulRouteRelationshipDetector(RouteLocator routeLocator) {
         return new ZuulRouteRelationshipDetector(routeLocator);
     }

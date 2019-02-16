@@ -21,27 +21,21 @@ import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration;
-import org.springframework.boot.autoconfigure.ldap.LdapAutoConfiguration;
-import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import io.cereebro.snitch.CereebroSnitchAutoConfiguration;
-import io.cereebro.snitch.actuate.SnitchEndpointConfigurationPropertiesDetectorTest.SnitchEndpointConfigurationPropertiesDetectorTestApplication;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = { SnitchEndpointConfigurationPropertiesDetectorTestApplication.class,
-        CereebroSnitchAutoConfiguration.class }, webEnvironment = WebEnvironment.RANDOM_PORT)
-@ActiveProfiles({ "props-detector", "nodb" })
+@SpringBootTest(classes = SnitchEndpointTest.App.class, webEnvironment = WebEnvironment.RANDOM_PORT)
+@SnitchEndpointTest
+@ActiveProfiles({ "endpoint", "props-detector", "nodb" })
 public class SnitchEndpointConfigurationPropertiesDetectorTest {
 
-    @Value("http://localhost:${local.server.port}/actuator/cereebro/snitch")
+    @Value("http://localhost:${local.server.port}/actuator/cereebro")
     URI snitchURI;
 
     @Test
@@ -52,6 +46,7 @@ public class SnitchEndpointConfigurationPropertiesDetectorTest {
             .when()
                 .get(snitchURI)
             .then()
+                .log().ifValidationFails()
                 .statusCode(200)
                 .contentType(ContentType.JSON)
                 .body("componentRelationships[0].component.name", Matchers.is("app-props-detector"))
@@ -63,11 +58,6 @@ public class SnitchEndpointConfigurationPropertiesDetectorTest {
                 .body("componentRelationships[0].consumers[0].component.name", Matchers.is("consumer"))
                 .body("componentRelationships[0].consumers[0].component.type", Matchers.is("properties/consumer"));
         // @formatter:on
-    }
-
-    @SpringBootApplication(exclude = { RabbitAutoConfiguration.class, LdapAutoConfiguration.class, SecurityAutoConfiguration.class })
-    static class SnitchEndpointConfigurationPropertiesDetectorTestApplication {
-
     }
 
 }

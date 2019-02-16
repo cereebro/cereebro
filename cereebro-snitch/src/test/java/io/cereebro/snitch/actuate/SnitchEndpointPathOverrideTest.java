@@ -23,26 +23,19 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration;
-import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import io.cereebro.core.Snitch;
-import io.cereebro.snitch.CereebroSnitchAutoConfiguration;
-import io.cereebro.snitch.actuate.SnitchEndpointPathOverrideTest.SnitchEndpointPathOverrideTestApplication;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = { SnitchEndpointPathOverrideTestApplication.class,
-        CereebroSnitchAutoConfiguration.class }, webEnvironment = WebEnvironment.RANDOM_PORT, value = {
-                "spring.application.name=spring-app-name", "management.endpoints.web.path-mapping.cereebro=/cereebro/snitch/test",
-                "management.security.enabled=false" })
-@ActiveProfiles("nodb")
+@SpringBootTest(classes = SnitchEndpointTest.App.class, webEnvironment = WebEnvironment.RANDOM_PORT, value = {
+        "spring.application.name=spring-app-name",
+        "management.endpoints.web.path-mapping.cereebro=/cereebro/snitch/test" })
+@SnitchEndpointTest
 public class SnitchEndpointPathOverrideTest {
 
     @Value("http://localhost:${local.server.port}/actuator/cereebro/snitch/test")
@@ -52,6 +45,11 @@ public class SnitchEndpointPathOverrideTest {
     private Snitch snitch;
 
     @Test
+    public void snitch_configured() {
+        Assertions.assertThat(snitch).isNotNull();
+    }
+
+    @Test
     public void snitchEndpointUrlShouldBeOverriden() {
         // @formatter:off
         RestAssured
@@ -59,20 +57,16 @@ public class SnitchEndpointPathOverrideTest {
             .when()
                 .get(snitchURI)
             .then()
+                .log().ifValidationFails()
                 .statusCode(200)
                 .contentType(ContentType.JSON)
                 .body("componentRelationships[0].component.name", Matchers.is("spring-app-name"));
         // @formatter:on
     }
 
-//    @Test
-//    public void snitchUriShouldMatchEndpointPathOverride() {
-//        Assertions.assertThat(snitch.getUri()).isEqualTo(URI.create("/cereebro/snitch/test"));
-//    }
-
-    @SpringBootApplication(exclude = { RabbitAutoConfiguration.class, SecurityAutoConfiguration.class })
-    static class SnitchEndpointPathOverrideTestApplication {
-
-    }
+    // @Test
+    // public void snitchUriShouldMatchEndpointPathOverride() {
+    // Assertions.assertThat(snitch.getUri()).isEqualTo(URI.create("/cereebro/snitch/test"));
+    // }
 
 }

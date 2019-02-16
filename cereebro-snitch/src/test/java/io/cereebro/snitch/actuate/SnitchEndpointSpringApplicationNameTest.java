@@ -21,28 +21,21 @@ import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import io.cereebro.core.ComponentType;
-import io.cereebro.snitch.CereebroSnitchAutoConfiguration;
-import io.cereebro.snitch.actuate.SnitchEndpointSpringApplicationNameTest.SnitchEndpointSpringApplicationNameTestApplication;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = { SnitchEndpointSpringApplicationNameTestApplication.class,
-        CereebroSnitchAutoConfiguration.class }, webEnvironment = WebEnvironment.RANDOM_PORT, value = {
-                "spring.application.name=springappname", "management.security.enabled=false",
-                "management.endpoints.web.path-mapping.cereebro=/cereebro/snitch"})
-@ActiveProfiles("nodb")
+@SpringBootTest(classes = SnitchEndpointTest.App.class, webEnvironment = WebEnvironment.RANDOM_PORT, value = {
+        "spring.application.name=springappname", "management.endpoints.web.path-mapping.cereebro=/cereebro" })
+@SnitchEndpointTest
 public class SnitchEndpointSpringApplicationNameTest {
 
-    @Value("http://localhost:${local.server.port}/actuator/cereebro/snitch")
+    @Value("http://localhost:${local.server.port}/actuator/cereebro")
     URI snitchURI;
 
     /**
@@ -62,11 +55,6 @@ public class SnitchEndpointSpringApplicationNameTest {
                 .body("componentRelationships[0].component.name", Matchers.is("springappname"))
                 .body("componentRelationships[0].component.type", Matchers.is(ComponentType.HTTP_APPLICATION));
         // @formatter:on
-    }
-
-    @SpringBootApplication(exclude = SecurityAutoConfiguration.class)
-    static class SnitchEndpointSpringApplicationNameTestApplication {
-
     }
 
 }
