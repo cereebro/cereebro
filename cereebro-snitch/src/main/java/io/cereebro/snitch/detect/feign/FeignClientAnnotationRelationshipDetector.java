@@ -18,7 +18,7 @@ package io.cereebro.snitch.detect.feign;
 import java.util.Map;
 import java.util.Set;
 
-import org.springframework.cloud.netflix.feign.FeignClient;
+import org.springframework.cloud.openfeign.FeignClient;
 
 import io.cereebro.core.Component;
 import io.cereebro.core.ComponentType;

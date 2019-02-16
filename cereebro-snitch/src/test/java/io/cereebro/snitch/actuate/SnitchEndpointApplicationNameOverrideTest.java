@@ -21,26 +21,21 @@ import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import io.cereebro.snitch.CereebroSnitchAutoConfiguration;
-import io.cereebro.snitch.actuate.SnitchEndpointSpringApplicationNameTest.SnitchEndpointSpringApplicationNameTestApplication;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = { SnitchEndpointSpringApplicationNameTestApplication.class,
-        CereebroSnitchAutoConfiguration.class }, webEnvironment = WebEnvironment.RANDOM_PORT, value = {
-                "spring.application.name=spring-app-name", "cereebro.application.component.name=cereebro-app-name",
-                "cereebro.application.component.type=test-override", "management.security.enabled=false" })
-@ActiveProfiles("nodb")
+@SpringBootTest(classes = SnitchEndpointTest.App.class, webEnvironment = WebEnvironment.RANDOM_PORT, value = {
+        "spring.application.name=spring-app-name", "cereebro.application.component.name=cereebro-app-name",
+        "cereebro.application.component.type=test-override" })
+@SnitchEndpointTest
 public class SnitchEndpointApplicationNameOverrideTest {
 
-    @Value("http://localhost:${local.server.port}/cereebro/snitch")
+    @Value("http://localhost:${local.server.port}/actuator/cereebro")
     URI snitchURI;
 
     /**
@@ -56,16 +51,12 @@ public class SnitchEndpointApplicationNameOverrideTest {
             .when()
                 .get(snitchURI)
             .then()
+                .log().all()
                 .statusCode(200)
                 .contentType(ContentType.JSON)
                 .body("componentRelationships[0].component.name", Matchers.is("cereebro-app-name"))
                 .body("componentRelationships[0].component.type", Matchers.is("test-override"));
         // @formatter:on
-    }
-
-    @SpringBootApplication
-    static class SnitchEndpointApplicationNameOverrideTestApplication {
-
     }
 
 }

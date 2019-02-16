@@ -15,7 +15,6 @@
  */
 package io.cereebro.snitch.actuate;
 
-import java.net.URI;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -27,7 +26,7 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import io.cereebro.core.ApplicationAnalyzer;
 import io.cereebro.core.Component;
@@ -37,7 +36,7 @@ import io.cereebro.core.Dependency;
 import io.cereebro.core.SystemFragment;
 
 /**
- * {@link CereebroSnitchMvcEndpoint} unit tests.
+ * {@link CereebroSnitchActuatorEndpoint} unit tests.
  * 
  * @author michaeltecourt
  */
@@ -47,36 +46,16 @@ public class CereebroSnitchMvcEndpointTest {
     @Mock
     private ApplicationAnalyzer analyzer;
     @InjectMocks
-    private CereebroSnitchMvcEndpoint endpoint;
+    private CereebroSnitchActuatorEndpoint endpoint;
 
     @Before
     public void setUp() {
-        endpoint = new CereebroSnitchMvcEndpoint(analyzer);
+        endpoint = new CereebroSnitchActuatorEndpoint(analyzer);
     }
 
     @Test(expected = NullPointerException.class)
     public void constructorWithNullAnalyzerShouldThrowNullPointerException() {
-        new CereebroSnitchMvcEndpoint(null);
-    }
-
-    @Test
-    public void isSensitive() {
-        Assert.assertTrue(endpoint.isSensitive());
-    }
-
-    @Test
-    public void isEnabled() {
-        Assert.assertTrue(endpoint.isEnabled());
-    }
-
-    @Test
-    public void location() {
-        Assert.assertEquals(URI.create("/cereebro/snitch"), endpoint.getUri());
-    }
-
-    @Test
-    public void path() {
-        Assert.assertEquals("/cereebro/snitch", endpoint.getPath());
+        new CereebroSnitchActuatorEndpoint(null);
     }
 
     @Test

@@ -1,1 +1,18 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=io.cereebro.snitch.CereebroSnitchAutoConfiguration,io.cereebro.snitch.eureka.CereebroEurekaInstanceAutoConfiguration,io.cereebro.snitch.detect.feign.CereebroFeignClientAutoConfiguration,io.cereebro.snitch.eureka.CereebroEurekaInstanceAutoConfiguration,io.cereebro.snitch.detect.eureka.EurekaServerRelationshipDetectorAutoConfiguration
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=io.cereebro.snitch.CereebroSnitchAutoConfiguration,\
+    io.cereebro.snitch.CereebroRelationshipDetectorsAutoConfiguration,\
+    io.cereebro.snitch.detect.cassandra.CassandraRelationshipDetectorAutoConfiguration,\
+    io.cereebro.snitch.CereebroRelationshipDetectorsAutoConfiguration,\
+    io.cereebro.snitch.detect.jdbc.DataSourceRelationshipDetectorAutoConfiguration,\
+    io.cereebro.snitch.detect.elastic.ElasticSearchRelationshipDetectorAutoConfiguration,\
+    io.cereebro.snitch.detect.mongo.MongoDbRelationshipDetectorAutoConfiguration,\
+    io.cereebro.snitch.detect.redis.RedisRelationshipDetectorAutoConfiguration,\
+    io.cereebro.snitch.detect.amqp.RabbitRelationshipDetectorAutoConfiguration,\
+    io.cereebro.snitch.detect.neo4j.Neo4jRelationshipDetectorAutoConfiguration,\
+    io.cereebro.snitch.detect.zuul.ZuulRouteRelationshipDetectorAutoConfiguration,\
+    io.cereebro.snitch.detect.oauth2.OAuth2RelationshipDetectorAutoConfiguration,\
+    io.cereebro.snitch.detect.ldap.LdapRelationshipDetectorAutoConfiguration,\
+    io.cereebro.snitch.actuate.CereebroEndpointAutoConfiguration,\
+    io.cereebro.snitch.eureka.CereebroEurekaInstanceAutoConfiguration,\
+    io.cereebro.snitch.detect.feign.CereebroFeignClientAutoConfiguration,\
+    io.cereebro.snitch.eureka.CereebroEurekaInstanceAutoConfiguration,\
+    io.cereebro.snitch.detect.eureka.EurekaServerRelationshipDetectorAutoConfiguration

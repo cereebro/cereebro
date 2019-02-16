@@ -13,5 +13,3 @@ cereebro:
         component:
           name: consumer
           type: properties/consumer
-
-management.security.enabled: false

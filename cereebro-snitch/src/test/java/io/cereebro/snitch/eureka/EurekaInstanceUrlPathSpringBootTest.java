@@ -40,7 +40,7 @@ import io.cereebro.snitch.eureka.EurekaInstanceUrlPathSpringBootTest.EurekaInsta
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = { EurekaInstanceUrlPathSpringBootTestConfiguration.class,
         CereebroEurekaInstanceAutoConfiguration.class }, webEnvironment = WebEnvironment.NONE, value = {
-                "cereebro.snitch.eureka.endpoint-url-path=/snitch" })
+                "cereebro.snitch.eureka.endpointUrlPath=/snitch" })
 public class EurekaInstanceUrlPathSpringBootTest {
 
     @Autowired

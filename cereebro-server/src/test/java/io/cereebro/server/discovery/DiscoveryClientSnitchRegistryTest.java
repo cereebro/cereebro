@@ -28,7 +28,7 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.cloud.netflix.eureka.EurekaDiscoveryClient.EurekaServiceInstance;
 
@@ -36,7 +36,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.netflix.appinfo.InstanceInfo;
 
 import io.cereebro.core.Snitch;
-import io.cereebro.core.SystemFragment;
 import io.cereebro.snitch.discovery.CereebroMetadata;
 
 /**
@@ -73,9 +72,6 @@ public class DiscoveryClientSnitchRegistryTest {
         metadata.put(CereebroMetadata.KEY_SNITCH_SYSTEM_FRAGMENT_JSON, fakeJsonThatWorks);
         metadata.put(CereebroMetadata.KEY_SNITCH_URI, url);
         Mockito.when(serviceInstanceMock.getMetadata()).thenReturn(metadata);
-        Mockito.when(serviceInstanceMock.getInstanceInfo()).thenReturn(instanceInfoMock);
-        Mockito.when(objectMapperMock.readValue(fakeJsonThatWorks, SystemFragment.class))
-                .thenReturn(SystemFragment.empty());
         List<Snitch> result = registry.getAll();
         Assertions.assertThat(result.size()).isEqualTo(1);
         Snitch snitch = result.get(0);

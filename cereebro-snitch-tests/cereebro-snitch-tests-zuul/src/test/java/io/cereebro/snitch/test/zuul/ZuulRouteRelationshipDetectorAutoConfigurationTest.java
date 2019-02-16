@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.cereebro.snitch.detect.zuul;
+package io.cereebro.snitch.test.zuul;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -23,18 +23,16 @@ import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
-import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
-import org.springframework.test.context.ActiveProfiles;
+import org.springframework.cloud.netflix.zuul.filters.RouteLocator;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import io.cereebro.core.Component;
 import io.cereebro.core.ComponentType;
 import io.cereebro.core.Dependency;
 import io.cereebro.core.Relationship;
-import io.cereebro.snitch.detect.zuul.ZuulRouteRelationshipDetectorAutoConfigurationTest.ZuulRouteRelationshipDetectorTestApplication;
+import io.cereebro.snitch.detect.zuul.ZuulRouteRelationshipDetector;
 
 /**
  * {@link ZuulRouteRelationshipDetector} unit tests.
@@ -42,13 +40,20 @@ import io.cereebro.snitch.detect.zuul.ZuulRouteRelationshipDetectorAutoConfigura
  * @author michaeltecourt
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = { ZuulRouteRelationshipDetectorTestApplication.class,
-        ZuulRouteRelationshipDetectorAutoConfiguration.class }, webEnvironment = WebEnvironment.RANDOM_PORT)
-@ActiveProfiles({ "zuul", "nodb" })
+@SpringBootTest(classes = ZuulApplication.class, webEnvironment = WebEnvironment.RANDOM_PORT)
 public class ZuulRouteRelationshipDetectorAutoConfigurationTest {
 
     @Autowired
     ZuulRouteRelationshipDetector detector;
+
+    @Autowired
+    RouteLocator locator;
+
+    @Test
+    public void both_RouteLocator_and_ZuulRouteRelationshipDetector_should_be_injected() {
+        Assertions.assertThat(locator).isNotNull();
+        Assertions.assertThat(detector).isNotNull();
+    }
 
     @Test
     public void detectShouldReturnRouteWithServiceIdAndWithoutUrl() {
@@ -56,12 +61,6 @@ public class ZuulRouteRelationshipDetectorAutoConfigurationTest {
         Dependency component = Dependency.on(Component.of("x", ComponentType.HTTP_APPLICATION));
         Set<Relationship> expected = new HashSet<>(Arrays.asList(component));
         Assertions.assertThat(result).isEqualTo(expected);
-    }
-
-    @EnableZuulProxy
-    @SpringBootApplication
-    static class ZuulRouteRelationshipDetectorTestApplication {
-
     }
 
 }

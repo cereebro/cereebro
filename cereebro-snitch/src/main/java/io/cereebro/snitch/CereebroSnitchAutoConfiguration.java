@@ -23,14 +23,12 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
 import io.cereebro.core.ApplicationAnalyzer;
 import io.cereebro.core.RelationshipDetector;
-import io.cereebro.snitch.actuate.CereebroWebMvcEndpointConfiguration;
 
 /**
  * Cereebro Snitch configuration entry point.
@@ -39,7 +37,6 @@ import io.cereebro.snitch.actuate.CereebroWebMvcEndpointConfiguration;
  */
 @Configuration
 @EnableConfigurationProperties({ CereebroProperties.class })
-@Import({ CereebroRelationshipDetectorsAutoConfiguration.class, CereebroWebMvcEndpointConfiguration.class })
 public class CereebroSnitchAutoConfiguration {
 
     @Autowired
